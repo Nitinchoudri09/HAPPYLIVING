@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments | Happy Living</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 5%;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+
+        .section-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .bill-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .bill-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .bill-total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .method-card {
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .method-card:hover,
+        .method-card.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .history-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Receipt Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .receipt-paper {
+            background: white;
+            width: 400px;
+            padding: 2rem;
+            border-radius: 0;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #receipt-modal,
+            #receipt-modal * {
+                visibility: visible;
+            }
+
+            #receipt-modal {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="../assets/logo.jpg" alt="Happy Living Logo"
+                style="height: 40px; width: auto; object-fit: contain;">
+            Happy Living
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <h1 style="margin-bottom: 1rem;">Payments & History</h1>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('rent')">Pay Rent</button>
+            <button class="tab-btn" onclick="switchTab('mess')">Pay Mess Fee</button>
+            <button class="tab-btn" onclick="switchTab('history')">Payment History</button>
+        </div>
+
+        <!-- Rent Payment Section -->
+        <div id="rent-section" class="section-content active">
+            <div class="bill-card animate-slide-up">
+                <h2 style="margin-bottom: 1.5rem; text-align: center;">Monthly Rent Payment</h2>
+
+                <div class="bill-row">
+                    <span>Student Name</span>
+                    <strong id="rent-name">Loading...</strong>
+                </div>
+                <div class="bill-row">
+                    <span>PG Name</span>
+                    <strong id="rent-pg">Loading...</strong>
+                </div>
+                <div class="bill-row">
+                    <span>Room Number</span>
+                    <strong id="rent-room">Loading...</strong>
+                </div>
+                <div class="bill-row">
+                    <span>Select Month</span>
+                    <select id="rent-month" class="form-input" style="width: auto; padding: 0.25rem;">
+                        <!-- JS populated -->
+                    </select>
+                </div>
+                <div class="bill-row">
+                    <span>Sharing Type</span>
+                    <span id="rent-type">2 Sharing</span>
+                </div>
+                <div class="bill-row">
+                    <span style="font-weight: 600;">Due Date</span>
+                    <span id="rent-due-date" style="color: #ef4444;">5th of Month</span>
+                </div>
+                <div class="bill-row" style="margin-top: 1rem; border-top: 2px dashed #e2e8f0; padding-top: 1rem;">
+                    <span>Total Amount</span>
+                    <span class="bill-total" id="rent-amount">₹8,500</span>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="method-card selected" onclick="selectMethod(this, 'upi')">
+                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.5rem; color: #673ab7;"></i>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">UPI</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod(this, 'card')">
+                        <i class="fa-regular fa-credit-card" style="font-size: 1.5rem; color: #0ea5e9;"></i>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">Card</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod(this, 'netbanking')">
+                        <i class="fa-solid fa-building-columns" style="font-size: 1.5rem; color: #10b981;"></i>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">Net Banking</div>
+                    </div>
+                </div>
+
+                <button onclick="processPayment('Rent')" class="btn btn-primary" style="width: 100%;">
+                    Pay Rent Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Mess Payment Section -->
+        <div id="mess-section" class="section-content">
+            <div class="bill-card animate-slide-up">
+                <h2 style="margin-bottom: 1.5rem; text-align: center;">Mess Fee Payment</h2>
+
+                <div class="bill-row">
+                    <span>Select Plan</span>
+                    <select id="mess-plan" class="form-input" style="width: auto; padding: 0.25rem;"
+                        onchange="updateMessFee()">
+                        <option value="Silver">Silver (2 Meals)</option>
+                        <option value="Gold" selected>Gold (3 Meals)</option>
+                        <option value="Platinum">Platinum (Premium)</option>
+                    </select>
+                </div>
+
+                <div class="bill-row">
+                    <span>Preference</span>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <label><input type="radio" name="preference" value="Veg" checked> Veg</label>
+                        <label><input type="radio" name="preference" value="Non-Veg"> Non-Veg</label>
+                    </div>
+                </div>
+
+                <div class="bill-row">
+                    <span>Select Month</span>
+                    <select id="mess-month" class="form-input" style="width: auto; padding: 0.25rem;">
+                        <!-- JS populated -->
+                    </select>
+                </div>
+
+                <div class="bill-row" style="margin-top: 1rem; border-top: 2px dashed #e2e8f0; padding-top: 1rem;">
+                    <span>Total Fee</span>
+                    <span class="bill-total" id="mess-amount">₹3,500</span>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="method-card selected" onclick="selectMethod(this, 'upi')">
+                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.5rem; color: #673ab7;"></i>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">UPI</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod(this, 'card')">
+                        <i class="fa-regular fa-credit-card" style="font-size: 1.5rem; color: #0ea5e9;"></i>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">Card</div>
+                    </div>
+                </div>
+
+                <button onclick="processPayment('Mess')" class="btn btn-primary" style="width: 100%;">
+                    Pay Mess Fee
+                </button>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div id="history-section" class="section-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3>Transaction History</h3>
+                <select id="history-filter" class="form-input" style="width: 150px; padding: 0.5rem;"
+                    onchange="renderHistory()">
+                    <option value="all">All Transactions</option>
+                    <option value="Rent">Rent Only</option>
+                    <option value="Mess">Mess Only</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Month</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <!-- Loaded via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal" class="modal">
+        <div class="receipt-paper animate-pop-in">
+            <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 1rem; margin-bottom: 1rem;">
+                <img src="../assets/logo.jpg" alt="Logo" style="height: 50px; margin-bottom: 0.5rem;">
+                <h2 style="margin: 0; font-family: 'Courier New', monospace;">HAPPY LIVING PG</h2>
+                <p style="margin: 0.2rem 0; font-size: 0.8rem;">Official Payment Receipt</p>
+            </div>
+
+            <div style="font-family: 'Courier New', monospace; line-height: 1.6;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Date:</span>
+                    <span id="rcpt-date">20/01/2026</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Receipt No:</span>
+                    <span id="rcpt-id">#837492</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Student:</span>
+                    <span id="rcpt-name">John Doe</span>
+                </div>
+
+                <hr style="border-top: 1px dashed #000; margin: 1rem 0;">
+
+                <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                    <span id="rcpt-type">Monthly Rent (Jan)</span>
+                    <span id="rcpt-amount">₹8,500</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 0.5rem;">
+                    <span>Payment Mode:</span>
+                    <span id="rcpt-mode">UPI</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                    <span>Transaction ID:</span>
+                    <span id="rcpt-txn">TXN123456789</span>
+                </div>
+
+                <hr style="border-top: 1px dashed #000; margin: 1rem 0;">
+
+                <div style="text-align: center; font-weight: bold; font-size: 1.2rem;">
+                    PAID
+                </div>
+                <div style="text-align: center; font-size: 0.7rem; margin-top: 2rem;">
+                    This is a computer generated receipt.
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button onclick="window.print()" class="btn btn-secondary" style="flex: 1;">
+                    <i class="fa-solid fa-print"></i> Print
+                </button>
+                <button onclick="closeReceipt()" class="btn btn-primary" style="flex: 1;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="success-popup"
+        style="display: none; position: fixed; bottom: 2rem; right: 2rem; background: #166534; color: white; padding: 1rem 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); animation: slideInRight 0.5s;">
+        <i class="fa-solid fa-check-circle"></i> Payment Successful!
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/auth-service.js"></script>
+    <script src="../js/payment.js"></script>
+    <script>
+        // --- Initialization ---
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || user.role !== 'student') {
+            window.location.href = 'login.html';
+        }
+
+        // --- Tab Logic ---
+        function switchTab(tabName) {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName + '-section').classList.add('active');
+
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (tabName === 'history') {
+                renderHistory();
+            }
+        }
+
+        // --- Data Population ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate Months
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const currentMonthIdx = new Date().getMonth();
+            const rentSelect = document.getElementById('rent-month');
+            const messSelect = document.getElementById('mess-month');
+
+            months.forEach((m, i) => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m + " 2026"; // Mock year
+                if (i === currentMonthIdx) opt.selected = true;
+                rentSelect.appendChild(opt.cloneNode(true));
+                messSelect.appendChild(opt);
+            });
+
+            // Populate User Details
+            document.getElementById('rent-name').textContent = user.name || "Student";
+
+            // Fetch Room Details (Mock or from Allocation)
+            // Ideally we check Allocations in DB, but for now we default for demo
+            const allocation = (getData.Allocations() || []).find(a => a.student === user.name) || {};
+            document.getElementById('rent-room').textContent = allocation.room || "101";
+            document.getElementById('rent-pg').textContent = allocation.pg || "Sunrise Residency";
+
+            // Set Rent Amount Logic (Mock)
+            const baseRent = allocation.type === '1 Sharing' ? 15000 : 8500;
+            document.getElementById('rent-amount').textContent = '₹' + baseRent.toLocaleString();
+            document.getElementById('rent-type').textContent = allocation.type || "2 Sharing";
+        });
+
+        // --- Payment Logic ---
+        let selectedPaymentMethod = 'upi';
+
+        function selectMethod(el, method) {
+            document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedPaymentMethod = method;
+        }
+
+        function updateMessFee() {
+            const plan = document.getElementById('mess-plan').value;
+            let amount = 2500;
+            if (plan === 'Gold') amount = 3500;
+            if (plan === 'Platinum') amount = 5000;
+            document.getElementById('mess-amount').textContent = '₹' + amount.toLocaleString();
+        }
+
+        async function processPayment(type) {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            let amountStr = '';
+            let month = '';
+            let details = {};
+
+            if (type === 'Rent') {
+                amountStr = document.getElementById('rent-amount').textContent;
+                month = document.getElementById('rent-month').value;
+                details = {
+                    month: month,
+                    room: document.getElementById('rent-room').textContent,
+                    type: 'Rent'
+                };
+            } else {
+                amountStr = document.getElementById('mess-amount').textContent;
+                month = document.getElementById('mess-month').value;
+                const plan = document.getElementById('mess-plan').value;
+                details = {
+                    month: month,
+                    plan: plan,
+                    type: 'Mess Fee'
+                };
+            }
+
+            const amount = parseInt(amountStr.replace(/[^0-9]/g, ''));
+
+            // Call Service
+            await PaymentService.initiatePayment(amount, selectedPaymentMethod.toUpperCase(), {
+                ...details,
+                studentName: user.name,
+                studentId: user.id
+            });
+
+            // UI Feedback
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+
+            const popup = document.getElementById('success-popup');
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+                switchTab('history'); // Redirect to history
+            }, 2000);
+        }
+
+        // --- History Logic ---
+        function renderHistory() {
+            const payments = PaymentService.getAllPayments().filter(p => !p.details.studentId || p.details.studentId === user.id); // Simple filter
+            const tbody = document.getElementById('history-body');
+            const filter = document.getElementById('history-filter').value;
+            tbody.innerHTML = '';
+
+            const filtered = payments.filter(p => {
+                if (filter === 'all') return true;
+                return p.details.type.includes(filter);
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 2rem; color: #64748b;">No records found</td></tr>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                const date = new Date(p.timestamp).toLocaleDateString();
+                const cls = p.status === 'Completed' ? 'status-paid' : 'status-pending'; // assuming CSS exists or inline
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${date}</td>
+                    <td>${p.details.type}</td>
+                    <td>${p.details.month || '-'}</td>
+                    <td>₹${p.amount}</td>
+                    <td><span style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">${p.status}</span></td>
+                    <td>
+                        <button onclick='showReceipt(${JSON.stringify(p)})' class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                            <i class="fa-solid fa-download"></i> Invoice
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- Receipt Logic ---
+        function showReceipt(payment) {
+            document.getElementById('rcpt-date').textContent = new Date(payment.timestamp).toLocaleDateString();
+            document.getElementById('rcpt-id').textContent = '#' + payment.id.toString().slice(-6);
+            document.getElementById('rcpt-name').textContent = payment.details.studentName || user.name;
+            document.getElementById('rcpt-type').textContent = `${payment.details.type} (${payment.details.month})`;
+            document.getElementById('rcpt-amount').textContent = '₹' + payment.amount;
+            document.getElementById('rcpt-mode').textContent = payment.paymentMethod;
+            document.getElementById('rcpt-txn').textContent = payment.transactionId;
+
+            document.getElementById('receipt-modal').style.display = 'flex';
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').style.display = 'none';
+        }
+
+    </script>
+</body>
+
+</html>

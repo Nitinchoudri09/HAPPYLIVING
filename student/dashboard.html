@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Happy Living</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .meal-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .menu-tab-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+        }
+
+        .menu-tab-btn.active {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .pg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .pg-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .pg-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pg-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .pg-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .pg-tag {
+            background: var(--bg-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .share-btn.active {
+            background-color: var(--primary) !important;
+            color: white !important;
+            border-color: var(--primary) !important;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary) !important;
+            background-color: #f0f4ff !important;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            overflow-x: auto;
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-container th,
+        .table-container td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .table-container th {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <div class="logo">
+                <img src="../assets/logo.jpg" alt="Happy Living Logo"
+                    style="height: 40px; width: auto; object-fit: contain;">
+                Happy Living
+            </div>
+            <nav style="display: flex; gap: 1.5rem;">
+
+                <a href="#menu-section" class="nav-link" onclick="showSection('menu')">My Menu</a>
+                <a href="#pg-section" class="nav-link" onclick="showSection('pgs')">Find PG</a>
+                <a href="#attendance-section" class="nav-link" onclick="showSection('attendance')">Attendance</a>
+                <a href="laundry.html" class="nav-link">Laundry</a>
+                <a href="#complaint-section" class="nav-link" onclick="showSection('complaint')">Complaints</a>
+                <a href="#actions-section" class="nav-link" onclick="showSection('actions')">Actions</a>
+            </nav>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="position: relative; cursor: pointer;" onclick="showNotifications()">
+                    <i class="fa-solid fa-bell" style="color: var(--text-muted); font-size: 1.2rem;"></i>
+                    <span id="notification-badge"
+                        style="display: none; position: absolute; top: -5px; right: -5px; background: var(--secondary); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; align-items: center; justify-content: center; font-weight: bold; text-align: center; line-height: 18px;">0</span>
+                </div>
+                <div style="text-align: right;">
+                    <strong>Hi, Student</strong>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Room 101</div>
+                </div>
+                <div style="cursor: pointer;" onclick="Auth.logout()">
+                    <i class="fa-solid fa-right-from-bracket" style="color: var(--secondary); font-size: 1.2rem;"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Menu Section -->
+        <section id="menu-section" class="animate-pop-in">
+            <div id="weekly-menu-container">
+                <!-- JS Populated via js/menu.js -->
+            </div>
+        </section>
+
+        <!-- PG Listing Section -->
+        <section id="pg-section" class="animate-slide-up delay-100" style="display: none;">
+            <h2 style="margin-bottom: 1rem;">Explore Top PGs</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Find your perfect home away from home.</p>
+            <div id="pg-list" class="pg-grid">
+                <!-- JS Populated -->
+            </div>
+        </section>
+
+        <!-- Attendance Section -->
+        <section id="attendance-section" class="animate-slide-up delay-100" style="display: none;">
+            <h2 style="margin-bottom: 1rem;">Mess Attendance</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Mark your attendance for each meal</p>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="meal-card" id="breakfast-attendance">
+                    <div class="meal-header">
+                        <h3 style="color: var(--primary);">Breakfast</h3>
+                        <span class="meal-time">7:30 AM - 9:30 AM</span>
+                    </div>
+                    <div class="meal-body">
+                        <div id="breakfast-status" style="margin-bottom: 1rem;"></div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="markAttendance('Breakfast', 'Present')" class="btn btn-primary"
+                                style="flex: 1;">
+                                <i class="fa-solid fa-check"></i> Present
+                            </button>
+                            <button onclick="markAttendance('Breakfast', 'Absent')" class="btn btn-secondary"
+                                style="flex: 1;">
+                                <i class="fa-solid fa-xmark"></i> Absent
+                            </button>
+                        </div>
+                        <button onclick="scanQRCode('Breakfast')" class="btn"
+                            style="width: 100%; margin-top: 0.5rem; background: var(--bg-light); border: 1px solid #e2e8f0;">
+                            <i class="fa-solid fa-qrcode"></i> Scan QR Code
+                        </button>
+                    </div>
+                </div>
+
+                <div class="meal-card" id="lunch-attendance">
+                    <div class="meal-header">
+                        <h3 style="color: var(--secondary);">Lunch</h3>
+                        <span class="meal-time">12:30 PM - 2:30 PM</span>
+                    </div>
+                    <div class="meal-body">
+                        <div id="lunch-status" style="margin-bottom: 1rem;"></div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="markAttendance('Lunch', 'Present')" class="btn btn-primary"
+                                style="flex: 1;">
+                                <i class="fa-solid fa-check"></i> Present
+                            </button>
+                            <button onclick="markAttendance('Lunch', 'Absent')" class="btn btn-secondary"
+                                style="flex: 1;">
+                                <i class="fa-solid fa-xmark"></i> Absent
+                            </button>
+                        </div>
+                        <button onclick="scanQRCode('Lunch')" class="btn"
+                            style="width: 100%; margin-top: 0.5rem; background: var(--bg-light); border: 1px solid #e2e8f0;">
+                            <i class="fa-solid fa-qrcode"></i> Scan QR Code
+                        </button>
+                    </div>
+                </div>
+
+                <div class="meal-card" id="dinner-attendance">
+                    <div class="meal-header">
+                        <h3 style="color: #6366f1;">Dinner</h3>
+                        <span class="meal-time">7:30 PM - 9:30 PM</span>
+                    </div>
+                    <div class="meal-body">
+                        <div id="dinner-status" style="margin-bottom: 1rem;"></div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="markAttendance('Dinner', 'Present')" class="btn btn-primary"
+                                style="flex: 1;">
+                                <i class="fa-solid fa-check"></i> Present
+                            </button>
+                            <button onclick="markAttendance('Dinner', 'Absent')" class="btn btn-secondary"
+                                style="flex: 1;">
+                                <i class="fa-solid fa-xmark"></i> Absent
+                            </button>
+                        </div>
+                        <button onclick="scanQRCode('Dinner')" class="btn"
+                            style="width: 100%; margin-top: 0.5rem; background: var(--bg-light); border: 1px solid #e2e8f0;">
+                            <i class="fa-solid fa-qrcode"></i> Scan QR Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container" style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Attendance History</h3>
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <input type="date" id="attendance-date-filter" onchange="renderAttendanceHistory()"
+                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                    <select id="attendance-meal-filter" onchange="renderAttendanceHistory()"
+                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <option value="all">All Meals</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                    </select>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Meal</th>
+                            <th>Status</th>
+                            <th>Mode</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-history-body">
+                        <!-- JS Populated -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Complaint Section -->
+        <section id="complaint-section" class="animate-slide-up delay-100" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2>Raise Complaint</h2>
+                <button onclick="showComplaintForm()" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> New Complaint
+                </button>
+            </div>
+
+            <div id="complaint-form-container" style="display: none; margin-bottom: 2rem;">
+                <div class="glass-card" style="padding: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Submit Complaint</h3>
+                    <form id="complaint-form" onsubmit="submitComplaint(event)" style="display: grid; gap: 1rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Category *</label>
+                            <select id="complaint-category" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                <option value="">Select Category</option>
+                                <option value="Food">Food</option>
+                                <option value="Room">Room</option>
+                                <option value="Water">Water</option>
+                                <option value="Electricity">Electricity</option>
+                                <option value="Cleaning">Cleaning</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Priority *</label>
+                            <select id="complaint-priority" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description
+                                *</label>
+                            <textarea id="complaint-description" required rows="4"
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); resize: vertical;"
+                                placeholder="Describe your complaint in detail..."></textarea>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Complaint</button>
+                            <button type="button" onclick="hideComplaintForm()" class="btn btn-secondary"
+                                style="flex: 1;">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h3 style="margin-bottom: 1rem;">My Complaints</h3>
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <select id="complaint-status-filter" onchange="renderComplaints()"
+                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <option value="all">All Status</option>
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                    <select id="complaint-category-filter" onchange="renderComplaints()"
+                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <option value="all">All Categories</option>
+                        <option value="Food">Food</option>
+                        <option value="Room">Room</option>
+                        <option value="Water">Water</option>
+                        <option value="Electricity">Electricity</option>
+                        <option value="Cleaning">Cleaning</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Assigned To</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaints-body">
+                        <!-- JS Populated -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Actions Section -->
+        <section id="actions-section" class="animate-slide-up delay-100" style="display: none;">
+            <h2 style="margin-bottom: 1.5rem;">Quick Actions</h2>
+            <div class="action-grid">
+                <div class="action-card" onclick="window.location.href='payments.html'">
+                    <i class="fa-solid fa-receipt action-icon"></i>
+                    <h3>Pay Bills & History</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">View and pay your monthly rent</p>
+                </div>
+                <div class="action-card" onclick="window.location.href='laundry.html'">
+                    <i class="fa-solid fa-shirt action-icon"></i>
+                    <h3>Laundry Service</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Manage wash plans & history</p>
+                </div>
+                <div class="action-card" onclick="showSection('complaint')">
+                    <i class="fa-solid fa-circle-exclamation action-icon" style="color: var(--secondary);"></i>
+                    <h3>Complaints</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Raise housekeeping or food issues</p>
+                </div>
+                <div class="action-card" onclick="showSection('profile')">
+                    <i class="fa-solid fa-id-card action-icon" style="color: var(--accent);"></i>
+                    <h3>My Profile</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Update your personal details</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="animate-slide-up delay-100" style="display: none;">
+            <h2 style="margin-bottom: 1.5rem;">My Profile</h2>
+            <div class="glass-card" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div
+                        style="width: 100px; height: 100px; border-radius: 50%; background: #e0e7ff; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 2.5rem; color: var(--primary);">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h3 id="profile-name-display">John Doe</h3>
+                    <p style="color: var(--text-muted);">Student</p>
+                </div>
+
+                <form id="profile-form" onsubmit="updateProfile(event)">
+                    <div style="display: grid; gap: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Student
+                                    ID</label>
+                                <input type="text" id="profile-id" readonly
+                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); background: #f8fafc; cursor: not-allowed;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Room
+                                    Number</label>
+                                <input type="text" id="profile-room" readonly
+                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); background: #f8fafc; cursor: not-allowed;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name</label>
+                            <input type="text" id="profile-name" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        </div>
+
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email
+                                Address</label>
+                            <input type="email" id="profile-email" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        </div>
+
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone Number</label>
+                            <input type="tel" id="profile-phone" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        </div>
+
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Emergency
+                                Contact</label>
+                            <input type="tel" id="profile-emergency" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                            <i class="fa-solid fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+            <div class="glass-card animate-slide-up"
+                style="background: white; width: 90%; max-width: 500px; padding: 2rem; position: relative;">
+                <button onclick="closePaymentModal()"
+                    style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
+                        class="fa-solid fa-xmark"></i></button>
+
+                <h2 style="margin-bottom: 0.5rem;">Pay Rent</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Total Amount Due: <span
+                        style="font-weight: 700; color: var(--text-main);">₹8,500</span></p>
+
+                <div style="display: grid; gap: 1rem;">
+                    <div class="payment-option" onclick="processPayment('PhonePe')"
+                        style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
+                        <i class="fa-solid fa-mobile-screen-button" style="color: #673ab7; font-size: 1.5rem;"></i>
+                        <div>
+                            <div style="font-weight: 600;">PhonePe</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">UPI ID: 9876543210@ybl</div>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" onclick="processPayment('UPI')"
+                        style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
+                        <i class="fa-solid fa-at" style="color: #eab308; font-size: 1.5rem;"></i>
+                        <div>
+                            <div style="font-weight: 600;">Other UPI</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">GPay, Paytm, Amazon Pay</div>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" onclick="processPayment('Card')"
+                        style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
+                        <i class="fa-solid fa-credit-card" style="color: #0ea5e9; font-size: 1.5rem;"></i>
+                        <div>
+                            <div style="font-weight: 600;">Debit / Credit Card</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Visa, Mastercard, RuPay</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="payment-status" style="margin-top: 2rem; text-align: center; display: none;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--primary); font-size: 2rem;"></i>
+                    <p style="margin-top: 0.5rem;">Processing Payment...</p>
+                </div>
+            </div>
+        </div>
+        <!-- Vendor Menu Modal -->
+        <div id="vendor-menu-modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2100; align-items: center; justify-content: center;">
+            <div class="glass-card animate-slide-up"
+                style="background: white; width: 90%; max-width: 400px; padding: 1.5rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                <button onclick="closeVendorMenu()"
+                    style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
+                        class="fa-solid fa-xmark"></i></button>
+
+                <h3 id="vm-title" style="margin-bottom: 0.5rem; color: var(--primary);">Mess Name</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Today's Special Menu</p>
+
+                <div style="background: var(--bg-light); padding: 1rem; border-radius: 8px;">
+                    <div style="font-weight: 600; color: var(--secondary); margin-bottom: 0.5rem;">⭐ Chef's Special
+                    </div>
+                    <div id="vm-special" style="margin-bottom: 1rem; font-size: 1.1rem;"></div>
+
+                    <div style="font-weight: 600; margin-bottom: 0.5rem;">Standard Thali</div>
+                    <ul id="vm-items" style="list-style-position: inside; color: var(--text-muted);"></ul>
+                </div>
+
+                <button onclick="closeVendorMenu()" class="btn btn-secondary"
+                    style="width: 100%; margin-top: 1.5rem;">Close</button>
+            </div>
+        </div>
+
+        <!-- PG Booking Modal -->
+        <div id="pg-booking-modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2200; align-items: center; justify-content: center;">
+            <div class="glass-card animate-slide-up"
+                style="background: white; width: 90%; max-width: 500px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                <button onclick="closePGBookingModal()"
+                    style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
+                        class="fa-solid fa-xmark"></i></button>
+
+                <h2 style="margin-bottom: 1rem;">Book PG Room</h2>
+                <div id="pg-booking-info"
+                    style="background: var(--bg-light); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                </div>
+
+                <form id="pg-booking-form" onsubmit="submitPGBooking(event)" style="display: grid; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name *</label>
+                        <input type="text" id="pg-student-name" required
+                            style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email *</label>
+                        <input type="email" id="pg-student-email" required
+                            style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone Number *</label>
+                        <input type="tel" id="pg-student-phone" required
+                            style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                    </div>
+                    <div id="pg-payment-section" style="display: none;">
+                        <div
+                            style="background: #fff7ed; color: #c2410c; padding: 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; border: 1px solid #ffedd5; display: flex; gap: 0.5rem; align-items: center;">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <div>
+                                <strong>Demo Mode Enabled</strong><br>
+                                This is a dummy payment used for testing. No real money will be deducted.
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 1rem;">Select Payment Method</h3>
+                        <div style="display: grid; gap: 0.75rem;">
+                            <div class="payment-option" onclick="selectPaymentMethod('PhonePe')"
+                                style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                                <i class="fa-solid fa-mobile-screen-button"
+                                    style="color: #673ab7; font-size: 1.5rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600;">PhonePe</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">UPI Payment</div>
+                                </div>
+                            </div>
+                            <div class="payment-option" onclick="selectPaymentMethod('UPI')"
+                                style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                                <i class="fa-solid fa-at" style="color: #eab308; font-size: 1.5rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600;">Other UPI</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">GPay, Paytm, Amazon Pay
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-option" onclick="selectPaymentMethod('Card')"
+                                style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                                <i class="fa-solid fa-credit-card" style="color: #0ea5e9; font-size: 1.5rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600;">Debit / Credit Card</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">Visa, Mastercard, RuPay
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selected-payment-method" value="">
+                    </div>
+                    <div id="pg-booking-status" style="display: none; text-align: center; margin-top: 1rem;"></div>
+                    <button type="submit" id="pg-booking-submit" class="btn btn-primary"
+                        style="width: 100%; margin-top: 1rem;">
+                        Continue to Payment
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Mess Subscription Modal -->
+        <div id="mess-subscription-modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2200; align-items: center; justify-content: center;">
+            <div class="glass-card animate-slide-up"
+                style="background: white; width: 90%; max-width: 600px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                <button onclick="closeMessSubscriptionModal()"
+                    style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
+                        class="fa-solid fa-xmark"></i></button>
+
+                <h2 style="margin-bottom: 1rem;">Subscribe to Mess</h2>
+                <div id="mess-subscription-info"
+                    style="background: var(--bg-light); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                </div>
+
+                <h3 style="margin-bottom: 1rem;">Choose Subscription Plan</h3>
+                <div id="subscription-tiers"
+                    style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                </div>
+
+                <form id="mess-subscription-form" onsubmit="submitMessSubscription(event)"
+                    style="display: grid; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name *</label>
+                        <input type="text" id="mess-student-name" required
+                            style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email *</label>
+                        <input type="email" id="mess-student-email" required
+                            style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone Number *</label>
+                        <input type="tel" id="mess-student-phone" required
+                            style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                    </div>
+                    <div id="mess-payment-section" style="display: none;">
+                        <h3 style="margin-bottom: 1rem;">Payment Options</h3>
+                        <div style="display: grid; gap: 0.75rem;">
+                            <div class="payment-option" onclick="selectMessPaymentMethod('PhonePe')"
+                                style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                                <i class="fa-solid fa-mobile-screen-button"
+                                    style="color: #673ab7; font-size: 1.5rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600;">PhonePe</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">UPI Payment</div>
+                                </div>
+                            </div>
+                            <div class="payment-option" onclick="selectMessPaymentMethod('UPI')"
+                                style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                                <i class="fa-solid fa-at" style="color: #eab308; font-size: 1.5rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600;">Other UPI</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">GPay, Paytm, Amazon Pay
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-option" onclick="selectMessPaymentMethod('Card')"
+                                style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                                <i class="fa-solid fa-credit-card" style="color: #0ea5e9; font-size: 1.5rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600;">Debit / Credit Card</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">Visa, Mastercard, RuPay
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selected-mess-payment-method" value="">
+                    </div>
+                    <div id="mess-subscription-status" style="display: none; text-align: center; margin-top: 1rem;">
+                    </div>
+                    <button type="submit" id="mess-subscription-submit" class="btn btn-primary"
+                        style="width: 100%; margin-top: 1rem;">
+                        Continue to Payment
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Payment Receipt Modal -->
+        <div id="payment-receipt-modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2500; align-items: center; justify-content: center;">
+            <div class="glass-card animate-slide-up"
+                style="background: white; width: 90%; max-width: 600px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                <button onclick="closeReceiptModal()"
+                    style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
+                        class="fa-solid fa-xmark"></i></button>
+
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div
+                        style="width: 80px; height: 80px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                        <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 3rem;"></i>
+                    </div>
+                    <h2 style="color: #10b981; margin-bottom: 0.5rem;">Payment Successful!</h2>
+                    <p style="color: var(--text-muted);">Your payment has been processed successfully</p>
+                </div>
+
+                <div id="receipt-content"
+                    style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                    <!-- Receipt content will be populated here -->
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                    <button onclick="downloadReceipt()" class="btn btn-primary">
+                        <i class="fa-solid fa-download"></i> Download Receipt
+                    </button>
+                    <button onclick="closeReceiptModal()" class="btn btn-secondary">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Panel -->
+        <div id="notifications-panel"
+            style="display: none; position: fixed; top: 60px; right: 20px; width: 350px; max-height: 500px; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 3000; overflow-y: auto;">
+            <div
+                style="padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0;">Notifications</h3>
+                <button onclick="closeNotifications()" style="border: none; background: none; cursor: pointer;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="notifications-list" style="padding: 0.5rem;"></div>
+        </div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/payment.js"></script>
+    <script src="../js/attendance.js"></script>
+    <script src="../js/complaint.js"></script>
+    <script src="../js/auth-service.js"></script>
+
+    <script>
+        Auth.checkAuth('student');
+
+        // Global State
+        var bookingContext = null;
+        var subscriptionContext = null;
+
+
+        // --- Navigation Logic ---
+        function showSection(sectionId) {
+            ['menu-section', 'pg-section', 'attendance-section', 'complaint-section', 'actions-section'].forEach(id => {
+                document.getElementById(id).style.display = 'none';
+                document.getElementById(id).classList.remove('animate-pop-in');
+            });
+
+            // Map simple ID to actual ID
+            const map = {
+                'menu': 'menu-section',
+                'pgs': 'pg-section',
+                'attendance': 'attendance-section',
+                'complaint': 'complaint-section',
+                'actions': 'actions-section'
+            };
+
+            const target = document.getElementById(map[sectionId]);
+            if (target) {
+                target.style.display = 'block';
+                // Trigger reflow
+                void target.offsetWidth;
+                target.classList.add('animate-pop-in');
+
+                // Initialize section-specific data when shown
+                if (sectionId === 'attendance' && window.AttendanceService) {
+                    updateAttendanceStatus();
+                    renderAttendanceHistory();
+                } else if (sectionId === 'pgs') {
+                    renderPGs();
+                } else if (sectionId === 'complaint') {
+                    renderComplaints();
+                }
+            }
+        }
+
+        // --- Weekly Menu Logic ---
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const today = days[new Date().getDay()];
+
+        // Fallback Data in case js/data.js fails
+        const FallbackMenu = {
+            "Sunday": {
+                Breakfast: ["Idli", "Sambar", "Tea"],
+                Lunch: ["Rice", "Dal", "Veg Curry", "Curd"],
+                Snacks: ["Samosa", "Coffee"],
+                Dinner: ["Chapati", "Paneer Curry", "Rice"]
+            },
+            "Monday": {
+                Breakfast: ["Poha", "Banana", "Milk"],
+                Lunch: ["Rice", "Sambar", "Beetroot Curry"],
+                Snacks: ["Biscuits", "Tea"],
+                Dinner: ["Chapati", "Dal Fry", "Veg Kurma"]
+            },
+            "Tuesday": {
+                Breakfast: ["Upma", "Chutney", "Coffee"],
+                Lunch: ["Lemon Rice", "Potato Fry", "Curd"],
+                Snacks: ["Bajji", "Tea"],
+                Dinner: ["Roti", "Mixed Veg Curry", "Rice"]
+            },
+            "Wednesday": {
+                Breakfast: ["Dosa", "Sambar", "Chutney"],
+                Lunch: ["Veg Biryani", "Raita", "Salad"],
+                Snacks: ["Sandwich", "Coffee"],
+                Dinner: ["Chapati", "Chicken Curry/Veg Kofta"]
+            },
+            "Thursday": {
+                Breakfast: ["Pongal", "Vada", "Chutney"],
+                Lunch: ["Rice", "Rasam", "Cabbage Poriyal"],
+                Snacks: ["Cake", "Tea"],
+                Dinner: ["Phulka", "Aloo Gobi", "Dal"]
+            },
+            "Friday": {
+                Breakfast: ["Vada Pav", "Chutney", "Tea"],
+                Lunch: ["Fried Rice", "Manchurian", "Salad"],
+                Snacks: ["Sausage/Cutlet", "Coffee"],
+                Dinner: ["Roti", "Palak Paneer", "Rice"]
+            },
+            "Saturday": {
+                Breakfast: ["Puri", "Bhaji", "Milk"],
+                Lunch: ["Rice", "Dal Makhani", "Jeera Rice"],
+                Snacks: ["Puff", "Tea"],
+                Dinner: ["Pasta", "Garlic Bread", "Soup"]
+            }
+        };
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                if (typeof renderWeeklyMenu === 'function') {
+                    renderWeeklyMenu();
+                }
+                if (typeof updateNotificationBadge === 'function') updateNotificationBadge();
+            } catch (error) {
+                console.error("Dashboard initialization error:", error);
+            }
+        });
+
+        // --- PG Listing Logic ---
+        function renderPGs() {
+            const container = document.getElementById('pg-list');
+            const PGs = getData.PGs();
+
+            if (!PGs || PGs.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No PGs found. Please check data connection.</div>';
+                return;
+            }
+
+            const pgCardsHTML = PGs.map((pg, index) => {
+                // Ensure sharing keys are sorted (2, 3, 4) if possible
+                const sharingKeys = Object.keys(pg.sharingVariants).sort((a, b) => a - b);
+                const defaultShare = sharingKeys[0];
+                const defaultRent = pg.sharingVariants[defaultShare];
+
+                // Map amenities to icons
+                const amenityIcons = {
+                    "WiFi": "fa-wifi",
+                    "AC": "fa-snowflake",
+                    "Laundry": "fa-jug-detergent",
+                    "Power Backup": "fa-bolt",
+                    "Water Supply": "fa-faucet",
+                    "Mess": "fa-utensils",
+                    "Gym": "fa-dumbbell",
+                    "CCTV": "fa-video",
+                    "Security": "fa-shield-halved",
+                    "Garden": "fa-tree",
+                    "Library": "fa-book-open"
+                };
+
+                // Generate sharing options buttons
+                const sharingButtons = sharingKeys.map(k => `
+                    <button 
+                        class="share-btn ${k === defaultShare ? 'active' : ''}" 
+                        onclick="updateRent(this, ${index}, ${k}, ${pg.sharingVariants[k]})"
+                        style="padding: 6px 10px; border: 1px solid #e2e8f0; border-radius: 6px; background: white; cursor: pointer; font-size: 0.85rem; flex: 1; transition: all 0.2s;">
+                        ${k} Sharing
+                    </button>
+                `).join('');
+
+                return `
+                <div class="pg-card" id="pg-card-${index}">
+                    <div style="position: relative;">
+                        <img src="${pg.image}" class="pg-image" alt="${pg.name}">
+                        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">
+                            <i class="fa-solid fa-star" style="color: #fbbf24;"></i> ${pg.rating}
+                        </span>
+                    </div>
+                    <div class="pg-content">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="font-size: 1.15rem; line-height: 1.3;">${pg.name}</h3>
+                            <span class="pg-tag" style="background: ${pg.type === 'Girls' ? '#fce7f3' : (pg.type === 'Boys' ? '#dbeafe' : '#f3e8ff')}; color: ${pg.type === 'Girls' ? '#BE185D' : (pg.type === 'Boys' ? '#1D4ED8' : '#7E22CE')}">${pg.type}</span>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-location-dot" style="color: var(--primary);"></i> ${pg.address}
+                        </p>
+                        
+                        <div style="margin-bottom: 1rem; background: #f8fafc; padding: 0.75rem; border-radius: 8px;">
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 600;">Select Sharing Type:</p>
+                            <div style="display: flex; gap: 0.5rem;">
+                                ${sharingButtons}
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            ${pg.amenities.slice(0, 4).map(a => `
+                                <span class="pg-tag" title="${a}">
+                                    <i class="fa-solid ${amenityIcons[a] || 'fa-check'}"></i> ${a}
+                                </span>
+                            `).join('')}
+                            ${pg.amenities.length > 4 ? `<span class="pg-tag" title="More amenities">+${pg.amenities.length - 4}</span>` : ''}
+                        </div>
+                        
+                        <!-- Mess Info (Integrated) -->
+                        <div style="margin-bottom: 1rem; padding: 0.6rem; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 6px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.9rem; font-weight: 600; color: var(--secondary); display: flex; align-items: center; gap: 0.4rem;">
+                                    <i class="fa-solid fa-utensils" style="color: #ea580c;"></i> ${pg.messOptions && pg.messOptions[0] ? pg.messOptions[0].name : 'Integrated Mess'}
+                                </span>
+                                ${pg.messOptions && pg.messOptions[0] ? `<span style="font-size: 0.75rem; background: white; padding: 2px 6px; border-radius: 10px; border: 1px solid #e2e8f0;"><i class="fa-solid fa-star" style="color: #fbbf24;"></i> ${pg.messOptions[0].rating}</span>` : ''}
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+                                <span><i class="fa-solid fa-circle-check" style="color: #10b981; margin-right: 4px;"></i> All Meals Included</span>
+                                <button onclick="openVendorMenu('${pg.messOptions && pg.messOptions[0] ? pg.messOptions[0].name.replace(/'/g, "\\'") : 'Mess'}', ${pg.messOptions && pg.messOptions[0] ? pg.messOptions[0].id : 0})" 
+                                    style="background: none; border: none; color: var(--primary); font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 0;">
+                                    View Menu <i class="fa-solid fa-arrow-right" style="font-size: 0.7rem;"></i>
+                                </button>
+                            </div>
+                         </div>
+
+                        <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <span class="pg-rent strength-price" style="font-size: 1.4rem; font-weight: 700; color: var(--primary);">₹${defaultRent}</span>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">/mo</span>
+                            </div>
+                            <button class="btn btn-primary pg-req-btn" 
+                                data-pg-id="${pg.id}"
+                                data-pg-name="${pg.name}"
+                                data-share="${defaultShare}" 
+                                data-rent="${defaultRent}"
+                                style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            container.innerHTML = pgCardsHTML;
+
+            // Add Event Listeners for Book Now buttons
+            document.querySelectorAll('.pg-req-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault(); // Stop any default form submission just in case
+                    try {
+                        const pgId = this.getAttribute('data-pg-id');
+                        const pgName = this.getAttribute('data-pg-name');
+                        const sharing = this.getAttribute('data-share');
+                        const rent = this.getAttribute('data-rent');
+
+                        // Debug info
+                        // alert(`Debug: ID=${pgId}, Name=${pgName}, Share=${sharing}, Rent=${rent}`);
+
+                        if (!pgId || !pgName || !sharing || !rent) {
+                            throw new Error(`Missing data: ID=${pgId}, Name=${pgName}, Share=${sharing}, Rent=${rent}`);
+                        }
+
+                        openPGBooking(pgId, pgName, sharing, rent);
+                    } catch (error) {
+                        console.error('Error handling Book Now click:', error);
+                        alert('Error opening booking: ' + error.message);
+                    }
+                });
+            });
+        }
+
+        function updateRent(btn, pgIndex, sharing, rent) {
+            const card = document.getElementById(`pg-card-${pgIndex}`);
+
+            // Update buttons styling
+            card.querySelectorAll('.share-btn').forEach(b => {
+                b.style.backgroundColor = 'white';
+                b.style.color = 'black';
+                b.style.borderColor = '#e2e8f0';
+                b.classList.remove('active');
+            });
+            btn.style.backgroundColor = 'var(--primary)';
+            btn.style.color = 'white';
+            btn.style.borderColor = 'var(--primary)';
+            btn.classList.add('active');
+
+            // Update rent display
+            card.querySelector('.pg-rent').innerText = `₹${rent}`;
+
+            // Update request button data
+            const reqBtn = card.querySelector('.pg-req-btn');
+            reqBtn.dataset.share = sharing;
+            reqBtn.dataset.rent = rent; // IMPORTANT: Update rent data attribute
+
+            console.log(`Updated PG-${pgIndex} selection:`, { sharing, rent });
+        }
+
+        // --- PG Booking Logic ---
+
+
+        function openPGBooking(pgId, pgName, sharing, rent) {
+            bookingContext = { pgId, pgName, sharing, rent };
+            const modal = document.getElementById('pg-booking-modal');
+            const infoDiv = document.getElementById('pg-booking-info');
+
+            infoDiv.innerHTML = `
+                <div style="display: grid; gap: 0.5rem;">
+                    <div><strong>PG Name:</strong> ${pgName}</div>
+                    <div><strong>Room Type:</strong> ${sharing}-Sharing</div>
+                    <div><strong>Monthly Rent:</strong> ₹${rent}</div>
+                    <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #e2e8f0;">
+                        <strong>Total Amount:</strong> <span style="color: var(--primary); font-size: 1.2rem; font-weight: 700;">₹${rent}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('pg-payment-section').style.display = 'none';
+            document.getElementById('pg-booking-status').style.display = 'none';
+            document.getElementById('pg-booking-submit').textContent = 'Continue to Payment';
+            modal.style.display = 'flex';
+        }
+
+        function closePGBookingModal() {
+            document.getElementById('pg-booking-modal').style.display = 'none';
+            document.getElementById('pg-booking-form').reset();
+            bookingContext = null;
+        }
+
+        function selectPaymentMethod(method) {
+            document.getElementById('selected-payment-method').value = method;
+            document.querySelectorAll('#pg-payment-section .payment-option').forEach(opt => {
+                opt.style.borderColor = '#e2e8f0';
+                opt.style.backgroundColor = 'white';
+            });
+            event.currentTarget.style.borderColor = 'var(--primary)';
+            event.currentTarget.style.backgroundColor = '#f0f4ff';
+        }
+
+        async function submitPGBooking(event) {
+            event.preventDefault();
+
+            if (!bookingContext) return;
+
+            const name = document.getElementById('pg-student-name').value;
+            const email = document.getElementById('pg-student-email').value;
+            const phone = document.getElementById('pg-student-phone').value;
+
+            // Show payment section if not shown
+            if (document.getElementById('pg-payment-section').style.display === 'none') {
+                document.getElementById('pg-payment-section').style.display = 'block';
+                document.getElementById('pg-booking-submit').textContent = 'Complete Payment';
+                return;
+            }
+
+            const paymentMethod = document.getElementById('selected-payment-method').value;
+            if (!paymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+
+            const statusDiv = document.getElementById('pg-booking-status');
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = `
+                <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--primary); font-size: 2rem;"></i>
+                <p style="margin-top: 0.5rem;">Processing booking...</p>
+            `;
+
+            try {
+                console.log('PG Booking submitted. PGBooking context:', bookingContext);
+
+                // Validate inputs again
+                if (!email || !name || !phone) {
+                    throw new Error("Student details are missing. Please fill the form.");
+                }
+
+                if (!window.BookingSystem) {
+                    throw new Error("Booking System is not initialized. Please refresh the page.");
+                }
+
+                const booking = await BookingSystem.bookPG(
+                    bookingContext.pgId,
+                    bookingContext.sharing,
+                    bookingContext.rent,
+                    email,
+                    name,
+                    phone
+                );
+
+                console.log('Booking successful:', booking);
+
+                // Simulate success UI
+                statusDiv.innerHTML = `
+                    <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 3rem; animation: fadeIn 0.5s;"></i>
+                    <p style="margin-top: 0.5rem; font-weight: 600;">Booking Successful!</p>
+                `;
+
+                // Get payment details
+                const payments = window.PaymentSystem ? PaymentSystem.getPayments() : [];
+                const payment = payments.find(p => p.id === booking.paymentId) || { transactionId: 'DEMO-' + Date.now() };
+
+                setTimeout(() => {
+                    closePGBookingModal();
+
+                    // Show receipt modal
+                    showPaymentReceipt({
+                        type: 'PG Booking',
+                        studentName: name,
+                        email: email,
+                        amount: bookingContext.rent,
+                        paymentMethod: paymentMethod,
+                        transactionId: payment.transactionId,
+                        bookingDetails: {
+                            pgName: bookingContext.pgName,
+                            sharing: bookingContext.sharing,
+                            roomType: `${bookingContext.sharing}-Sharing`
+                        },
+                        credentials: {
+                            username: booking.username,
+                            password: booking.password
+                        }
+                    });
+
+                    // Send email with credentials
+                    if (window.EmailService) {
+                        EmailService.sendBookingConfirmation(email, name, booking, bookingContext, paymentMethod);
+                    }
+
+                    updateNotificationBadge();
+                }, 1500);
+
+            } catch (error) {
+                console.error('Booking Error:', error);
+                statusDiv.innerHTML = `
+                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 2rem;"></i>
+                    <p style="margin-top: 0.5rem; color: #ef4444;">Error: ${error.message}</p>
+                    <button onclick="this.parentElement.style.display='none'; document.getElementById('pg-booking-submit').textContent='Try Again';" class="btn btn-secondary" style="margin-top:0.5rem; font-size: 0.8rem;">Try Again</button>
+                `;
+            }
+        }
+
+        // --- Mess Subscription Logic ---
+
+
+        function openMessSubscription(messId, messName, basePrice, pgName) {
+            subscriptionContext = { messId, messName, basePrice, pgName };
+            const modal = document.getElementById('mess-subscription-modal');
+            const infoDiv = document.getElementById('mess-subscription-info');
+
+            infoDiv.innerHTML = `
+                <div style="display: grid; gap: 0.5rem;">
+                    <div><strong>Mess Name:</strong> ${messName}</div>
+                    <div><strong>PG:</strong> ${pgName}</div>
+                    <div><strong>Base Price:</strong> ₹${basePrice}/month</div>
+                </div>
+            `;
+
+            // Render subscription tiers
+            const tiersDiv = document.getElementById('subscription-tiers');
+            tiersDiv.innerHTML = Object.keys(SubscriptionTiers).map(tier => {
+                const tierInfo = SubscriptionTiers[tier];
+                const finalPrice = Math.round(basePrice * tierInfo.multiplier);
+                return `
+                    <div onclick="selectSubscriptionTier('${tier}', ${finalPrice})" 
+                         class="tier-card" 
+                         id="tier-${tier}"
+                         style="border: 2px solid #e2e8f0; border-radius: var(--radius-md); padding: 1rem; cursor: pointer; transition: all 0.2s; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: ${tierInfo.color}; margin-bottom: 0.5rem;">${tier}</div>
+                        <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">₹${finalPrice}/mo</div>
+                        <ul style="list-style: none; padding: 0; font-size: 0.85rem; color: var(--text-muted); text-align: left;">
+                            ${tierInfo.features.map(f => `<li style="margin: 0.25rem 0;">✓ ${f}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('mess-payment-section').style.display = 'none';
+            document.getElementById('mess-subscription-status').style.display = 'none';
+            document.getElementById('mess-subscription-submit').textContent = 'Continue to Payment';
+            modal.style.display = 'flex';
+        }
+
+        function closeMessSubscriptionModal() {
+            document.getElementById('mess-subscription-modal').style.display = 'none';
+            document.getElementById('mess-subscription-form').reset();
+            subscriptionContext = null;
+        }
+
+        function selectSubscriptionTier(tier, price) {
+            if (!subscriptionContext) return;
+            subscriptionContext.tier = tier;
+            subscriptionContext.finalPrice = price;
+
+            document.querySelectorAll('.tier-card').forEach(card => {
+                card.style.borderColor = '#e2e8f0';
+                card.style.backgroundColor = 'white';
+            });
+            document.getElementById(`tier-${tier}`).style.borderColor = SubscriptionTiers[tier].color;
+            document.getElementById(`tier-${tier}`).style.backgroundColor = SubscriptionTiers[tier].color + '15';
+        }
+
+        function selectMessPaymentMethod(method) {
+            document.getElementById('selected-mess-payment-method').value = method;
+            document.querySelectorAll('#mess-payment-section .payment-option').forEach(opt => {
+                opt.style.borderColor = '#e2e8f0';
+                opt.style.backgroundColor = 'white';
+            });
+            event.currentTarget.style.borderColor = 'var(--primary)';
+            event.currentTarget.style.backgroundColor = '#f0f4ff';
+        }
+
+        async function submitMessSubscription(event) {
+            event.preventDefault();
+
+            if (!subscriptionContext || !subscriptionContext.tier) {
+                alert('Please select a subscription tier');
+                return;
+            }
+
+            const name = document.getElementById('mess-student-name').value;
+            const email = document.getElementById('mess-student-email').value;
+            const phone = document.getElementById('mess-student-phone').value;
+
+            // Show payment section if not shown
+            if (document.getElementById('mess-payment-section').style.display === 'none') {
+                document.getElementById('mess-payment-section').style.display = 'block';
+                document.getElementById('mess-subscription-submit').textContent = 'Complete Payment';
+                return;
+            }
+
+            const paymentMethod = document.getElementById('selected-mess-payment-method').value;
+            if (!paymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+
+            const statusDiv = document.getElementById('mess-subscription-status');
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = `
+                <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--primary); font-size: 2rem;"></i>
+                <p style="margin-top: 0.5rem;">Processing subscription...</p>
+            `;
+
+            try {
+                const subscription = await BookingSystem.subscribeMess(
+                    subscriptionContext.messId,
+                    subscriptionContext.messName,
+                    subscriptionContext.basePrice,
+                    subscriptionContext.tier,
+                    email,
+                    name,
+                    phone,
+                    subscriptionContext.pgName
+                );
+
+                // Get payment details
+                const payments = PaymentSystem.getPayments();
+                const payment = payments.find(p => p.id === subscription.paymentId);
+
+                // Show receipt modal
+                showPaymentReceipt({
+                    type: 'Mess Subscription',
+                    studentName: name,
+                    email: email,
+                    amount: subscription.finalPrice,
+                    paymentMethod: paymentMethod,
+                    transactionId: payment ? payment.transactionId : 'TXN' + Date.now(),
+                    subscriptionDetails: {
+                        messName: subscriptionContext.messName,
+                        tier: subscriptionContext.tier,
+                        basePrice: subscriptionContext.basePrice,
+                        finalPrice: subscription.finalPrice,
+                        pgName: subscriptionContext.pgName
+                    }
+                });
+
+                // Send email confirmation
+                EmailService.sendSubscriptionConfirmation(email, name, subscription, subscriptionContext, paymentMethod);
+
+                setTimeout(() => {
+                    closeMessSubscriptionModal();
+                    updateNotificationBadge();
+                }, 1000);
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 2rem;"></i>
+                    <p style="margin-top: 0.5rem; color: #ef4444;">Error: ${error.message}</p>
+                `;
+            }
+        }
+
+        // --- Payment Logic ---
+        function openPaymentModal() {
+            document.getElementById('payment-modal').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+            document.getElementById('payment-status').style.display = 'none';
+        }
+
+        async function processPayment(method) {
+            const statusDiv = document.getElementById('payment-status');
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = `
+                <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--primary); font-size: 2rem;"></i>
+                <p style="margin-top: 0.5rem;">Processing ${method}...</p>
+            `;
+
+            try {
+                // Determine amount (dummy logic or from bill)
+                const amount = 8500;
+                const studentProfile = ProfileService.getProfile(getStudentId());
+
+                // Actual system call
+                const payment = await PaymentSystem.processPayment(
+                    'Rent',
+                    amount,
+                    'Monthly Rent Payment',
+                    studentProfile.email
+                );
+
+                statusDiv.innerHTML = `
+                    <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 3rem; animation: fadeIn 0.5s;"></i>
+                    <p style="margin-top: 0.5rem; font-weight: 600;">Payment Successful!</p>
+                `;
+
+                setTimeout(() => {
+                    closePaymentModal();
+                    // Show receipt
+                    showPaymentReceipt({
+                        type: 'Rent Payment',
+                        studentName: studentProfile.fullName,
+                        email: studentProfile.email,
+                        amount: amount,
+                        paymentMethod: method,
+                        transactionId: payment.transactionId || 'TXN' + payment.id
+                    });
+                }, 1500);
+
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 2rem;"></i>
+                    <p style="margin-top: 0.5rem; color: #ef4444;">Error: ${error.message}</p>
+                `;
+            }
+        }
+
+        function openVendorMenu(name, id) {
+            const menu = getData.VendorMenu(id);
+            document.getElementById('vm-title').innerText = name;
+            document.getElementById('vm-special').innerText = menu.special;
+
+            const ul = document.getElementById('vm-items');
+            ul.innerHTML = menu.items.map(i => `<li>${i}</li>`).join('');
+
+            document.getElementById('vendor-menu-modal').style.display = 'flex';
+        }
+
+        function closeVendorMenu() {
+            document.getElementById('vendor-menu-modal').style.display = 'none';
+        }
+
+        // --- Notification System ---
+        function updateNotificationBadge() {
+            const count = NotificationSystem.getUnreadCount();
+            const badge = document.getElementById('notification-badge');
+            if (count > 0) {
+                badge.textContent = count > 99 ? '99+' : count;
+                badge.style.display = 'block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function showNotifications() {
+            const panel = document.getElementById('notifications-panel');
+            const list = document.getElementById('notifications-list');
+
+            const notifications = NotificationSystem.getAll();
+
+            if (notifications.length === 0) {
+                list.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">No notifications</div>';
+            } else {
+                list.innerHTML = notifications.map(notif => {
+                    const icon = notif.type === 'success' ? 'fa-circle-check' :
+                        notif.type === 'error' ? 'fa-circle-xmark' :
+                            notif.type === 'warning' ? 'fa-triangle-exclamation' : 'fa-circle-info';
+                    const color = notif.type === 'success' ? '#10b981' :
+                        notif.type === 'error' ? '#ef4444' :
+                            notif.type === 'warning' ? '#f59e0b' : '#3b82f6';
+
+                    return `
+                        <div onclick="NotificationSystem.markAsRead(${notif.id}); updateNotificationBadge(); this.style.opacity='0.6';" 
+                             style="padding: 1rem; border-bottom: 1px solid #e2e8f0; cursor: pointer; background: ${notif.read ? '#f8fafc' : 'white'};">
+                            <div style="display: flex; gap: 0.75rem;">
+                                <i class="fa-solid ${icon}" style="color: ${color}; font-size: 1.2rem; margin-top: 0.2rem;"></i>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; margin-bottom: 0.25rem;">${notif.title}</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted);">${notif.message}</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                        ${new Date(notif.timestamp).toLocaleString()}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function closeNotifications() {
+            document.getElementById('notifications-panel').style.display = 'none';
+        }
+
+        // Close notifications when clicking outside
+        document.addEventListener('click', (e) => {
+            const panel = document.getElementById('notifications-panel');
+            const bell = document.querySelector('.fa-bell')?.closest('div');
+            if (panel && panel.style.display !== 'none' && !panel.contains(e.target) && !bell?.contains(e.target)) {
+                panel.style.display = 'none';
+            }
+        });
+
+        // --- Attendance Functions ---
+        function getStudentId() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+            // Try to get from bookings first
+            if (window.BookingSystem) {
+                const bookings = BookingSystem.getBookings();
+                if (bookings && bookings.length > 0) {
+                    const booking = bookings.find(b =>
+                        (user.email && b.email === user.email) ||
+                        (user.name && b.studentName === user.name)
+                    );
+                    if (booking) {
+                        return booking.id;
+                    }
+                }
+            }
+
+            // Fallback to user object ID or email
+            if (user.id) return user.id;
+
+            // Generate a consistent ID from email if available
+            if (user.email) {
+                return 'student_' + user.email.replace(/[^a-zA-Z0-9]/g, '_');
+            }
+
+            // Last resort fallback
+            return 'student_guest';
+        }
+
+        function markAttendance(mealType, status) {
+            try {
+                if (!window.AttendanceService) {
+                    alert('Attendance service not loaded. Please refresh the page.');
+                    return;
+                }
+
+                const studentId = getStudentId();
+                const today = new Date().toISOString().split('T')[0];
+
+                // Check if already marked
+                if (AttendanceService.isAttendanceMarked(studentId, today, mealType)) {
+                    alert('Attendance already marked for this meal today!');
+                    updateAttendanceStatus();
+                    return;
+                }
+
+                // Mark attendance
+                const result = AttendanceService.markAttendance(studentId, today, mealType, status);
+
+                if (result) {
+                    updateAttendanceStatus();
+                    renderAttendanceHistory();
+                    updateNotificationBadge();
+                    alert(`✓ Attendance marked as ${status} for ${mealType}`);
+                } else {
+                    alert('Failed to mark attendance. Please try again.');
+                }
+            } catch (error) {
+                console.error('Attendance error:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function scanQRCode(mealType) {
+            const qrData = prompt('Scan QR Code or enter QR data:');
+            if (!qrData) return;
+
+            try {
+                if (!window.AttendanceService) {
+                    alert('Attendance service not loaded. Please refresh the page.');
+                    return;
+                }
+
+                const studentId = getStudentId();
+                const result = AttendanceService.markAttendanceQR(studentId, qrData);
+
+                if (result) {
+                    updateAttendanceStatus();
+                    renderAttendanceHistory();
+                    updateNotificationBadge();
+                    alert('✓ Attendance marked successfully via QR code!');
+                } else {
+                    alert('Failed to mark attendance. Please try again.');
+                }
+            } catch (error) {
+                console.error('QR Attendance error:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function updateAttendanceStatus() {
+            if (!window.AttendanceService) return;
+
+            try {
+                const studentId = getStudentId();
+                const today = new Date().toISOString().split('T')[0];
+                const meals = ['Breakfast', 'Lunch', 'Dinner'];
+
+                meals.forEach(meal => {
+                    const statusDiv = document.getElementById(`${meal.toLowerCase()}-status`);
+                    if (!statusDiv) return;
+
+                    const attendances = AttendanceService.getAttendanceByStudent(studentId, today, meal);
+                    const attendance = attendances.length > 0 ? attendances[0] : null;
+
+                    if (attendance) {
+                        const statusClass = attendance.status === 'Present' ? 'status-paid' : 'status-pending';
+                        statusDiv.innerHTML = `
+                            <span class="status-badge ${statusClass}">${attendance.status}</span>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                Marked at ${new Date(attendance.createdAt).toLocaleTimeString()}
+                            </div>
+                        `;
+                    } else {
+                        statusDiv.innerHTML = '<span class="status-badge" style="background: #e2e8f0; color: #64748b;">Not Marked</span>';
+                    }
+                });
+            } catch (error) {
+                console.error('Error updating attendance status:', error);
+            }
+        }
+
+        function renderAttendanceHistory() {
+            if (!window.AttendanceService) return;
+
+            try {
+                const studentId = getStudentId();
+                const dateFilter = document.getElementById('attendance-date-filter')?.value;
+                const mealFilter = document.getElementById('attendance-meal-filter')?.value;
+
+                let attendances = AttendanceService.getAttendanceByStudent(studentId);
+
+                if (dateFilter) {
+                    attendances = attendances.filter(a => a.date === dateFilter);
+                }
+                if (mealFilter && mealFilter !== 'all') {
+                    attendances = attendances.filter(a => a.mealType === mealFilter);
+                }
+
+                const tbody = document.getElementById('attendance-history-body');
+                if (!tbody) return;
+
+                if (attendances.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">No attendance records found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = attendances.map(a => {
+                    const statusClass = a.status === 'Present' ? 'status-paid' : 'status-pending';
+                    return `
+                        <tr>
+                            <td>${new Date(a.date + 'T00:00:00').toLocaleDateString()}</td>
+                            <td>${a.mealType}</td>
+                            <td><span class="status-badge ${statusClass}">${a.status}</span></td>
+                            <td>${a.mode || 'Manual'}</td>
+                            <td>${new Date(a.createdAt).toLocaleTimeString()}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error rendering attendance history:', error);
+            }
+        }
+
+        // --- Complaint Functions ---
+        function showComplaintForm() {
+            document.getElementById('complaint-form-container').style.display = 'block';
+        }
+
+        function hideComplaintForm() {
+            document.getElementById('complaint-form-container').style.display = 'none';
+            document.getElementById('complaint-form').reset();
+        }
+
+        function submitComplaint(event) {
+            event.preventDefault();
+
+            try {
+                const studentId = getStudentId();
+                const category = document.getElementById('complaint-category').value;
+                const priority = document.getElementById('complaint-priority').value;
+                const description = document.getElementById('complaint-description').value;
+
+                if (!category || !description.trim()) {
+                    alert('Please fill all required fields');
+                    return;
+                }
+
+                ComplaintService.createComplaint(studentId, category, description, priority);
+                hideComplaintForm();
+                renderComplaints();
+                updateNotificationBadge();
+                alert('Complaint submitted successfully!');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function renderComplaints() {
+            const studentId = getStudentId();
+            const statusFilter = document.getElementById('complaint-status-filter').value;
+            const categoryFilter = document.getElementById('complaint-category-filter').value;
+
+            let complaints = ComplaintService.getComplaintsByStudent(studentId);
+
+            if (statusFilter !== 'all') {
+                complaints = complaints.filter(c => c.status === statusFilter);
+            }
+            if (categoryFilter !== 'all') {
+                complaints = complaints.filter(c => c.category === categoryFilter);
+            }
+
+            const tbody = document.getElementById('complaints-body');
+            if (complaints.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-muted);">No complaints found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = complaints.map(c => {
+                const priorityColors = {
+                    'Low': '#10b981',
+                    'Medium': '#f59e0b',
+                    'High': '#ef4444'
+                };
+                const statusColors = {
+                    'Open': '#3b82f6',
+                    'In Progress': '#f59e0b',
+                    'Resolved': '#10b981',
+                    'Closed': '#6b7280'
+                };
+
+                return `
+                    <tr>
+                        <td>#${c.id}</td>
+                        <td>${c.category}</td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${c.description}</td>
+                        <td><span class="status-badge" style="background: ${priorityColors[c.priority]}20; color: ${priorityColors[c.priority]};">${c.priority}</span></td>
+                        <td><span class="status-badge" style="background: ${statusColors[c.status]}20; color: ${statusColors[c.status]};">${c.status}</span></td>
+                        <td>${c.assignedToName || 'Unassigned'}</td>
+                        <td>${new Date(c.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <button onclick="viewComplaintDetails(${c.id})" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">View</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function viewComplaintDetails(complaintId) {
+            const complaint = ComplaintService.getComplaintById(complaintId);
+            if (!complaint) {
+                alert('Complaint not found');
+                return;
+            }
+
+            let details = `Complaint #${complaint.id}\n\n`;
+            details += `Category: ${complaint.category}\n`;
+            details += `Priority: ${complaint.priority}\n`;
+            details += `Status: ${complaint.status}\n`;
+            details += `Assigned To: ${complaint.assignedToName || 'Unassigned'}\n`;
+            details += `Created: ${new Date(complaint.createdAt).toLocaleString()}\n`;
+            details += `Updated: ${new Date(complaint.updatedAt).toLocaleString()}\n\n`;
+            details += `Description:\n${complaint.description}\n\n`;
+            if (complaint.resolution) {
+                details += `Resolution:\n${complaint.resolution}`;
+            }
+
+            alert(details);
+        }
+
+        // --- Receipt Functions ---
+        function showPaymentReceipt(receiptData) {
+            const modal = document.getElementById('payment-receipt-modal');
+            const content = document.getElementById('receipt-content');
+
+            const receiptHTML = `
+                <div style="border-bottom: 2px dashed #e2e8f0; padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <div>
+                            <h3 style="margin: 0; color: var(--primary);">Happy Living PG</h3>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Payment Receipt</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Receipt #</div>
+                            <div style="font-weight: 600;">${receiptData.transactionId}</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">
+                        Date: ${new Date().toLocaleString()}
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <div style="display: grid; gap: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Student Name:</span>
+                            <span style="font-weight: 600;">${receiptData.studentName}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Email:</span>
+                            <span>${receiptData.email}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Payment Type:</span>
+                            <span>${receiptData.type}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Payment Method:</span>
+                            <span>${receiptData.paymentMethod}</span>
+                        </div>
+                        ${receiptData.bookingDetails ? `
+                            <div style="border-top: 1px solid #e2e8f0; padding-top: 0.75rem; margin-top: 0.5rem;">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem;">Booking Details:</div>
+                                <div style="display: grid; gap: 0.5rem; font-size: 0.9rem;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span>PG Name:</span>
+                                        <span>${receiptData.bookingDetails.pgName}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span>Room Type:</span>
+                                        <span>${receiptData.bookingDetails.roomType}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${receiptData.subscriptionDetails ? `
+                            <div style="border-top: 1px solid #e2e8f0; padding-top: 0.75rem; margin-top: 0.5rem;">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem;">Subscription Details:</div>
+                                <div style="display: grid; gap: 0.5rem; font-size: 0.9rem;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span>Mess Name:</span>
+                                        <span>${receiptData.subscriptionDetails.messName}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span>Plan:</span>
+                                        <span>${receiptData.subscriptionDetails.tier}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span>Base Price:</span>
+                                        <span>₹${receiptData.subscriptionDetails.basePrice}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        <div style="border-top: 2px solid var(--primary); padding-top: 1rem; margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.1rem; font-weight: 600;">Total Amount:</span>
+                                <span style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">₹${receiptData.amount.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        ${receiptData.credentials ? `
+                            <div style="background: #f0f4ff; border: 1px solid var(--primary); border-radius: var(--radius-md); padding: 1rem; margin-top: 1rem;">
+                                <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.75rem;">
+                                    <i class="fa-solid fa-key"></i> Login Credentials
+                                </div>
+                                <div style="display: grid; gap: 0.5rem; font-size: 0.9rem;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span>Username:</span>
+                                        <span style="font-weight: 600; font-family: monospace;">${receiptData.credentials.username}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span>Password:</span>
+                                        <span style="font-weight: 600; font-family: monospace;">${receiptData.credentials.password}</span>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0; font-size: 0.85rem; color: var(--text-muted);">
+                                    <i class="fa-solid fa-envelope"></i> Credentials have been sent to ${receiptData.email}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            content.innerHTML = receiptHTML;
+            modal.style.display = 'flex';
+
+            // Store receipt data for download
+            window.currentReceipt = receiptData;
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('payment-receipt-modal').style.display = 'none';
+            window.currentReceipt = null;
+        }
+
+        function downloadReceipt() {
+            if (!window.currentReceipt) return;
+
+            const receipt = window.currentReceipt;
+            const receiptText = `
+═══════════════════════════════════════════════════════
+            HAPPY LIVING PG - PAYMENT RECEIPT
+═══════════════════════════════════════════════════════
+
+Receipt Number: ${receipt.transactionId}
+Date: ${new Date().toLocaleString()}
+
+───────────────────────────────────────────────────────
+PAYMENT DETAILS
+───────────────────────────────────────────────────────
+Student Name: ${receipt.studentName}
+Email: ${receipt.email}
+Payment Type: ${receipt.type}
+Payment Method: ${receipt.paymentMethod}
+
+${receipt.bookingDetails ? `
+BOOKING DETAILS:
+  PG Name: ${receipt.bookingDetails.pgName}
+  Room Type: ${receipt.bookingDetails.roomType}
+` : ''}
+${receipt.subscriptionDetails ? `
+SUBSCRIPTION DETAILS:
+  Mess Name: ${receipt.subscriptionDetails.messName}
+  Plan: ${receipt.subscriptionDetails.tier}
+  Base Price: ₹${receipt.subscriptionDetails.basePrice}
+` : ''}
+
+───────────────────────────────────────────────────────
+AMOUNT
+───────────────────────────────────────────────────────
+Total Amount: ₹${receipt.amount.toLocaleString()}
+
+${receipt.credentials ? `
+───────────────────────────────────────────────────────
+LOGIN CREDENTIALS
+───────────────────────────────────────────────────────
+Username: ${receipt.credentials.username}
+Password: ${receipt.credentials.password}
+
+Note: Credentials have been sent to ${receipt.email}
+` : ''}
+
+═══════════════════════════════════════════════════════
+Thank you for choosing Happy Living PG!
+═══════════════════════════════════════════════════════
+            `;
+
+            const blob = new Blob([receiptText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Receipt_${receipt.transactionId}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // --- Profile Functions ---
+        function loadProfile() {
+            const studentId = getStudentId();
+            const profile = ProfileService.getProfile(studentId);
+
+            document.getElementById('profile-name-display').textContent = profile.fullName;
+            document.getElementById('profile-id').value = profile.studentId;
+            document.getElementById('profile-room').value = profile.roomNumber;
+            document.getElementById('profile-name').value = profile.fullName;
+            document.getElementById('profile-email').value = profile.email;
+            document.getElementById('profile-phone').value = profile.phone;
+            document.getElementById('profile-emergency').value = profile.emergencyContact;
+        }
+
+        function updateProfile(event) {
+            event.preventDefault();
+            const studentId = getStudentId();
+
+            const details = {
+                fullName: document.getElementById('profile-name').value,
+                email: document.getElementById('profile-email').value,
+                phone: document.getElementById('profile-phone').value,
+                emergencyContact: document.getElementById('profile-emergency').value,
+                roomNumber: document.getElementById('profile-room').value // Preserve read-only
+            };
+
+            ProfileService.updateProfile(studentId, details);
+
+            // Update UI
+            document.getElementById('profile-name-display').textContent = details.fullName;
+            alert('Profile updated successfully!');
+        }
+
+        // Initialize
+        NotificationSystem.requestPermission();
+        renderDayTabs();
+        renderMenu(today);
+        renderPGs();
+        updateNotificationBadge();
+
+        // Initialize attendance if service is loaded
+        if (window.AttendanceService) {
+            updateAttendanceStatus();
+            renderAttendanceHistory();
+        } else {
+            console.warn('AttendanceService not loaded');
+        }
+
+        renderComplaints();
+
+        // Check for new notifications every 30 seconds
+        setInterval(updateNotificationBadge, 30000);
+
+        // Refresh attendance status when attendance section is shown
+        const originalShowSection = showSection;
+        showSection = function (sectionId) {
+            originalShowSection(sectionId);
+            if (sectionId === 'attendance' && window.AttendanceService) {
+                updateAttendanceStatus();
+                renderAttendanceHistory();
+            }
+            if (sectionId === 'profile') {
+                loadProfile();
+            }
+        };
+
+        // Chatbot Functions
+        function initializeChatbot() {
+            // Chatbot is ready
+        }
+
+        function toggleChatbot() {
+            const container = document.getElementById('chatbot-container');
+            if (container) container.classList.toggle('open');
+        }
+
+        function handleChatbotKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatbotMessage();
+            }
+        }
+
+        function sendChatbotMessage() {
+            const input = document.getElementById('chatbot-input');
+            if (!input || !window.AIService) return;
+
+            const message = input.value.trim();
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('chatbot-messages');
+            if (!messagesContainer) return;
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chatbot-message user';
+            userMsg.textContent = message;
+            messagesContainer.appendChild(userMsg);
+
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Get bot response
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const response = AIService.processChatbotQuery(message, user.role || 'student', user.id);
+
+            // Add bot response
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chatbot-message bot';
+                botMsg.textContent = response.response;
+                messagesContainer.appendChild(botMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
+        }
+
+        // Offline Detection
+        window.addEventListener('online', () => {
+            const indicator = document.getElementById('offline-indicator');
+            if (indicator) indicator.classList.remove('show');
+        });
+
+        window.addEventListener('offline', () => {
+            const indicator = document.getElementById('offline-indicator');
+            if (indicator) indicator.classList.add('show');
+        });
+
+        // Initialize PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then(reg => console.log('Service Worker registered:', reg))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-widget">
+        <button id="chatbot-button" onclick="toggleChatbot()">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+        <div id="chatbot-container">
+            <div id="chatbot-header">
+                <div>
+                    <strong>PG Assistant</strong>
+                    <div style="font-size: 0.8rem; opacity: 0.9;">Ask me anything!</div>
+                </div>
+                <button onclick="toggleChatbot()"
+                    style="background: none; border: none; color: white; cursor: pointer;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="chatbot-messages">
+                <div class="chatbot-message bot">
+                    Hello! I'm your PG assistant. I can help you with menu, complaints, payments, or attendance. What
+                    would you like to know?
+                </div>
+            </div>
+            <div id="chatbot-input-container">
+                <input type="text" id="chatbot-input" placeholder="Type your message..."
+                    onkeypress="handleChatbotKeyPress(event)">
+                <button id="chatbot-send" onclick="sendChatbotMessage()">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div id="offline-indicator">
+        <i class="fa-solid fa-wifi"></i> You are offline. Some features may be limited.
+    </div>
+</body>
+
+</html>

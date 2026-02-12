@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laundry Service | Happy Living</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 5%;
+        }
+
+        .laundry-hero {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .laundry-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+            background-size: 20px 20px;
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .plan-card {
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .plan-card.active {
+            border-color: var(--primary);
+            background: #eef2ff !important;
+            /* Override glass slightly */
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .features-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subscription-status {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="../assets/logo.jpg" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
+            Happy Living
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <div class="laundry-hero animate-slide-up">
+            <h1 style="position: relative; z-index: 1;">Premium Laundry Service</h1>
+            <p style="position: relative; z-index: 1; opacity: 0.9;">Look sharp every day with our professional laundry
+                care. Wash, Iron & Fold.</p>
+        </div>
+
+        <div id="active-subscription" class="subscription-status animate-fade-in" style="display: none;">
+            <div>
+                <strong><i class="fa-solid fa-check-circle"></i> Active Subscription</strong>
+                <div id="current-plan-name" style="font-size: 0.9rem;">Monthly Plan</div>
+            </div>
+            <button onclick="cancelSubscription()" class="btn btn-secondary"
+                style="color: #ef4444; border-color: #ef4444;">Cancel</button>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem;">Choose Your Plan</h2>
+        <div class="plan-grid">
+            <!-- Monthly Plan -->
+            <div class="glass-card plan-card animate-slide-up delay-100" id="card-monthly">
+                <div class="feature-icon"
+                    style="margin: 0 auto 1rem auto; background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <h3>Monthly Subscription</h3>
+                <div class="plan-price">₹600<span
+                        style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">/mo</span></div>
+                <p style="color: var(--text-muted);">Best for regular use</p>
+
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Up to 40 clothes/month</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Wash & Ironing</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> 48h Delivery</li>
+                </ul>
+
+                <button onclick="subscribe('Monthly')" class="btn btn-primary" style="width: 100%;">Subscribe
+                    Now</button>
+            </div>
+
+            <!-- Per Cloth Plan -->
+            <div class="glass-card plan-card animate-slide-up delay-200" id="card-percloth">
+                <div class="feature-icon"
+                    style="margin: 0 auto 1rem auto; background: rgba(249, 115, 22, 0.1); color: #f97316;">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+                <h3>Pay Per Cloth</h3>
+                <div class="plan-price">₹15<span
+                        style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">/item</span></div>
+                <p style="color: var(--text-muted);">Flexible for light use</p>
+
+                <ul class="features-list">
+                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Pay as you go</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Wash & Ironing</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> 24h Express Delivery</li>
+                </ul>
+
+                <button onclick="subscribe('PerCloth')" class="btn btn-primary" style="width: 100%;">Select
+                    Plan</button>
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem;">Laundry History</h2>
+        <div class="glass-card animate-slide-up delay-300 table-container">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #e2e8f0; text-align: left;">
+                        <th style="padding: 1rem;">Date</th>
+                        <th style="padding: 1rem;">Plan Type</th>
+                        <th style="padding: 1rem;">Items</th>
+                        <th style="padding: 1rem;">Amount</th>
+                        <th style="padding: 1rem;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="laundry-history-body">
+                    <!-- JS Populated -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+        <div class="glass-card animate-slide-up"
+            style="background: white; width: 90%; max-width: 500px; padding: 2rem; position: relative;">
+            <button onclick="closePaymentModal()"
+                style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
+                    class="fa-solid fa-xmark"></i></button>
+
+            <h2 style="margin-bottom: 0.5rem;">Secure Payment</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Laundry Subscription: <span
+                    style="font-weight: 700; color: var(--text-main);" id="pay-amount">₹600</span></p>
+
+            <div style="display: grid; gap: 1rem;">
+                <div class="payment-option" onclick="processPayment('PhonePe')"
+                    style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
+                    <i class="fa-solid fa-mobile-screen-button" style="color: #673ab7; font-size: 1.5rem;"></i>
+                    <div>
+                        <div style="font-weight: 600;">PhonePe</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">UPI ID: 9876543210@ybl</div>
+                    </div>
+                </div>
+
+                <div class="payment-option" onclick="processPayment('UPI')"
+                    style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
+                    <i class="fa-solid fa-at" style="color: #eab308; font-size: 1.5rem;"></i>
+                    <div>
+                        <div style="font-weight: 600;">Other UPI</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">GPay, Paytm, Amazon Pay</div>
+                    </div>
+                </div>
+
+                <div class="payment-option" onclick="processPayment('Card')"
+                    style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
+                    <i class="fa-solid fa-credit-card" style="color: #0ea5e9; font-size: 1.5rem;"></i>
+                    <div>
+                        <div style="font-weight: 600;">Debit / Credit Card</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Visa, Mastercard, RuPay</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="payment-status" style="margin-top: 2rem; text-align: center; display: none;">
+                <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--primary); font-size: 2rem;"></i>
+                <p style="margin-top: 0.5rem;">Processing Secure Payment...</p>
+            </div>
+
+            <input type="hidden" id="pending-plan" value="">
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+        <div class="glass-card animate-pop-in"
+            style="background: white !important; padding: 2rem; width: 90%; max-width: 400px; text-align: center;">
+            <div
+                style="width: 60px; height: 60px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; color: #166534; font-size: 1.5rem;">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3>Payment Successful!</h3>
+            <p style="color: var(--text-muted); margin: 1rem 0;">Your laundry subscription is now active.</p>
+            <button onclick="closeModal()" class="btn btn-primary">Okay, Great!</button>
+        </div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/auth-service.js"></script>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) window.location.href = 'login.html';
+
+        function checkSubscription() {
+            const subs = JSON.parse(localStorage.getItem('happyLiving_LaundrySubs') || '[]');
+            const mySub = subs.find(s => s.studentId === user.id || s.studentId === 'student'); // Default 'student' for demo
+
+            if (mySub) {
+                document.getElementById('active-subscription').style.display = 'flex';
+                document.getElementById('current-plan-name').textContent = mySub.plan === 'Monthly' ? 'Monthly Plan (₹600/mo)' : 'Pay Per Cloth Plan';
+
+                // Highlight active card
+                document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+                if (mySub.plan === 'Monthly') document.getElementById('card-monthly').classList.add('active');
+                else document.getElementById('card-percloth').classList.add('active');
+
+                // Disable buttons
+                document.querySelectorAll('.plan-card button').forEach(b => {
+                    b.disabled = true;
+                    b.textContent = 'Active';
+                });
+            } else {
+                document.getElementById('active-subscription').style.display = 'none';
+                document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.plan-card button').forEach(b => {
+                    b.disabled = false;
+                    b.textContent = b.parentElement.id.includes('month') ? 'Subscribe Now' : 'Select Plan';
+                });
+            }
+        }
+
+        function subscribe(planType) {
+            // Updated to handle Payment Flow
+            const price = planType === 'Monthly' ? 600 : 15;
+
+            if (planType === 'PerCloth') {
+                // For Per Cloth, we can just activate as it's usage based, OR we can ask for a deposit
+                // Simplification for now: Per Cloth is Pay As You Go, so maybe just activate. 
+                // BUT user asked for "payment method". Let's assume activation fee or deposit?
+                // OR better, let's treat activation as free for Pay Per Cloth, but Monthly needs payment.
+
+                // Let's implement: Monthly = Prepay, Per Cloth = active immediately (pay later)
+                // Wait, user explicitly asked "add payment method for laundry service". 
+                // Let's enforce payment for Monthly Plan. For Per Cloth, let's ask for a small deposit or token amount? 
+                // Or just proceed to payment for the first "recharge"?
+
+                // DECISION: Monthly Plan triggers Payment Modal (₹600).
+                // Per Cloth triggers Payment Modal (Token ₹50 or just skip payment for activation?)
+                // Let's assume Monthly needs payment right away.
+
+                if (planType === 'Monthly') {
+                    document.getElementById('pay-amount').textContent = '₹600';
+                    document.getElementById('pending-plan').value = 'Monthly';
+                    document.getElementById('payment-modal').style.display = 'flex';
+                } else {
+                    // Per cloth activation (no immediate payment logic usually, but let's fake a deposit or just activate)
+                    // Let's just activate Per Cloth directly for now as typical usage-based, 
+                    // unless user specifically wants "Wallet Recharge". 
+                    // Let's keep existing logic for Per Cloth but maybe show a "Setup Payment Method" modal?
+                    // Simpler: Just activate Per Cloth.
+                    confirmSubscription('PerCloth');
+                }
+            } else {
+                document.getElementById('pay-amount').textContent = '₹600';
+                document.getElementById('pending-plan').value = 'Monthly';
+                document.getElementById('payment-modal').style.display = 'flex';
+            }
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+        }
+
+        function processPayment(method) {
+            // Simulate processing
+            const statusDiv = document.getElementById('payment-status');
+            const options = document.querySelectorAll('.payment-option');
+
+            options.forEach(opt => opt.style.display = 'none');
+            statusDiv.style.display = 'block';
+
+            setTimeout(() => {
+                // Success
+                const plan = document.getElementById('pending-plan').value;
+                confirmSubscription(plan);
+                closePaymentModal();
+
+                // Reset Modal
+                statusDiv.style.display = 'none';
+                options.forEach(opt => opt.style.display = 'flex');
+            }, 2000);
+        }
+
+        function confirmSubscription(planType) {
+            const subs = JSON.parse(localStorage.getItem('happyLiving_LaundrySubs') || '[]');
+            // Remove existing if any (simplified)
+            const newSubs = subs.filter(s => s.studentId !== user.id && s.studentId !== 'student');
+
+            newSubs.push({
+                studentId: user.id || 'student',
+                plan: planType,
+                startDate: new Date().toISOString(),
+                status: 'Active'
+            });
+
+            localStorage.setItem('happyLiving_LaundrySubs', JSON.stringify(newSubs));
+
+            // --- Notification Injection ---
+            // 1. Notify Student
+            if (window.NotificationSystem) {
+                NotificationSystem.add(
+                    'Laundry Subscription Active',
+                    `You have successfully subscribed to the ${planType === 'Monthly' ? 'Monthly' : 'Pay Per Cloth'} laundry plan.`,
+                    'success',
+                    user.id || 'student', // Target User
+                    'student', // Target Role
+                    'laundry'
+                );
+
+                // 2. Notify Admin
+                NotificationSystem.add(
+                    'New ' + (planType === 'Monthly' ? 'Monthly' : 'Pay Per Cloth') + ' Laundry Subscription',
+                    `Student ${user.email || 'Student'} has activated the ${planType} laundry plan.`,
+                    'info',
+                    'all', // Target User ID (all admins)
+                    'admin', // Target Role
+                    'laundry'
+                );
+            }
+
+            document.getElementById('success-modal').style.display = 'flex';
+            checkSubscription();
+        }
+
+        function cancelSubscription() {
+            if (!confirm('Are you sure you want to cancel laundry service?')) return;
+
+            const subs = JSON.parse(localStorage.getItem('happyLiving_LaundrySubs') || '[]');
+            const newSubs = subs.filter(s => s.studentId !== user.id && s.studentId !== 'student');
+            localStorage.setItem('happyLiving_LaundrySubs', JSON.stringify(newSubs));
+
+            checkSubscription();
+        }
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('happyLiving_LaundryHistory') || '[]');
+            const myHistory = history.filter(h => h.studentId === user.id || h.studentId === 'student');
+
+            const tbody = document.getElementById('laundry-history-body');
+            if (myHistory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">No laundry history yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = myHistory.map(h => `
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 1rem;">${h.date}</td>
+                    <td style="padding: 1rem;">${h.plan}</td>
+                    <td style="padding: 1rem;">${h.items}</td>
+                    <td style="padding: 1rem;">₹${h.amount}</td>
+                    <td style="padding: 1rem;"><span style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px;">${h.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').style.display = 'none';
+        }
+
+        // Init
+        checkSubscription();
+        renderHistory();
+    </script>
+</body>
+
+</html>

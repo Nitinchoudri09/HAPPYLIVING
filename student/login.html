@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Happy Living</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="split-screen">
+        <div class="split-left bg-pg-room animate-fade-in">
+            <div class="split-content">
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome Back!</h1>
+                <p style="font-size: 1.2rem; opacity: 0.9;">Comfortable Rooms & Healthy Meals</p>
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                    <span
+                        style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-bed"></i> Premium Rooms
+                    </span>
+                    <span
+                        style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-utensils"></i> Hygienic Food
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="split-right">
+            <div class="auth-card animate-slide-up">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <img src="../assets/logo.jpg" alt="Logo" style="height: 40px;">
+                        Happy Living
+                    </div>
+                    <h2 style="margin-bottom: 0.5rem;" id="login-title">Student Login</h2>
+                    <p style="color: var(--text-muted);">Please enter your details</p>
+                </div>
+
+                <!-- Role Toggle Removed -->
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email or Username</label>
+                        <div class="input-group">
+                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <input type="text" class="auth-input" id="email" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" class="auth-input" id="password" placeholder="••••••••" required>
+                            <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password')"></i>
+                        </div>
+                    </div>
+
+                    <div
+                        style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" style="accent-color: var(--primary);"> Remember me
+                        </label>
+                        <a href="#" style="color: var(--primary); font-weight: 600;">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Sign In <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    Don't have an account? <a href="signup.html" style="color: var(--primary); font-weight: 600;">Sign
+                        up</a>
+                </div>
+
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="../index.html" style="font-size: 0.85rem; color: var(--text-muted);"><i
+                            class="fa-solid fa-arrow-left"></i> Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth-service.js"></script>
+    <script>
+        let currentRole = 'Student';
+
+        function switchRole(role) {
+            currentRole = role;
+            document.getElementById('login-title').textContent = role + ' Login';
+
+            // Update Toggles
+            document.getElementById('btn-student').classList.toggle('active', role === 'Student');
+            document.getElementById('btn-admin').classList.toggle('active', role === 'Admin');
+
+            // Update placeholder/logic hint
+            document.getElementById('email').placeholder = role === 'Admin' ? 'admin' : 'student or email';
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = event.currentTarget;
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = e.target.querySelector('button[type="submit"]');
+
+            // Loading state
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Signing in...';
+            btn.disabled = true;
+
+            // Simulate delay
+            setTimeout(() => {
+                try {
+                    // Logic from existing files
+                    let success = false;
+                    let redirect = '';
+
+                    if (currentRole === 'Student') {
+                        // Use AuthService or basic check
+                        // For demo: verify simple credentials or use AuthService logic
+                        if (window.AuthService) {
+                            const result = AuthService.login(email, password, 'student'); // AuthService handles mock logic
+                            localStorage.setItem('user', JSON.stringify(result.user));
+                            success = true;
+                            redirect = 'dashboard.html'; // In current directory (student/)
+                        } else {
+                            // Fallback
+                            if (password.length > 3) { success = true; redirect = 'dashboard.html'; }
+                        }
+                    } else {
+                        // Admin Check
+                        if (window.AuthService) {
+                            // Hacky fix for email check in AuthService mock
+                            const adminEmail = email.includes('@') ? email : 'admin@happylivingpg.com';
+                            const result = AuthService.login(adminEmail, password, 'admin');
+                            localStorage.setItem('user', JSON.stringify(result.user));
+                            success = true;
+                            redirect = '../admin/dashboard.html';
+                        } else {
+                            if (email === 'admin' && password === 'admin123') {
+                                success = true;
+                                redirect = '../admin/dashboard.html';
+                            }
+                        }
+                    }
+
+                    if (success) {
+                        window.location.href = redirect;
+                    } else {
+                        throw new Error('Invalid credentials');
+                    }
+                } catch (err) {
+                    alert('Login Failed: ' + err.message);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            }, 800);
+        }
+    </script>
+</body>
+
+</html>
