@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -185,4 +186,193 @@
     </div>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Living | Premium PG & Mess Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+</head>
+
+<body>
+    <nav class="navbar animate-fade-in">
+        <div class="logo">
+            <img src="assets/logo.jpg" alt="Happy Living Logo" style="height: 40px; width: auto; object-fit: contain;">
+            Happy Living
+        </div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#login">Login</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text animate-slide-up">
+                <h1>Experience Premium Student Living</h1>
+                <p>More than just a PG. We provide a comfortable, secure, and happy environment with delicious mess
+                    facilities managed digitally.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="#login" class="btn btn-primary">
+                        Get Started <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image animate-slide-up delay-200">
+                <img src="assets/mess_hero.png" alt="Delicious Mess Meals">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <h3>Hygienic Mess</h3>
+            <p>Nutritious and delicious meals planned weekly. Manage your meal preferences digitally.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-wifi"></i>
+            </div>
+            <h3>High-Speed WiFi</h3>
+            <p>24/7 unlimited high-speed internet connectivity for your studies and entertainment.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3>Top Notch Security</h3>
+            <p>CCTV surveillance and secure biometric access to ensure safety for all residents.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-jug-detergent"></i>
+            </div>
+            <h3>Laundry Service</h3>
+            <p>Premium laundry facilities available to keep you looking sharp with zero hassle.</p>
+        </div>
+    </section>
+
+    <section id="login" class="login-section">
+        <h2 class="animate-on-scroll">Login to Your Dashboard</h2>
+        <p class="animate-on-scroll" style="color: var(--text-muted); font-size: 1.1rem;">Choose your role to continue
+        </p>
+
+        <div class="login-options">
+            <a href="student/login.html" class="role-card student-card animate-on-scroll delay-100">
+                <div class="role-icon-container">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h3>Student Login</h3>
+                <p>Access your room, mess menu, payments, laundry & complaints</p>
+                <div class="role-btn">
+                    Login as Student <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <a href="admin/login.html" class="role-card admin-card animate-on-scroll delay-200">
+                <div class="role-icon-container">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h3>Admin Login</h3>
+                <p>Manage rooms, students, mess, payments & reports</p>
+                <div class="role-btn">
+                    Login as Admin <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Happy Living PG. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => {
+                        console.log('Service Worker registered:', reg);
+                        reg.update();
+                    })
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installPrompt = document.getElementById('pwa-install-prompt');
+            if (installPrompt) installPrompt.classList.add('show');
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    const installPrompt = document.getElementById('pwa-install-prompt');
+                    if (installPrompt) installPrompt.classList.remove('show');
+                });
+            }
+        }
+
+        // Offline Detection
+        window.addEventListener('online', () => {
+            const indicator = document.getElementById('offline-indicator');
+            if (indicator) indicator.classList.remove('show');
+        });
+
+        window.addEventListener('offline', () => {
+            const indicator = document.getElementById('offline-indicator');
+            if (indicator) indicator.classList.add('show');
+        });
+    </script>
+
+    <!-- PWA Install Prompt -->
+    <div id="pwa-install-prompt">
+        <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem;">
+            <i class="fa-solid fa-mobile-screen-button" style="font-size: 2rem; color: var(--primary);"></i>
+            <div style="flex: 1;">
+                <strong>Install App</strong>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Install Happy Living PG for a better
+                    experience</div>
+            </div>
+            <button onclick="installPWA()" class="btn btn-primary" style="padding: 0.5rem 1rem;">Install</button>
+            <button onclick="document.getElementById('pwa-install-prompt').classList.remove('show')"
+                style="background: none; border: none; cursor: pointer; padding: 0.5rem;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div id="offline-indicator">
+        <i class="fa-solid fa-wifi"></i> You are offline. Some features may be limited.
+    </div>
+</body>
+
+>>>>>>> 31b055ca9899e947b1b40afacd65f81b8e93b160
 </html>
