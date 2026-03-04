@@ -4,7 +4,7 @@
 const DB = {
     init: () => {
         // Data Version Control (increment to force update)
-        const currentVersion = '1.4';
+        const currentVersion = '1.5';
         const savedVersion = localStorage.getItem('happyLiving_DataVersion');
 
         if (savedVersion !== currentVersion) {
@@ -35,7 +35,7 @@ const PGs_Static = [
         sharingVariants: { 2: 9500, 3: 7500, 4: 6000 },
         rating: 4.8,
         type: "Co-Ed",
-        image: "../assets/pg_modern_1.png",
+        image: "../assets/pg_room.png",
         amenities: ["WiFi", "Mess", "Power Backup", "Water Supply"],
         messOptions: [{ id: 101, name: "Premium Mess", price: 0, rating: 4.8 }] // Included
     },
@@ -46,7 +46,7 @@ const PGs_Static = [
         sharingVariants: { 2: 9000, 3: 7200, 4: 5800 },
         rating: 4.5,
         type: "Girls",
-        image: "../assets/pg_cozy_1.png",
+        image: "../assets/pg_exterior.png",
         amenities: ["WiFi", "Mess", "Laundry", "CCTV"],
         messOptions: [{ id: 102, name: "Green Mess", price: 0, rating: 4.5 }]
     },
@@ -57,7 +57,7 @@ const PGs_Static = [
         sharingVariants: { 2: 8800, 3: 7000, 4: 5500 },
         rating: 4.2,
         type: "Boys",
-        image: "../assets/pg_exterior.png",
+        image: "../assets/pg_interior_2.png",
         amenities: ["WiFi", "Mess", "Water Supply"],
         messOptions: [{ id: 103, name: "Sunrise Foods", price: 0, rating: 4.2 }]
     },
@@ -79,7 +79,7 @@ const PGs_Static = [
         sharingVariants: { 2: 9200, 3: 7400, 4: 5900 },
         rating: 4.4,
         type: "Boys",
-        image: "../assets/pg_modern_1.png",
+        image: "../assets/pg_exterior.png",
         amenities: ["WiFi", "Mess", "Security"],
         messOptions: [{ id: 105, name: "Homely Mess", price: 0, rating: 4.4 }]
     },
@@ -90,7 +90,7 @@ const PGs_Static = [
         sharingVariants: { 2: 8500, 3: 6800, 4: 5300 },
         rating: 4.0,
         type: "Girls",
-        image: "../assets/pg_cozy_1.png",
+        image: "../assets/pg_room.png",
         amenities: ["WiFi", "Mess", "Garden"],
         messOptions: [{ id: 106, name: "Comfort Foods", price: 0, rating: 4.0 }]
     },
@@ -101,7 +101,7 @@ const PGs_Static = [
         sharingVariants: { 2: 9800, 3: 7800, 4: 6200 },
         rating: 4.6,
         type: "Co-Ed",
-        image: "../assets/pg_mess_1.png",
+        image: "../assets/mess_hero.png",
         amenities: ["WiFi", "Mess", "Library"],
         messOptions: [{ id: 107, name: "Hub Mess", price: 0, rating: 4.6 }]
     },
@@ -134,7 +134,7 @@ const PGs_Static = [
         sharingVariants: { 2: 8700, 3: 6900, 4: 5400 },
         rating: 4.5,
         type: "Co-Ed",
-        image: "../assets/pg_modern_1.png",
+        image: "../assets/pg_room.png",
         amenities: ["WiFi", "Mess", "Study Room"],
         messOptions: [{ id: 110, name: "Golden Spoon", price: 0, rating: 4.5 }]
     }
@@ -305,9 +305,9 @@ if (!localStorage.getItem('happyLiving_LaundryHistory')) {
 
 // Payment System (Legacy - uses PaymentService)
 const PaymentSystem = {
-    processPayment: function (type, amount, details, email) {
+    processPayment: function (type, amount, details, email, paymentMethod = 'Online') {
         if (window.PaymentService) {
-            return PaymentService.initiatePayment(amount, 'Online', {
+            return PaymentService.initiatePayment(amount, paymentMethod, {
                 type: type,
                 details: details,
                 email: email
@@ -448,10 +448,21 @@ const NotificationSystem = {
             'student',
             'attendance'
         );
+
+        // Notify Admin
+        const studentName = window.ProfileService ? ProfileService.getProfile(studentId).fullName : studentId;
+        this.add(
+            'New Attendance Recorded',
+            `${studentName} marked ${mealType} attendance as ${status}.`,
+            'info',
+            'all',
+            'admin',
+            'attendance'
+        );
     },
 
     triggerComplaintNotification(complaintId, event, details) {
-        const complaint = ComplaintService ? ComplaintService.getComplaintById(complaintId) : null;
+        const complaint = window.ComplaintService ? ComplaintService.getComplaintById(complaintId) : null;
         if (!complaint) return;
 
         if (event === 'created') {
@@ -461,6 +472,16 @@ const NotificationSystem = {
                 'success',
                 complaint.studentId,
                 'student',
+                'complaint'
+            );
+
+            // Notify Admin
+            this.add(
+                'New Complaint Received',
+                `Student ${complaint.studentName} raised a ${complaint.priority} priority ${complaint.category} complaint.`,
+                'warning',
+                'all',
+                'admin',
                 'complaint'
             );
         } else if (event === 'assigned') {
@@ -770,8 +791,8 @@ const BookingSystem = {
         return { username, password };
     },
 
-    bookPG: async function (pgId, sharing, rent, email, studentName, phone) {
-        console.log('BookPG started:', { pgId, email, studentName });
+    bookPG: async function (pgId, sharing, rent, email, studentName, phone, paymentMethod = 'Online') {
+        console.log('BookPG started:', { pgId, email, studentName, paymentMethod });
         const PGs = getData.PGs();
         // Use loose equality to match string/number ID
         const pg = PGs.find(p => p.id == pgId);
@@ -786,7 +807,7 @@ const BookingSystem = {
         const payment = window.PaymentService ? await PaymentService.processPayment(
             rent,
             'PG',
-            'Card', // Default method
+            paymentMethod, // Changed from 'Card'
             {
                 pgName: pg.name,
                 roomType: `${sharing} Sharing`
@@ -923,7 +944,7 @@ const BookingSystem = {
         return booking;
     },
 
-    subscribeMess: async (messId, messName, basePrice, tier, email, studentName, phone, pgName) => {
+    subscribeMess: async function (messId, messName, basePrice, tier, email, studentName, phone, pgName, paymentMethod = 'Online') {
         const tierInfo = SubscriptionTiers[tier];
         const finalPrice = Math.round(basePrice * tierInfo.multiplier);
 
@@ -932,7 +953,8 @@ const BookingSystem = {
             'Mess',
             finalPrice,
             `Mess Subscription: ${messName} (${tier} Plan)`,
-            email
+            email,
+            paymentMethod
         );
 
         // Create subscription

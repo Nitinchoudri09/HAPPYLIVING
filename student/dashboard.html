@@ -721,7 +721,7 @@
                                 </div>
                             </div>
                             <div class="payment-option" onclick="selectMessPaymentMethod('Card')"
-                                style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
+                                style="border: 1px solid #eef0e2; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer;">
                                 <i class="fa-solid fa-credit-card" style="color: #0ea5e9; font-size: 1.5rem;"></i>
                                 <div style="flex: 1;">
                                     <div style="font-weight: 600;">Debit / Credit Card</div>
@@ -1155,7 +1155,8 @@
                     bookingContext.rent,
                     email,
                     name,
-                    phone
+                    phone,
+                    paymentMethod
                 );
 
                 console.log('Booking successful:', booking);
@@ -1321,7 +1322,8 @@
                     email,
                     name,
                     phone,
-                    subscriptionContext.pgName
+                    subscriptionContext.pgName,
+                    paymentMethod
                 );
 
                 // Get payment details

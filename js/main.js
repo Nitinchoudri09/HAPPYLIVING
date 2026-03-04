@@ -31,7 +31,7 @@ const Auth = {
                 return false;
             }
         }
-        
+
         // Fallback to simple validation
         if (role === 'admin' && username === 'admin' && password === 'admin123') {
             localStorage.setItem('user', JSON.stringify({ role: 'admin', name: 'Admin User' }));
@@ -43,7 +43,7 @@ const Auth = {
         }
         return false;
     },
-    
+
     logout: () => {
         if (window.AuthService) {
             AuthService.logout();
@@ -62,12 +62,47 @@ const Auth = {
             }
             return payload;
         }
-        
+
         // Fallback
         const user = JSON.parse(localStorage.getItem('user') || 'null');
         if (!user || user.role !== requiredRole) {
             window.location.href = '../index.html';
         }
         return user;
+    },
+
+    updateUserName: () => {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (user) {
+            // Update admin dashboard header
+            const adminHeading = document.querySelector('#dashboard-section h2');
+            if (adminHeading && user.role === 'admin') {
+                adminHeading.innerHTML = `Hello, ${user.name || 'Admin'}! 👋`;
+            }
+
+            // Update student dashboard header
+            const studentHeaderName = document.querySelector('.header div strong');
+            if (studentHeaderName && user.role === 'student') {
+                studentHeaderName.innerHTML = `Hi, ${user.name || 'Student'}`;
+            }
+
+            // Update profile section
+            const profileDisplay = document.getElementById('profile-name-display');
+            if (profileDisplay) {
+                profileDisplay.textContent = user.name || (user.role === 'admin' ? 'Admin' : 'Student');
+            }
+        }
     }
 };
+
+// Auto update user name on load
+document.addEventListener('DOMContentLoaded', () => {
+    Auth.updateUserName();
+});
+
+function toggleMobileNav() {
+    const mobileNav = document.getElementById('mobile-nav');
+    if (mobileNav) {
+        mobileNav.classList.toggle('show');
+    }
+}

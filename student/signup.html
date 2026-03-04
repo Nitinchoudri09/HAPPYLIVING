@@ -160,6 +160,9 @@
 
         function handleSignup(e) {
             e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             const confirm = document.getElementById('confirm-password').value;
             const btn = e.target.querySelector('button[type="submit"]');
@@ -175,11 +178,21 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                // Mock success
-                document.getElementById('success-modal').style.display = 'flex';
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
+                try {
+                    if (window.AuthService) {
+                        AuthService.register({ name, email, phone, password }, 'student');
+                        document.getElementById('success-modal').style.display = 'flex';
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    } else {
+                        throw new Error('Auth service not found');
+                    }
+                } catch (err) {
+                    alert('Registration Failed: ' + err.message);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
             }, 1000);
         }
     </script>

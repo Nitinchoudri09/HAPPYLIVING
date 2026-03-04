@@ -1,5 +1,3 @@
-
-    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +25,16 @@
             <a href="#login">Login</a>
             <a href="#contact">Contact</a>
         </div>
+        <div id="hamburger-menu" style="display: none;" onclick="toggleMobileNav()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
     </nav>
+
+    <div id="mobile-nav" class="mobile-nav">
+        <a href="#features" onclick="toggleMobileNav()">Features</a>
+        <a href="#login" onclick="toggleMobileNav()">Login</a>
+        <a href="#contact" onclick="toggleMobileNav()">Contact</a>
+    </div>
 
     <section class="hero">
         <div class="hero-content">
@@ -165,7 +172,7 @@
     </script>
 
 
-  
+
 </body>
 
 </html>

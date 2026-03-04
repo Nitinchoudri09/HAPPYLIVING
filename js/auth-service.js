@@ -133,35 +133,49 @@ const AuthService = {
         // Get user from bookings or create mock
         let user = null;
         if (role === 'student') {
-            const bookings = window.BookingSystem ? window.BookingSystem.getBookings() : [];
-            // Check against email OR username
-            user = bookings.find(b => (b.email && b.email.trim() === identifier) || (b.username && b.username.trim() === identifier));
-            console.log('Login lookup:', identifier, 'Found:', !!user);
+            // Priority 1: Check registered students (created via signup)
+            const registeredStudents = JSON.parse(localStorage.getItem('registered_students') || '[]');
+            user = registeredStudents.find(s =>
+                (s.email && s.email.trim().toLowerCase() === identifier.toLowerCase()) ||
+                (s.username && s.username.trim().toLowerCase() === identifier.toLowerCase())
+            );
 
             if (user) {
-                // If user exists in system (bookings), verify their specific password
-                // Note: In a real app we would hash the input and compare with stored hash
-                if (password !== 'otp_verified' && user.password !== password) {
-                    AuthService.recordLoginAttempt(email, false);
+                // Verify against hashed password
+                if (password !== 'otp_verified' && user.password !== this.hashPassword(password)) {
+                    AuthService.recordLoginAttempt(identifier, false);
                     throw new Error('Invalid credentials');
                 }
             } else {
-                // Mock user for demo (if not found in DB)
-                user = {
-                    id: Date.now(),
-                    email: email,
-                    studentName: email.split('@')[0],
-                    role: 'student',
-                    password: this.hashPassword(password) // Mock
-                };
+                // Priority 2: Check bookings (created via PG booking)
+                const bookings = window.BookingSystem ? window.BookingSystem.getBookings() : [];
+                user = bookings.find(b =>
+                    (b.email && b.email.trim().toLowerCase() === identifier.toLowerCase()) ||
+                    (b.username && b.username.trim().toLowerCase() === identifier.toLowerCase())
+                );
 
-                // For non-existent users, only allow specific demo passwords
-                if (password !== 'otp_verified' && password !== 'student123' && password !== 'demo123') {
-                    AuthService.recordLoginAttempt(email, false);
-                    throw new Error('Invalid credentials');
+                if (user) {
+                    // Bookings currently store plain text passwords in this project's logic
+                    if (password !== 'otp_verified' && user.password !== password) {
+                        AuthService.recordLoginAttempt(identifier, false);
+                        throw new Error('Invalid credentials');
+                    }
+                } else {
+                    // Fallback: Demo accounts (only if no real user found)
+                    if (identifier === 'student' || identifier === 'student@example.com') {
+                        if (password === 'student123' || password === 'demo123' || password === 'otp_verified') {
+                            user = {
+                                id: 'demo-student',
+                                email: 'student@example.com',
+                                studentName: 'Demo Student',
+                                role: 'student'
+                            };
+                        }
+                    }
                 }
             }
         } else if (role === 'admin') {
+            // Check hardcoded admin
             if ((email === 'admin' || email === 'admin@happylivingpg.com') && password === 'admin123') {
                 user = {
                     id: 1,
@@ -170,14 +184,20 @@ const AuthService = {
                     role: 'admin'
                 };
             } else {
-                AuthService.recordLoginAttempt(email, false);
-                throw new Error('Invalid credentials');
+                // Check registered admins
+                const admins = JSON.parse(localStorage.getItem('registered_admins') || '[]');
+                user = admins.find(a => a.email === email && a.password === this.hashPassword(password));
+
+                if (!user) {
+                    AuthService.recordLoginAttempt(email, false);
+                    throw new Error('Invalid credentials');
+                }
             }
         }
 
         if (!user) {
-            AuthService.recordLoginAttempt(email, false);
-            throw new Error('User not found');
+            AuthService.recordLoginAttempt(identifier, false);
+            throw new Error('User not found or invalid account');
         }
 
         // Generate tokens
@@ -217,6 +237,44 @@ const AuthService = {
             accessToken,
             refreshToken
         };
+    },
+
+    // Register new user
+    register: function (userData, role = 'student') {
+        if (role === 'student') {
+            // For students, we usually store in bookings or a separate users list
+            const students = JSON.parse(localStorage.getItem('registered_students') || '[]');
+            if (students.find(s => s.email === userData.email)) {
+                throw new Error('User already exists with this email');
+            }
+
+            const newUser = {
+                ...userData,
+                id: Date.now(),
+                role: 'student',
+                password: this.hashPassword(userData.password)
+            };
+
+            students.push(newUser);
+            localStorage.setItem('registered_students', JSON.stringify(students));
+            return newUser;
+        } else if (role === 'admin') {
+            const admins = JSON.parse(localStorage.getItem('registered_admins') || '[]');
+            if (admins.find(a => a.email === userData.email) || userData.email === 'admin@happylivingpg.com') {
+                throw new Error('Admin already exists with this email');
+            }
+
+            const newAdmin = {
+                ...userData,
+                id: Date.now(),
+                role: 'admin',
+                password: this.hashPassword(userData.password)
+            };
+
+            admins.push(newAdmin);
+            localStorage.setItem('registered_admins', JSON.stringify(admins));
+            return newAdmin;
+        }
     },
 
     // OTP Login
