@@ -459,498 +459,491 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Notifications Section (New) -->
-                <div id="notifications-section" class="display: none;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h2>All Notifications</h2>
-                        <button onclick="NotificationSystem.markAllAsRead('all', 'admin'); renderAllNotifications();"
-                            class="btn btn-primary">Mark All Read</button>
+            <!-- Notifications Section (New) -->
+            <div id="notifications-section" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2>All Notifications</h2>
+                    <button onclick="NotificationSystem.markAllAsRead('all', 'admin'); renderAllNotifications();"
+                        class="btn btn-primary">Mark All Read</button>
+                </div>
+                <div class="table-container">
+                    <div id="all-notifications-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- JS Populated -->
                     </div>
-                    <div class="table-container">
-                        <div id="all-notifications-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                </div>
+            </div>
+
+            <!-- Allocations Section (New) -->
+            <div id="allocations-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Allocations (Who Lives Where)</h3>
+                <div class="table-container">
+                    <table id="allocations-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>PG Name</th>
+                                <th>Room No</th>
+                                <th>Sharing Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocations-body">
                             <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Menu Edit Section (New) -->
+            <div id="menu-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Manage Mess Menu</h3>
+                <div class="glass-card" style="padding: 2rem;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="form-label">Select Day</label>
+                        <select id="menu-day-select" class="form-input" onchange="loadMenuForEdit()">
+                            <option value="Sunday">Sunday</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Breakfast Items (comma separated)</label>
+                        <input type="text" id="edit-breakfast" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lunch Items (comma separated)</label>
+                        <input type="text" id="edit-lunch" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Snacks Items (comma separated)</label>
+                        <input type="text" id="edit-snacks" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Dinner Items (comma separated)</label>
+                        <input type="text" id="edit-dinner" class="form-input">
+                    </div>
+
+                    <button onclick="saveMenu()" class="btn btn-primary">
+                        <i class="fa-solid fa-save"></i> Save Menu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rooms Section -->
+            <div id="rooms-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <!-- PG Listing View -->
+                <div id="pg-management-view">
+                    <h3 style="margin-bottom: 1rem;">Select PG to Manage</h3>
+                    <div id="admin-pg-grid" class="pg-grid">
+                        <!-- JS Populated -->
+                    </div>
+                </div>
+
+                <!-- Room Listing View (Hidden by Default) -->
+                <div id="room-management-view" style="display: none;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <button onclick="showPGList()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                                <i class="fa-solid fa-arrow-left"></i> Back to PGs
+                            </button>
+                            <h3 id="room-view-title">Room Management</h3>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Allocations Section (New) -->
-                <div id="allocations-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <h3 style="margin-bottom: 1rem;">Allocations (Who Lives Where)</h3>
-                    <div class="table-container">
-                        <table id="allocations-table">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>PG Name</th>
-                                    <th>Room No</th>
-                                    <th>Sharing Type</th>
-                                </tr>
-                            </thead>
-                            <tbody id="allocations-body">
-                                <!-- JS Populated -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Menu Edit Section (New) -->
-                <div id="menu-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <h3 style="margin-bottom: 1rem;">Manage Mess Menu</h3>
-                    <div class="glass-card" style="padding: 2rem;">
-                        <div style="margin-bottom: 1.5rem;">
-                            <label class="form-label">Select Day</label>
-                            <select id="menu-day-select" class="form-input" onchange="loadMenuForEdit()">
-                                <option value="Sunday">Sunday</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <select id="pg-filter-select" onchange="renderRoomsFromSelect()"
+                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                <option value="all">All PGs</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="filterRooms('all')" data-filter="all">All
+                            Rooms</button>
+                        <button class="filter-btn" onclick="filterRooms('empty')" data-filter="empty">Empty</button>
+                        <button class="filter-btn" onclick="filterRooms('partial')"
+                            data-filter="partial">Partial</button>
+                        <button class="filter-btn" onclick="filterRooms('full')" data-filter="full">Full</button>
+                    </div>
+                    <div id="rooms-container" class="room-grid">
+                        <!-- JS Populated -->
+                    </div>
+                </div>
+            </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Breakfast Items (comma separated)</label>
-                            <input type="text" id="edit-breakfast" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Lunch Items (comma separated)</label>
-                            <input type="text" id="edit-lunch" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Snacks Items (comma separated)</label>
-                            <input type="text" id="edit-snacks" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Dinner Items (comma separated)</label>
-                            <input type="text" id="edit-dinner" class="form-input">
-                        </div>
+            <!-- Billing Section -->
+            <div id="billing-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Student Billing & Payments</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="billing-search" placeholder="Search student..." onkeyup="filterBilling()"
+                            style="padding: 0.5rem 1rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); width: 250px;">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Email</th>
+                                <th>Room</th>
+                                <th>PG Name</th>
+                                <th>Rent (Monthly)</th>
+                                <th>Mess Subscription</th>
+                                <th>Total Due</th>
+                                <th>Payments</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billing-body">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                        <button onclick="saveMenu()" class="btn btn-primary">
-                            <i class="fa-solid fa-save"></i> Save Menu
+            <!-- Attendance Management Section -->
+            <div id="attendance-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Attendance Management</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="generateQRCode()" class="btn btn-primary">
+                            <i class="fa-solid fa-qrcode"></i> Generate QR Code
                         </button>
                     </div>
                 </div>
-
-                <!-- Rooms Section -->
-                <div id="rooms-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <!-- PG Listing View -->
-                    <div id="pg-management-view">
-                        <h3 style="margin-bottom: 1rem;">Select PG to Manage</h3>
-                        <div id="admin-pg-grid" class="pg-grid">
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent);">
+                            <i class="fa-solid fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h3 id="attendance-present-count">0</h3>
+                            <p style="color: var(--text-muted);">Present Today</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                            <i class="fa-solid fa-times-circle"></i>
+                        </div>
+                        <div>
+                            <h3 id="attendance-absent-count">0</h3>
+                            <p style="color: var(--text-muted);">Absent Today</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <input type="date" id="admin-attendance-date" onchange="renderAttendanceReport()"
+                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <select id="admin-attendance-meal" onchange="renderAttendanceReport()"
+                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            <option value="all">All Meals</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                        </select>
+                        <select id="admin-attendance-status" onchange="renderAttendanceReport()"
+                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            <option value="all">All Status</option>
+                            <option value="Present">Present</option>
+                            <option value="Absent">Absent</option>
+                        </select>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Meal</th>
+                                <th>Student</th>
+                                <th>Status</th>
+                                <th>Mode</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-attendance-body">
                             <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Complaints Management Section -->
+            <div id="complaints-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Complaint Management</h3>
+                </div>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                            <i class="fa-solid fa-folder-open"></i>
+                        </div>
+                        <div>
+                            <h3 id="complaints-open-count">0</h3>
+                            <p style="color: var(--text-muted);">Open</p>
                         </div>
                     </div>
-
-                    <!-- Room Listing View (Hidden by Default) -->
-                    <div id="room-management-view" style="display: none;">
-                        <div
-                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <button onclick="showPGList()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
-                                    <i class="fa-solid fa-arrow-left"></i> Back to PGs
-                                </button>
-                                <h3 id="room-view-title">Room Management</h3>
-                            </div>
-                            <div style="display: flex; gap: 1rem; align-items: center;">
-                                <select id="pg-filter-select" onchange="renderRoomsFromSelect()"
-                                    style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                    <option value="all">All PGs</option>
-                                </select>
-                            </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(251, 113, 133, 0.1); color: var(--secondary);">
+                            <i class="fa-solid fa-spinner"></i>
                         </div>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" onclick="filterRooms('all')" data-filter="all">All
-                                Rooms</button>
-                            <button class="filter-btn" onclick="filterRooms('empty')" data-filter="empty">Empty</button>
-                            <button class="filter-btn" onclick="filterRooms('partial')"
-                                data-filter="partial">Partial</button>
-                            <button class="filter-btn" onclick="filterRooms('full')" data-filter="full">Full</button>
+                        <div>
+                            <h3 id="complaints-progress-count">0</h3>
+                            <p style="color: var(--text-muted);">In Progress</p>
                         </div>
-                        <div id="rooms-container" class="room-grid">
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent);">
+                            <i class="fa-solid fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h3 id="complaints-resolved-count">0</h3>
+                            <p style="color: var(--text-muted);">Resolved</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <select id="admin-complaint-status" onchange="renderAdminComplaints()"
+                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            <option value="all">All Status</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                        <select id="admin-complaint-category" onchange="renderAdminComplaints()"
+                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            <option value="all">All Categories</option>
+                            <option value="Food">Food</option>
+                            <option value="Room">Room</option>
+                            <option value="Water">Water</option>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <select id="admin-complaint-priority" onchange="renderAdminComplaints()"
+                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            <option value="all">All Priorities</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Student</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-complaints-body">
                             <!-- JS Populated -->
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                <!-- Billing Section -->
-                <div id="billing-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h3>Student Billing & Payments</h3>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="billing-search" placeholder="Search student..."
-                                onkeyup="filterBilling()"
-                                style="padding: 0.5rem 1rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); width: 250px;">
+            <!-- Add Resident Section (New) -->
+            <div id="add-resident-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Add New Resident</h3>
+                <div class="glass-card"
+                    style="padding: 2rem; max-width: 600px; margin: 0 auto; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
+                    <form id="add-resident-form" onsubmit="event.preventDefault(); submitAddResident();">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Student
+                                Name</label>
+                            <input type="text" id="ar-name" class="form-input" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
                         </div>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>Email</th>
-                                    <th>Room</th>
-                                    <th>PG Name</th>
-                                    <th>Rent (Monthly)</th>
-                                    <th>Mess Subscription</th>
-                                    <th>Total Due</th>
-                                    <th>Payments</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="billing-body">
-                                <!-- JS Populated -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Attendance Management Section -->
-                <div id="attendance-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h3>Attendance Management</h3>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button onclick="generateQRCode()" class="btn btn-primary">
-                                <i class="fa-solid fa-qrcode"></i> Generate QR Code
-                            </button>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email (Login
+                                ID)</label>
+                            <input type="email" id="ar-email" class="form-input" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
                         </div>
-                    </div>
-                    <div
-                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent);">
-                                <i class="fa-solid fa-check-circle"></i>
-                            </div>
-                            <div>
-                                <h3 id="attendance-present-count">0</h3>
-                                <p style="color: var(--text-muted);">Present Today</p>
-                            </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Phone
+                                Number</label>
+                            <input type="tel" id="ar-phone" class="form-input" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
-                                <i class="fa-solid fa-times-circle"></i>
-                            </div>
-                            <div>
-                                <h3 id="attendance-absent-count">0</h3>
-                                <p style="color: var(--text-muted);">Absent Today</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-container">
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                            <input type="date" id="admin-attendance-date" onchange="renderAttendanceReport()"
-                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                            <select id="admin-attendance-meal" onchange="renderAttendanceReport()"
-                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="all">All Meals</option>
-                                <option value="Breakfast">Breakfast</option>
-                                <option value="Lunch">Lunch</option>
-                                <option value="Dinner">Dinner</option>
-                            </select>
-                            <select id="admin-attendance-status" onchange="renderAttendanceReport()"
-                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="all">All Status</option>
-                                <option value="Present">Present</option>
-                                <option value="Absent">Absent</option>
-                            </select>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Meal</th>
-                                    <th>Student</th>
-                                    <th>Status</th>
-                                    <th>Mode</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-attendance-body">
-                                <!-- JS Populated -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Complaints Management Section -->
-                <div id="complaints-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h3>Complaint Management</h3>
-                    </div>
-                    <div
-                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
-                                <i class="fa-solid fa-folder-open"></i>
-                            </div>
-                            <div>
-                                <h3 id="complaints-open-count">0</h3>
-                                <p style="color: var(--text-muted);">Open</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon"
-                                style="background: rgba(251, 113, 133, 0.1); color: var(--secondary);">
-                                <i class="fa-solid fa-spinner"></i>
-                            </div>
-                            <div>
-                                <h3 id="complaints-progress-count">0</h3>
-                                <p style="color: var(--text-muted);">In Progress</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent);">
-                                <i class="fa-solid fa-check-circle"></i>
-                            </div>
-                            <div>
-                                <h3 id="complaints-resolved-count">0</h3>
-                                <p style="color: var(--text-muted);">Resolved</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-container">
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                            <select id="admin-complaint-status" onchange="renderAdminComplaints()"
-                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="all">All Status</option>
-                                <option value="Open">Open</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Resolved">Resolved</option>
-                                <option value="Closed">Closed</option>
-                            </select>
-                            <select id="admin-complaint-category" onchange="renderAdminComplaints()"
-                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="all">All Categories</option>
-                                <option value="Food">Food</option>
-                                <option value="Room">Room</option>
-                                <option value="Water">Water</option>
-                                <option value="Electricity">Electricity</option>
-                                <option value="Cleaning">Cleaning</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            <select id="admin-complaint-priority" onchange="renderAdminComplaints()"
-                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="all">All Priorities</option>
-                                <option value="Low">Low</option>
-                                <option value="Medium">Medium</option>
-                                <option value="High">High</option>
-                            </select>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Student</th>
-                                    <th>Category</th>
-                                    <th>Description</th>
-                                    <th>Priority</th>
-                                    <th>Status</th>
-                                    <th>Assigned To</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-complaints-body">
-                                <!-- JS Populated -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Add Resident Section (New) -->
-                <div id="add-resident-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <h3 style="margin-bottom: 1rem;">Add New Resident</h3>
-                    <div class="glass-card"
-                        style="padding: 2rem; max-width: 600px; margin: 0 auto; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
-                        <form id="add-resident-form" onsubmit="event.preventDefault(); submitAddResident();">
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label"
-                                    style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Student
-                                    Name</label>
-                                <input type="text" id="ar-name" class="form-input" required
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label"
-                                    style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email (Login
-                                    ID)</label>
-                                <input type="email" id="ar-email" class="form-input" required
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label"
-                                    style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Phone
-                                    Number</label>
-                                <input type="tel" id="ar-phone" class="form-input" required
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label"
-                                    style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Select PG</label>
-                                <select id="ar-pg-select" class="form-input" required
-                                    onchange="updateResidentSharingTypes()"
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                    <option value="">Select PG...</option>
-                                    <!-- Populated by JS -->
-                                </select>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label"
-                                    style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Room Number</label>
-                                <input type="text" id="ar-room" class="form-input" required placeholder="e.g. 101"
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label"
-                                    style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Sharing
-                                    Type</label>
-                                <select id="ar-sharing" class="form-input" required onchange="updateResidentRent()"
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                    <option value="1">1 Sharing (Single)</option>
-                                    <option value="2">2 Sharing</option>
-                                    <option value="3">3 Sharing</option>
-                                    <option value="4">4 Sharing</option>
-                                </select>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label class="form-label"
-                                    style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Monthly Rent
-                                    (₹)</label>
-                                <input type="number" id="ar-rent" class="form-input" required
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary"
-                                style="width: 100%; padding: 0.75rem; font-weight: 600;">
-                                Add Resident & Generate Credentials
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Credentials Modal (Hidden bu default) -->
-                <div id="credentials-modal"
-                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
-                    <div
-                        style="background: white; padding: 2rem; border-radius: var(--radius-lg); max-width: 450px; width: 90%; text-align: center;">
-                        <div
-                            style="width: 60px; height: 60px; background: #dcfce7; color: #166534; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem;">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <h3>Resident Added Successfully!</h3>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Share these login credentials with
-                            the
-                            student.</p>
-
-                        <div
-                            style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-md); border: 2px dashed #cbd5e1; margin-bottom: 1.5rem; text-align: left;">
-                            <div style="margin-bottom: 0.5rem;">
-                                <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">Username /
-                                    Email</span>
-                                <strong style="font-size: 1.1rem;" id="cred-username">demo@example.com</strong>
-                            </div>
-                            <div>
-                                <span
-                                    style="display: block; font-size: 0.8rem; color: var(--text-muted);">Password</span>
-                                <strong style="font-size: 1.1rem; color: var(--primary);"
-                                    id="cred-password">HL123456</strong>
-                            </div>
-                        </div>
-
-                        <button onclick="closeCredentialsModal()" class="btn btn-primary"
-                            style="width: 100%; padding: 0.75rem;">Done</button>
-                    </div>
-                </div>
-
-                <!-- Notifications / Requests Section (Hidden by default or toggled) -->
-                <div id="request-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                    <h3 style="margin-bottom: 1rem;">Pending Approvals</h3>
-                    <div class="table-container">
-                        <table id="requests-table">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Student</th>
-                                    <th>Details</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="requests-body">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Select PG</label>
+                            <select id="ar-pg-select" class="form-input" required
+                                onchange="updateResidentSharingTypes()"
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                <option value="">Select PG...</option>
                                 <!-- Populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Room Number</label>
+                            <input type="text" id="ar-room" class="form-input" required placeholder="e.g. 101"
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Sharing
+                                Type</label>
+                            <select id="ar-sharing" class="form-input" required onchange="updateResidentRent()"
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                <option value="1">1 Sharing (Single)</option>
+                                <option value="2">2 Sharing</option>
+                                <option value="3">3 Sharing</option>
+                                <option value="4">4 Sharing</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="form-label"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Monthly Rent
+                                (₹)</label>
+                            <input type="number" id="ar-rent" class="form-input" required
+                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"
+                            style="width: 100%; padding: 0.75rem; font-weight: 600;">
+                            Add Resident & Generate Credentials
+                        </button>
+                    </form>
                 </div>
-                <!-- Laundry Section -->
-                <div id="laundry-section" class="section-content" style="display: none;">
+            </div>
+
+            <!-- Credentials Modal (Hidden bu default) -->
+            <div id="credentials-modal"
+                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+                <div
+                    style="background: white; padding: 2rem; border-radius: var(--radius-lg); max-width: 450px; width: 90%; text-align: center;">
                     <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                        <h2>Laundry Management & Notifications</h2>
+                        style="width: 60px; height: 60px; background: #dcfce7; color: #166534; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem;">
+                        <i class="fa-solid fa-check"></i>
                     </div>
+                    <h3>Resident Added Successfully!</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Share these login credentials with
+                        the
+                        student.</p>
 
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
-                                <i class="fa-solid fa-shirt"></i>
-                            </div>
-                            <div>
-                                <div class="stat-value" id="laundry-today-count">0</div>
-                                <div class="stat-label">Clothes Today</div>
-                            </div>
+                    <div
+                        style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-md); border: 2px dashed #cbd5e1; margin-bottom: 1.5rem; text-align: left;">
+                        <div style="margin-bottom: 0.5rem;">
+                            <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">Username /
+                                Email</span>
+                            <strong style="font-size: 1.1rem;" id="cred-username">demo@example.com</strong>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
-                            <div>
-                                <div class="stat-value" id="laundry-subscribers-count">0</div>
-                                <div class="stat-label">Active Subscribers</div>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
-                                <i class="fa-solid fa-bell"></i>
-                            </div>
-                            <div>
-                                <div class="stat-value" id="laundry-updates-count">0</div>
-                                <div class="stat-label">Recent Updates</div>
-                            </div>
+                        <div>
+                            <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">Password</span>
+                            <strong style="font-size: 1.1rem; color: var(--primary);"
+                                id="cred-password">HL123456</strong>
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-                        <div class="table-container">
-                            <h3 style="margin-bottom: 1.5rem;">Recent Laundry Notifications</h3>
-                            <div id="laundry-notifications-list" style="display: grid; gap: 1rem;">
-                                <!-- Populated by JS -->
-                                <div style="padding: 2rem; text-align: center; color: var(--text-muted);">No recent
-                                    laundry
-                                    notifications</div>
-                            </div>
-                        </div>
+                    <button onclick="closeCredentialsModal()" class="btn btn-primary"
+                        style="width: 100%; padding: 0.75rem;">Done</button>
+                </div>
+            </div>
 
-                        <div class="glass-card" style="padding: 1.5rem; height: fit-content;">
-                            <h3 style="margin-bottom: 1rem;">Quick Rates Update</h3>
-                            <div class="form-group">
-                                <label class="form-label">Monthly Plan (₹)</label>
-                                <input type="number" class="form-input" value="600" id="laundry-rate-monthly">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Per Cloth (₹)</label>
-                                <input type="number" class="form-input" value="15" id="laundry-rate-percloth">
-                            </div>
-                            <button class="btn btn-primary" style="width: 100%;"
-                                onclick="alert('Rates updated successfully! (Demo)')">Update Rates</button>
+            <!-- Notifications / Requests Section (Hidden by default or toggled) -->
+            <div id="request-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Pending Approvals</h3>
+                <div class="table-container">
+                    <table id="requests-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Student</th>
+                                <th>Details</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requests-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Laundry Section -->
+            <div id="laundry-section" class="section-content" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Laundry Management & Notifications</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                            <i class="fa-solid fa-shirt"></i>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="laundry-today-count">0</div>
+                            <div class="stat-label">Clothes Today</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="laundry-subscribers-count">0</div>
+                            <div class="stat-label">Active Subscribers</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="laundry-updates-count">0</div>
+                            <div class="stat-label">Recent Updates</div>
                         </div>
                     </div>
                 </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <div class="table-container">
+                        <h3 style="margin-bottom: 1.5rem;">Recent Laundry Notifications</h3>
+                        <div id="laundry-notifications-list" style="display: grid; gap: 1rem;">
+                            <!-- Populated by JS -->
+                            <div style="padding: 2rem; text-align: center; color: var(--text-muted);">No recent
+                                laundry
+                                notifications</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding: 1.5rem; height: fit-content;">
+                        <h3 style="margin-bottom: 1rem;">Quick Rates Update</h3>
+                        <div class="form-group">
+                            <label class="form-label">Monthly Plan (₹)</label>
+                            <input type="number" class="form-input" value="600" id="laundry-rate-monthly">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Per Cloth (₹)</label>
+                            <input type="number" class="form-input" value="15" id="laundry-rate-percloth">
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;"
+                            onclick="alert('Rates updated successfully! (Demo)')">Update Rates</button>
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div>
@@ -1037,6 +1030,9 @@
                     break;
                 case 'laundry-section':
                     renderLaundryUpdates();
+                    break;
+                case 'notifications-section':
+                    renderAllNotifications();
                     break;
             }
 
@@ -2071,19 +2067,19 @@ Share this QR code with students for attendance marking.
             }
         }
 
-        // --- Initialization ---
-        renderRequests();
-        renderAllocations();
-        loadMenuForEdit(); // Load initial state
-        renderAdminPGList(); // Load PG List
-        renderRooms();
-        renderBilling();
-        updateStats();
-        renderAttendanceReport();
-        renderAdminComplaints();
-        renderRecentActivity();
+        // Initial rendering
+        const urlParams = new URLSearchParams(window.location.search);
+        const sectionParam = urlParams.get('section');
+        if (sectionParam) {
+            showSection(sectionParam);
+        } else {
+            showSection('dashboard-section');
+            renderRecentActivity();
+            renderAllNotifications();
+        }
+
         renderLaundryUpdates();
-        renderAllNotifications();
+        updateStats();
 
         // Initialize PWA
         if ('serviceWorker' in navigator) {
