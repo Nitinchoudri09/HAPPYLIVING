@@ -386,6 +386,11 @@ const NotificationSystem = {
             });
         }
 
+        // Integrated Toast Feedback
+        if (window.showToast && (targetRole === 'all' || targetRole === user.role)) {
+            showToast(title, message, type);
+        }
+
         return notification;
     },
 
@@ -884,10 +889,14 @@ const BookingSystem = {
     },
 
     addResidentByAdmin: async function (studentName, email, phone, pgId, roomNo, sharing, rent) {
+        console.log('AddResidentByAdmin started:', { studentName, email, pgId, roomNo });
         const PGs = getData.PGs();
-        // Convert pgId to number since value from select might be string
-        const pg = PGs.find(p => p.id === parseInt(pgId));
-        const pgName = pg ? pg.name : 'Unknown PG';
+        const pg = PGs.find(p => p.id == pgId); // Use loose check
+        if (!pg) {
+            console.error('PG not found for AddResident:', pgId);
+            throw new Error('Property (PG) not found in system.');
+        }
+        const pgName = pg.name;
 
         // Generate credentials
         const creds = BookingSystem.generateCredentials(email);

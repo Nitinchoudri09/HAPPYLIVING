@@ -990,6 +990,17 @@
                 const navItems = document.querySelectorAll('.nav-item');
                 navItems.forEach(item => item.classList.remove('active'));
                 el.classList.add('active');
+            } else {
+                // Auto-highlight nav item if el is not passed
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    const onclickStr = item.getAttribute('onclick') || '';
+                    if (onclickStr.includes(`'${sectionId}'`)) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
             }
 
             // Refresh Section Data
@@ -997,7 +1008,7 @@
                 case 'dashboard-section':
                     updateStats();
                     renderRecentActivity();
-                    renderBilling();
+                    renderAllNotifications();
                     break;
                 case 'requests-section':
                     renderRequests();
@@ -1006,30 +1017,53 @@
                     renderAllocations();
                     break;
                 case 'menu-section':
-                    renderMenuManagement();
+                    renderMenuManagement ? renderMenuManagement() : loadMenuForEdit();
                     break;
                 case 'rooms-section':
-                    populateRoomFilters();
-                    renderRooms();
+                    renderAdminPGList();
+                    showPGList();
                     break;
                 case 'billing-section':
                     renderBilling();
                     break;
                 case 'attendance-section':
-                    renderAttendance();
+                    renderAttendanceReport();
                     break;
                 case 'complaints-section':
-                    if (window.ComplaintService) {
-                        const history = ComplaintService.getAllComplaints();
-                        renderComplaintManagement(history);
-                    }
+                    renderAdminComplaints();
                     break;
                 case 'add-resident-section':
                     populateAddResidentPGs();
                     break;
                 case 'laundry-section':
-                    renderAllNotifications();
+                    renderLaundryUpdates();
                     break;
+            }
+
+            // Always update global notification badge
+            updateNotificationBadge();
+        }
+
+        function updateNotificationBadge() {
+            if (window.NotificationSystem) {
+                const unread = NotificationSystem.getUnreadCount('admin', 'admin') +
+                    NotificationSystem.getUnreadCount('all', 'all') +
+                    NotificationSystem.getUnreadCount('all', 'admin');
+                const badge = document.getElementById('notif-badge');
+                if (badge) {
+                    badge.style.display = unread > 0 ? 'block' : 'none';
+                    badge.textContent = unread > 99 ? '99+' : unread;
+                    // Optional: Style the badge as a number if needed
+                    if (unread > 0) {
+                        badge.style.background = 'red';
+                        badge.style.color = 'white';
+                        badge.style.fontSize = '8px';
+                        badge.style.textAlign = 'center';
+                        badge.style.lineHeight = '10px';
+                        badge.style.width = '12px';
+                        badge.style.height = '12px';
+                    }
+                }
             }
         }
 
@@ -1886,19 +1920,6 @@ Share this QR code with students for attendance marking.
             document.getElementById('credentials-modal').style.display = 'none';
         }
 
-        // Hook into showSection to populate PGs when section is shown
-        const originalShowSection = showSection;
-        showSection = function (sectionId) {
-            originalShowSection(sectionId);
-            if (sectionId === 'add-resident-section') {
-                populateAddResidentPGs();
-            }
-            if (sectionId === 'rooms-section') {
-                renderAdminPGList();
-                showPGList();
-            }
-        };
-
         // --- Notifications Logic ---
         function renderAllNotifications() {
             const container = document.getElementById('all-notifications-list');
@@ -1967,15 +1988,7 @@ Share this QR code with students for attendance marking.
             }).join('');
 
             // Update Badge
-            const unreadCount = uniqueNotifs.filter(n => !n.read).length;
-            const badge = document.getElementById('notif-badge');
-            if (badge) {
-                if (unreadCount > 0) {
-                    badge.style.display = 'block';
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
+            updateNotificationBadge();
         }
 
         // --- Laundry Updates Logic ---
