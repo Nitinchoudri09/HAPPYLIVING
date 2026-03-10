@@ -316,9 +316,13 @@ const AuthService = {
             EmailService.sendPasswordResetOTP(email, otp);
         }
 
+        // Always log OTP to console as fallback (for development/demo)
+        console.log('🔐 Password Reset OTP for ' + email + ': ' + otp);
+
         return {
             message: 'Password reset OTP sent to your email',
-            email: email
+            email: email,
+            otp: otp // Include in return for simulated system
         };
     },
 
@@ -330,8 +334,65 @@ const AuthService = {
             throw new Error(verification.message);
         }
 
-        // In real app, update password in database
-        // For demo, we'll just mark it as reset
+        const hashedPassword = this.hashPassword(newPassword);
+        let userFound = false;
+
+        // 1. Check/Update registered students
+        const students = JSON.parse(localStorage.getItem('registered_students') || '[]');
+        const updatedStudents = students.map(s => {
+            if (s.email && s.email.toLowerCase() === email.toLowerCase()) {
+                userFound = true;
+                return { ...s, password: hashedPassword };
+            }
+            return s;
+        });
+
+        if (userFound) {
+            localStorage.setItem('registered_students', JSON.stringify(updatedStudents));
+        } else {
+            // 2. Check/Update registered admins
+            const admins = JSON.parse(localStorage.getItem('registered_admins') || '[]');
+            const updatedAdmins = admins.map(a => {
+                if (a.email && a.email.toLowerCase() === email.toLowerCase()) {
+                    userFound = true;
+                    return { ...a, password: hashedPassword };
+                }
+                return a;
+            });
+
+            if (userFound) {
+                localStorage.setItem('registered_admins', JSON.stringify(updatedAdmins));
+            }
+        }
+
+        // If it's a booking student (not yet in registered_students)
+        if (!userFound) {
+            const bookings = window.BookingSystem ? window.BookingSystem.getBookings() : [];
+            const bookingUser = bookings.find(b => b.email && b.email.toLowerCase() === email.toLowerCase());
+
+            if (bookingUser) {
+                // For bookings, we update the plain text password as per project convention 
+                // but checking the login logic again, AuthService.login uses plain password for bookings
+                // So let's update it in the booking system if possible
+                const updatedBookings = bookings.map(b => {
+                    if (b.email && b.email.toLowerCase() === email.toLowerCase()) {
+                        userFound = true;
+                        return { ...b, password: newPassword }; // Bookings use plain text in this mock
+                    }
+                    return b;
+                });
+
+                if (userFound) {
+                    localStorage.setItem('happyLiving_Bookings', JSON.stringify(updatedBookings));
+                }
+            }
+        }
+
+        if (!userFound) {
+            throw new Error('User not found. Password reset failed.');
+        }
+
+        // Mark it as reset for records
         const resetRecords = JSON.parse(localStorage.getItem('password_resets') || '[]');
         resetRecords.push({
             email: email,
