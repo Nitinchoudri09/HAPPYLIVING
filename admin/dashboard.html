@@ -15,9 +15,9 @@
 
         .sidebar {
             width: 260px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
             padding: 2rem;
             position: fixed;
             height: 100vh;
@@ -30,6 +30,9 @@
             margin-left: 260px;
             flex: 1;
             padding: 2rem;
+            padding-bottom: 4rem;
+            min-height: 100vh;
+            overflow-y: auto;
             transition: all 0.3s ease;
         }
 
@@ -46,6 +49,8 @@
             .main-content {
                 margin-left: 0;
                 padding: 1rem;
+                padding-bottom: 3rem;
+                overflow-y: visible;
             }
 
             .sidebar-nav {
@@ -80,8 +85,9 @@
 
         .nav-item:hover,
         .nav-item.active {
-            background: rgba(79, 70, 229, 0.05);
-            color: var(--primary);
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--cyber-cyan);
+            border-left: 3px solid var(--cyber-cyan);
         }
 
         .stats-grid {
@@ -92,15 +98,33 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
             padding: 1.5rem;
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .stat-card>* {
+            transform: translateZ(30px);
+        }
+
+        .stat-icon {
+            transform: translateZ(60px);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyber-cyan);
+            box-shadow: 0 15px 50px rgba(0, 242, 254, 0.2);
         }
 
         .stat-icon {
@@ -114,13 +138,20 @@
         }
 
         .table-container {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
             border-radius: var(--radius-lg);
             padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
             overflow-x: auto;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .table-container table {
+            transform: translateZ(20px);
         }
 
         table {
@@ -132,12 +163,17 @@
         td {
             text-align: left;
             padding: 1rem;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transform: translateZ(10px);
         }
 
         th {
-            color: var(--text-muted);
-            font-weight: 600;
+            color: var(--cyber-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
         }
 
         .status-badge {
@@ -148,28 +184,33 @@
         }
 
         .status-paid {
-            background: #dcfce7;
-            color: #166534;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .status-pending {
-            background: #ffedd5;
-            color: #9a3412;
+            background: rgba(251, 113, 133, 0.1);
+            color: #fb7185;
+            border: 1px solid rgba(251, 113, 133, 0.3);
         }
 
         .status-empty {
-            background: #dcfce7;
-            color: #166534;
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--cyber-cyan);
+            border: 1px solid rgba(0, 242, 254, 0.3);
         }
 
         .status-full {
-            background: #fee2e2;
-            color: #991b1b;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .status-partial {
-            background: #fef3c7;
-            color: #92400e;
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .room-grid {
@@ -180,46 +221,46 @@
         }
 
         .notification-card {
-            border-left: 4px solid var(--primary);
-            background: rgba(255, 255, 255, 0.9);
+            border-left: 4px solid var(--cyber-cyan);
+            background: rgba(255, 255, 255, 0.03);
             margin-bottom: 0.5rem;
             padding: 1rem;
             border-radius: 0 var(--radius-md) var(--radius-md) 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: white;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
 
 
         .room-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-md);
             padding: 1rem;
             text-align: center;
             transition: all 0.2s;
-        }
-
-        .room-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            color: white;
         }
 
         .room-card.empty {
-            border-color: #10b981;
-            background: #f0fdf4;
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
         }
 
         .room-card.full {
-            border-color: #ef4444;
-            background: #fef2f2;
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.05);
         }
 
         .room-card.partial {
-            border-color: #f59e0b;
-            background: #fffbeb;
+            border-color: rgba(245, 158, 11, 0.3);
+            background: rgba(245, 158, 11, 0.05);
         }
 
         .room-number {
@@ -242,18 +283,21 @@
         }
 
         .filter-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid #e2e8f0;
-            background: white;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
             border-radius: var(--radius-md);
             cursor: pointer;
             font-size: 0.9rem;
+            transition: all 0.2s;
         }
 
         .filter-btn.active {
-            background: var(--primary);
+            background: var(--grad-luminous);
             color: white;
-            border-color: var(--primary);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
         }
 
         /* PG Card Styles (Copied from Student Dashboard) */
@@ -288,16 +332,105 @@
         }
 
         .pg-tag {
-            background: var(--bg-light);
+            background: rgba(255, 255, 255, 0.1);
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             font-size: 0.8rem;
-            color: var(--text-muted);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--cyber-cyan);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(2, 6, 23, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: var(--radius-md);
+            color: white !important;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--cyber-cyan) !important;
+            background: rgba(2, 6, 23, 0.8) !important;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Global Visibility Enhancements - Premium Luminous */
+        h1,
+        h2,
+        h3,
+        h4,
+        .header strong,
+        .header span,
+        label,
+        strong {
+            color: white !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 242, 254, 0.3) !important;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, #fff, var(--cyber-cyan), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.5));
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 </head>
 
 <body>
+    <!-- 3D Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="mesh-bg"></div>
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -329,8 +462,8 @@
                     Rooms & Occupancy
                 </div>
                 <div class="nav-item" onclick="showSection('menu-section', this)">
-                    <i class="fa-solid fa-utensils"></i>
-                    Mess Menu
+                    <i class="fa-solid fa-plate-wheat"></i>
+                    Kitchen Operations
                 </div>
                 <div class="nav-item" onclick="showSection('attendance-section', this)">
                     <i class="fa-solid fa-clipboard-check"></i>
@@ -341,8 +474,8 @@
                     Complaints
                 </div>
                 <div class="nav-item" onclick="showSection('laundry-section', this)">
-                    <i class="fa-solid fa-shirt"></i>
-                    Laundry & Notif
+                    <i class="fa-solid fa-soap"></i>
+                    Laundry Logistics
                 </div>
 
                 <!-- Notifications Tab -->
@@ -369,8 +502,10 @@
                 <header
                     style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <div>
-                        <h2>Hello, Admin! 👋</h2>
-                        <p style="color: var(--text-muted);">Here's what's happening today.</p>
+                        <h2
+                            style="font-size: 2.2rem; margin-bottom: 0.5rem; text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 242, 254, 0.3);">
+                            Hello, <span style="color: var(--cyber-cyan);">Admin User!</span> 👋</h2>
+                        <p style="color: rgba(255,255,255,0.7); font-weight: 500;">Here's what's happening today.</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;"
@@ -382,7 +517,7 @@
                             <i class="fa-solid fa-plus"></i> Add Resident
                         </button>
                         <div
-                            style="width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            style="width: 40px; height: 40px; background: var(--bg-glass-dark); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
                             <i class="fa-solid fa-user"></i>
                         </div>
                     </div>
@@ -395,7 +530,7 @@
                             <i class="fa-solid fa-users"></i>
                         </div>
                         <div>
-                            <h3 style="font-size: 1.5rem;">124</h3>
+                            <h3 id="stat-total-residents" style="font-size: 1.5rem;">0</h3>
                             <p style="color: var(--text-muted);">Total Residents</p>
                         </div>
                     </div>
@@ -404,16 +539,25 @@
                             <i class="fa-solid fa-bed"></i>
                         </div>
                         <div>
-                            <h3 style="font-size: 1.5rem;">12</h3>
+                            <h3 id="stat-available-beds" style="font-size: 1.5rem;">0</h3>
                             <p style="color: var(--text-muted);">Available Beds</p>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon" style="background: rgba(251, 113, 133, 0.1); color: var(--secondary);">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+                        <div>
+                            <h3 id="stat-total-revenue" style="font-size: 1.5rem;">₹0</h3>
+                            <p style="color: var(--text-muted);">Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
                             <i class="fa-solid fa-utensils"></i>
                         </div>
                         <div>
-                            <h3 style="font-size: 1.5rem;">Lunch</h3>
+                            <h3 id="stat-current-meal" style="font-size: 1.5rem;">Lunch</h3>
                             <p style="color: var(--text-muted);">Current Meal</p>
                         </div>
                     </div>
@@ -495,11 +639,13 @@
                 </div>
             </div>
 
-            <!-- Menu Edit Section (New) -->
             <div id="menu-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                <h3 style="margin-bottom: 1rem;">Manage Mess Menu</h3>
-                <div class="glass-card" style="padding: 2rem;">
-                    <div style="margin-bottom: 1.5rem;">
+                <h2 style="margin-bottom: 2rem;">
+                    <i class="fa-solid fa-plate-wheat" style="color: var(--cyber-cyan);"></i> KITCHEN OPERATIONS & MENU
+                </h2>
+                <div class="glass-card"
+                    style="padding: 2.5rem; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);">
+                    <div class="form-group">
                         <label class="form-label">Select Day</label>
                         <select id="menu-day-select" class="form-input" onchange="loadMenuForEdit()">
                             <option value="Sunday">Sunday</option>
@@ -513,24 +659,25 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Breakfast Items (comma separated)</label>
-                        <input type="text" id="edit-breakfast" class="form-input">
+                        <label class="form-label">Breakfast Items</label>
+                        <input type="text" id="edit-breakfast" class="form-input" placeholder="e.g. Eggs, Coffee">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Lunch Items (comma separated)</label>
-                        <input type="text" id="edit-lunch" class="form-input">
+                        <label class="form-label">Lunch Items</label>
+                        <input type="text" id="edit-lunch" class="form-input" placeholder="e.g. Salad, Soup">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Snacks Items (comma separated)</label>
-                        <input type="text" id="edit-snacks" class="form-input">
+                        <label class="form-label">Snacks Items</label>
+                        <input type="text" id="edit-snacks" class="form-input" placeholder="e.g. Biscuits, Tea">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Dinner Items (comma separated)</label>
-                        <input type="text" id="edit-dinner" class="form-input">
+                        <label class="form-label">Dinner Items</label>
+                        <input type="text" id="edit-dinner" class="form-input" placeholder="e.g. Chicken, Rice">
                     </div>
 
-                    <button onclick="saveMenu()" class="btn btn-primary">
-                        <i class="fa-solid fa-save"></i> Save Menu
+                    <button onclick="saveMenu()" class="btn btn-primary"
+                        style="width: 100%; padding: 1rem; font-weight: 700;">
+                        <i class="fa-solid fa-save"></i> UPDATE WEEKLY MENU
                     </button>
                 </div>
             </div>
@@ -557,7 +704,7 @@
                         </div>
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <select id="pg-filter-select" onchange="renderRoomsFromSelect()"
-                                style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-dark); color: white; border-radius: var(--radius-md);">
                                 <option value="all">All PGs</option>
                             </select>
                         </div>
@@ -641,16 +788,16 @@
                 <div class="table-container">
                     <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
                         <input type="date" id="admin-attendance-date" onchange="renderAttendanceReport()"
-                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-dark); color: white; border-radius: var(--radius-md);">
                         <select id="admin-attendance-meal" onchange="renderAttendanceReport()"
-                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-dark); color: white; border-radius: var(--radius-md);">
                             <option value="all">All Meals</option>
                             <option value="Breakfast">Breakfast</option>
                             <option value="Lunch">Lunch</option>
                             <option value="Dinner">Dinner</option>
                         </select>
                         <select id="admin-attendance-status" onchange="renderAttendanceReport()"
-                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-dark); color: white; border-radius: var(--radius-md);">
                             <option value="all">All Status</option>
                             <option value="Present">Present</option>
                             <option value="Absent">Absent</option>
@@ -712,7 +859,7 @@
                 <div class="table-container">
                     <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
                         <select id="admin-complaint-status" onchange="renderAdminComplaints()"
-                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-dark); color: white; border-radius: var(--radius-md);">
                             <option value="all">All Status</option>
                             <option value="Open">Open</option>
                             <option value="In Progress">In Progress</option>
@@ -720,7 +867,7 @@
                             <option value="Closed">Closed</option>
                         </select>
                         <select id="admin-complaint-category" onchange="renderAdminComplaints()"
-                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-dark); color: white; border-radius: var(--radius-md);">
                             <option value="all">All Categories</option>
                             <option value="Food">Food</option>
                             <option value="Room">Room</option>
@@ -730,7 +877,7 @@
                             <option value="Other">Other</option>
                         </select>
                         <select id="admin-complaint-priority" onchange="renderAdminComplaints()"
-                            style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-dark); color: white; border-radius: var(--radius-md);">
                             <option value="all">All Priorities</option>
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
@@ -758,194 +905,187 @@
                 </div>
             </div>
 
-            <!-- Add Resident Section (New) -->
             <div id="add-resident-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                <h3 style="margin-bottom: 1rem;">Add New Resident</h3>
-                <div class="glass-card"
-                    style="padding: 2rem; max-width: 600px; margin: 0 auto; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
+                <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fa-solid fa-user-plus" style="color: var(--cyber-cyan);"></i> Add New Resident
+                </h2>
+                <div class="glass-card animate-slide-up"
+                    style="padding: 2.5rem; max-width: 600px; margin: 0 auto; border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(15, 23, 42, 0.9);">
                     <form id="add-resident-form" onsubmit="event.preventDefault(); submitAddResident();">
-                        <div class="form-group" style="margin-bottom: 1rem;">
-                            <label class="form-label"
-                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Student
-                                Name</label>
-                            <input type="text" id="ar-name" class="form-input" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <div class="form-group">
+                            <label class="form-label">Student Name</label>
+                            <input type="text" id="ar-name" class="form-input" required placeholder="Full Name">
                         </div>
-                        <div class="form-group" style="margin-bottom: 1rem;">
-                            <label class="form-label"
-                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email (Login
-                                ID)</label>
+                        <div class="form-group">
+                            <label class="form-label">Email (Login ID)</label>
                             <input type="email" id="ar-email" class="form-input" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                placeholder="email@example.com">
                         </div>
-                        <div class="form-group" style="margin-bottom: 1rem;">
-                            <label class="form-label"
-                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Phone
-                                Number</label>
-                            <input type="tel" id="ar-phone" class="form-input" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" id="ar-phone" class="form-input" required placeholder="+91 XXXXX XXXXX">
                         </div>
-                        <div class="form-group" style="margin-bottom: 1rem;">
-                            <label class="form-label"
-                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Select PG</label>
+                        <div class="form-group">
+                            <label class="form-label">Select PG</label>
                             <select id="ar-pg-select" class="form-input" required
-                                onchange="updateResidentSharingTypes()"
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                                onchange="updateResidentSharingTypes()">
                                 <option value="">Select PG...</option>
-                                <!-- Populated by JS -->
                             </select>
                         </div>
-                        <div class="form-group" style="margin-bottom: 1rem;">
-                            <label class="form-label"
-                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Room Number</label>
-                            <input type="text" id="ar-room" class="form-input" required placeholder="e.g. 101"
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Room Number</label>
+                                <input type="text" id="ar-room" class="form-input" required placeholder="e.g. 101">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sharing Type</label>
+                                <select id="ar-sharing" class="form-input" required onchange="updateResidentRent()">
+                                    <option value="1">1 Sharing</option>
+                                    <option value="2">2 Sharing</option>
+                                    <option value="3">3 Sharing</option>
+                                    <option value="4">4 Sharing</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group" style="margin-bottom: 1rem;">
-                            <label class="form-label"
-                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Sharing
-                                Type</label>
-                            <select id="ar-sharing" class="form-input" required onchange="updateResidentRent()"
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="1">1 Sharing (Single)</option>
-                                <option value="2">2 Sharing</option>
-                                <option value="3">3 Sharing</option>
-                                <option value="4">4 Sharing</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label class="form-label"
-                                style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Monthly Rent
-                                (₹)</label>
-                            <input type="number" id="ar-rent" class="form-input" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                        <div class="form-group">
+                            <label class="form-label">Monthly Rent Amount</label>
+                            <div style="position: relative;">
+                                <span
+                                    style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.6);">₹</span>
+                                <input type="number" id="ar-rent" class="form-input" required
+                                    style="padding-left: 2rem;">
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary"
-                            style="width: 100%; padding: 0.75rem; font-weight: 600;">
-                            Add Resident & Generate Credentials
+                            style="width: 100%; padding: 1rem; font-weight: 700; margin-top: 1rem;">
+                            <i class="fa-solid fa-user-plus"></i> ALLOCATE & GENERATE ACCESS
                         </button>
                     </form>
                 </div>
             </div>
+    </div>
 
-            <!-- Credentials Modal (Hidden bu default) -->
-            <div id="credentials-modal"
-                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
-                <div
-                    style="background: white; padding: 2rem; border-radius: var(--radius-lg); max-width: 450px; width: 90%; text-align: center;">
-                    <div
-                        style="width: 60px; height: 60px; background: #dcfce7; color: #166534; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem;">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <h3>Resident Added Successfully!</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Share these login credentials with
-                        the
-                        student.</p>
+    <!-- Credentials Modal (Hidden bu default) -->
+    <div id="credentials-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; z-index: 1000;">
+        <div class="glass-card"
+            style="padding: 2.5rem; max-width: 450px; width: 90%; text-align: center; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--cyber-cyan);">
+            <div
+                style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.2); color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h2 style="margin-bottom: 0.5rem; color: #10b981 !important;">Success!</h2>
+            <h3 style="margin-bottom: 1rem;">Resident Added Successfully</h3>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Secure these credentials for the student
+                login.</p>
 
-                    <div
-                        style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-md); border: 2px dashed #cbd5e1; margin-bottom: 1.5rem; text-align: left;">
-                        <div style="margin-bottom: 0.5rem;">
-                            <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">Username /
-                                Email</span>
-                            <strong style="font-size: 1.1rem;" id="cred-username">demo@example.com</strong>
-                        </div>
-                        <div>
-                            <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">Password</span>
-                            <strong style="font-size: 1.1rem; color: var(--primary);"
-                                id="cred-password">HL123456</strong>
-                        </div>
-                    </div>
-
-                    <button onclick="closeCredentialsModal()" class="btn btn-primary"
-                        style="width: 100%; padding: 0.75rem;">Done</button>
+            <div
+                style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.5rem; text-align: left;">
+                <div style="margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;">
+                    <span
+                        style="display: block; font-size: 0.8rem; color: var(--cyber-cyan); text-transform: uppercase;">Username
+                        / Email</span>
+                    <strong style="font-size: 1.2rem; color: white;" id="cred-username">demo@example.com</strong>
+                </div>
+                <div>
+                    <span
+                        style="display: block; font-size: 0.8rem; color: var(--cyber-cyan); text-transform: uppercase;">Password</span>
+                    <strong style="font-size: 1.2rem; color: var(--secondary);" id="cred-password">HL123456</strong>
                 </div>
             </div>
 
-            <!-- Notifications / Requests Section (Hidden by default or toggled) -->
-            <div id="request-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
-                <h3 style="margin-bottom: 1rem;">Pending Approvals</h3>
-                <div class="table-container">
-                    <table id="requests-table">
-                        <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Student</th>
-                                <th>Details</th>
-                                <th>Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="requests-body">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
+            <button onclick="closeCredentialsModal()" class="btn btn-primary"
+                style="width: 100%; padding: 1rem; font-weight: 700;">DONE</button>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Notifications / Requests Section (Hidden by default or toggled) -->
+    <div id="request-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+        <h3 style="margin-bottom: 1rem;">Pending Approvals</h3>
+        <div class="table-container">
+            <table id="requests-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Student</th>
+                        <th>Details</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="requests-body">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="laundry-section" class="section-content" style="display: none; margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2><i class="fa-solid fa-soap" style="color: var(--cyber-cyan); margin-right: 15px;"></i> LAUNDRY LOGISTICS
+                CONTROL</h2>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+                <div>
+                    <div class="stat-value" id="laundry-today-count">0</div>
+                    <div class="stat-label">Clothes Today</div>
                 </div>
             </div>
-            <!-- Laundry Section -->
-            <div id="laundry-section" class="section-content" style="display: none;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h2>Laundry Management & Notifications</h2>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <i class="fa-solid fa-users"></i>
                 </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
-                            <i class="fa-solid fa-shirt"></i>
-                        </div>
-                        <div>
-                            <div class="stat-value" id="laundry-today-count">0</div>
-                            <div class="stat-label">Clothes Today</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                        <div>
-                            <div class="stat-value" id="laundry-subscribers-count">0</div>
-                            <div class="stat-label">Active Subscribers</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
-                            <i class="fa-solid fa-bell"></i>
-                        </div>
-                        <div>
-                            <div class="stat-value" id="laundry-updates-count">0</div>
-                            <div class="stat-label">Recent Updates</div>
-                        </div>
-                    </div>
+                <div>
+                    <div class="stat-value" id="laundry-subscribers-count">0</div>
+                    <div class="stat-label">Active Subscribers</div>
                 </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+                <div>
+                    <div class="stat-value" id="laundry-updates-count">0</div>
+                    <div class="stat-label">Recent Updates</div>
+                </div>
+            </div>
+        </div>
 
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-                    <div class="table-container">
-                        <h3 style="margin-bottom: 1.5rem;">Recent Laundry Notifications</h3>
-                        <div id="laundry-notifications-list" style="display: grid; gap: 1rem;">
-                            <!-- Populated by JS -->
-                            <div style="padding: 2rem; text-align: center; color: var(--text-muted);">No recent
-                                laundry
-                                notifications</div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card" style="padding: 1.5rem; height: fit-content;">
-                        <h3 style="margin-bottom: 1rem;">Quick Rates Update</h3>
-                        <div class="form-group">
-                            <label class="form-label">Monthly Plan (₹)</label>
-                            <input type="number" class="form-input" value="600" id="laundry-rate-monthly">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Per Cloth (₹)</label>
-                            <input type="number" class="form-input" value="15" id="laundry-rate-percloth">
-                        </div>
-                        <button class="btn btn-primary" style="width: 100%;"
-                            onclick="alert('Rates updated successfully! (Demo)')">Update Rates</button>
-                    </div>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+            <div class="table-container">
+                <h3 style="margin-bottom: 1.5rem;">Recent Laundry Notifications</h3>
+                <div id="laundry-notifications-list" style="display: grid; gap: 1rem;">
+                    <!-- Populated by JS -->
+                    <div style="padding: 2rem; text-align: center; color: var(--text-muted);">No recent
+                        laundry
+                        notifications</div>
                 </div>
             </div>
 
-        </main>
+            <div class="glass-card" style="padding: 1.5rem; height: fit-content;">
+                <h3 style="margin-bottom: 1rem;">Quick Rates Update</h3>
+                <div class="form-group">
+                    <label class="form-label">Monthly Plan (₹)</label>
+                    <input type="number" class="form-input" value="600" id="laundry-rate-monthly">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Per Cloth (₹)</label>
+                    <input type="number" class="form-input" value="15" id="laundry-rate-percloth">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;"
+                    onclick="alert('Rates updated successfully! (Demo)')">Update Rates</button>
+            </div>
+        </div>
+    </div>
+
+    </main>
     </div>
     <script src="../js/data.js"></script>
     <script src="../js/main.js"></script>
@@ -1501,9 +1641,9 @@
 
                 return `
                     <tr>
-                        <td><strong>${record.name}</strong></td>
+                        <td><strong>${record.name || 'Student'}</strong></td>
                         <td>${record.email}</td>
-                        <td><span style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${record.room}</span></td>
+                        <td><span style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); color: white;">${record.room || '-'}</span></td>
                         <td>${record.pgName}</td>
                         <td>₹${record.rent.toLocaleString()}</td>
                         <td>${record.messSubscription ? record.messSubscription + '<br><small style="color: var(--text-muted);">₹' + record.messPrice.toLocaleString() + '/mo</small>' : 'None'}</td>
@@ -1532,37 +1672,55 @@
         // --- Stats Update ---
         async function updateStats() {
             const bookings = BookingSystem ? BookingSystem.getBookings() : [];
-            const allocations = getData.Allocations();
             const PGs = await getData.fetchPGs();
+            const payments = PaymentSystem ? await PaymentSystem.getPayments() : [];
 
             // Calculate total residents
             const totalResidents = bookings.filter(b => b.status === 'Confirmed').length;
+
+            // Calculate total revenue
+            const totalRevenue = payments
+                .filter(p => p.status === 'Completed' || p.status === 'Paid')
+                .reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
 
             // Calculate available beds
             let totalBeds = 0;
             let occupiedBeds = 0;
 
             PGs.forEach(pg => {
-                Object.keys(pg.sharingVariants).forEach(sharing => {
-                    const capacity = parseInt(sharing);
-                    totalBeds += capacity * 10; // Assuming 10 rooms per sharing type
-                });
+                if (pg.sharingVariants) {
+                    Object.keys(pg.sharingVariants).forEach(sharing => {
+                        const capacity = parseInt(sharing);
+                        totalBeds += capacity * 10; // Assuming 10 rooms per sharing type
+                    });
+                }
             });
 
             bookings.forEach(booking => {
                 if (booking.status === 'Confirmed') {
-                    occupiedBeds += booking.sharing || 0;
+                    occupiedBeds += parseInt(booking.sharing) || 0;
                 }
             });
 
             const availableBeds = totalBeds - occupiedBeds;
 
-            // Update stats display
-            const statsCards = document.querySelectorAll('.stat-card');
-            if (statsCards.length >= 2) {
-                statsCards[0].querySelector('h3').textContent = totalResidents;
-                statsCards[1].querySelector('h3').textContent = availableBeds;
-            }
+            // Determine current meal
+            const hour = new Date().getHours();
+            let currentMeal = 'Dinner';
+            if (hour >= 5 && hour < 10) currentMeal = 'Breakfast';
+            else if (hour >= 10 && hour < 15) currentMeal = 'Lunch';
+            else if (hour >= 15 && hour < 19) currentMeal = 'Snacks';
+
+            // Update stats display using IDs
+            const residentsEl = document.getElementById('stat-total-residents');
+            const bedsEl = document.getElementById('stat-available-beds');
+            const revenueEl = document.getElementById('stat-total-revenue');
+            const mealEl = document.getElementById('stat-current-meal');
+
+            if (residentsEl) residentsEl.textContent = totalResidents;
+            if (bedsEl) bedsEl.textContent = availableBeds;
+            if (revenueEl) revenueEl.textContent = '₹' + totalRevenue.toLocaleString();
+            if (mealEl) mealEl.textContent = currentMeal;
         }
 
         // --- Attendance Management Functions ---
@@ -1769,20 +1927,25 @@ Share this QR code with students for attendance marking.
             const pBody = document.getElementById('recent-activity-body');
 
             pBody.innerHTML = recentPayments.map(p => {
-                let name = p.email;
+                let name = p.studentName || p.details?.studentName || p.email || 'Admin User';
                 let room = '-';
-                const booking = bookings.find(b => b.email === p.email);
+                const booking = bookings.find(b => b.email === p.email) || bookings.find(b => b.studentName === p.studentName);
                 if (booking) {
                     name = booking.studentName;
                     const alloc = allocations.find(a => a.student === name);
                     room = alloc ? alloc.room : (booking.roomNumber || 'TBD');
+                } else if (p.studentName) {
+                    const alloc = allocations.find(a => a.student === p.studentName);
+                    room = alloc ? alloc.room : '-';
                 }
+                if (name === 'undefined' || !name) name = p.email || 'User';
+
                 return `
                     <tr>
                         <td><strong>${name}</strong></td>
-                        <td>${room}</td>
-                        <td>${new Date(p.timestamp || p.date).toLocaleDateString()}</td>
-                        <td>₹${p.amount.toLocaleString()}</td>
+                        <td>${room || '-'}</td>
+                        <td>${new Date(p.timestamp || p.date || Date.now()).toLocaleDateString()}</td>
+                        <td>₹${(p.amount || 0).toLocaleString()}</td>
                         <td><span class="status-badge status-paid">${p.status || 'Paid'}</span></td>
                     </tr>
                 `;
@@ -1968,7 +2131,7 @@ Share this QR code with students for attendance marking.
                 const opacity = n.read ? '0.6' : '1';
 
                 return `
-                    <div class="notification-card" style="opacity: ${opacity}; background: ${n.read ? '#f8fafc' : 'white'}; padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid ${color}; display: flex; gap: 1rem; align-items: start; box-shadow: var(--shadow-sm);">
+                    <div class="notification-card" style="opacity: ${opacity}; background: ${n.read ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.08)'}; padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid ${color}; display: flex; gap: 1rem; align-items: start; box-shadow: var(--shadow-sm); border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
                         <div style="min-width: 40px; height: 40px; border-radius: 50%; background: ${bgColor}; color: ${color}; display: flex; align-items: center; justify-content: center;">
                             <i class="fa-solid ${icon}"></i>
                         </div>
@@ -2076,11 +2239,35 @@ Share this QR code with students for attendance marking.
         } else {
             showSection('dashboard-section');
             renderRecentActivity();
+            const user = Auth.getUser();
+            if (user && user.name) {
+                const headerH2 = document.querySelector('#dashboard-section h2');
+                if (headerH2) headerH2.innerHTML = `Hello, <span style="color: var(--cyber-cyan);">${user.name}!</span> 👋`;
+            }
             renderAllNotifications();
         }
 
         renderLaundryUpdates();
         updateStats();
+
+        // Auto Refresh
+        setInterval(() => {
+            if (document.getElementById('dashboard-section').style.display !== 'none') {
+                updateStats();
+                renderRecentActivity();
+            }
+            updateNotificationBadge();
+        }, 30000);
+
+        // Initialize Vanilla Tilt
+        VanillaTilt.init(document.querySelectorAll(".stat-card, .table-container, .glass-card, .room-card, .notification-card"), {
+            max: 10,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            perspective: 1000,
+            scale: 1.02
+        });
 
         // Initialize PWA
         if ('serviceWorker' in navigator) {

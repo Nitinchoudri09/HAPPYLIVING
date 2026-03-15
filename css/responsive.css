@@ -47,7 +47,8 @@
         font-size: 0.85rem;
     }
 
-    th, td {
+    th,
+    td {
         padding: 0.5rem;
     }
 
@@ -91,13 +92,20 @@
 
 /* Touch-Friendly Elements */
 @media (hover: none) and (pointer: coarse) {
-    button, .btn, .action-card, .nav-item {
+
+    button,
+    .btn,
+    .action-card,
+    .nav-item {
         min-height: 44px;
         min-width: 44px;
     }
 
-    input, select, textarea {
-        font-size: 16px; /* Prevents zoom on iOS */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        /* Prevents zoom on iOS */
     }
 }
 
@@ -107,9 +115,11 @@
     bottom: 20px;
     left: 20px;
     right: 20px;
-    background: white;
+    background: var(--bg-glass-dark);
+    backdrop-filter: blur(20px);
     padding: 1rem;
     border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: var(--shadow-lg);
     z-index: 10000;
     display: none;
@@ -156,9 +166,11 @@
     width: 350px;
     max-width: calc(100vw - 40px);
     height: 500px;
-    background: white;
+    background: var(--bg-glass-dark);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-xl);
     display: none;
     flex-direction: column;
     overflow: hidden;
@@ -208,7 +220,8 @@
 
 #chatbot-input-container {
     padding: 1rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     display: flex;
     gap: 0.5rem;
 }
@@ -216,8 +229,10 @@
 #chatbot-input {
     flex: 1;
     padding: 0.75rem;
-    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-md);
+    color: white;
 }
 
 #chatbot-send {
@@ -231,7 +246,9 @@
 
 /* AI Dashboard */
 .ai-insights-card {
-    background: white;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-lg);
     padding: 1.5rem;
     box-shadow: var(--shadow-sm);
@@ -260,8 +277,13 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Offline Indicator */

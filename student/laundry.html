@@ -8,104 +8,304 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .page-container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 5%;
+        :root {
+            --bg-deep: #020617;
+            --bg-slate: #0f172a;
+            --cyber-cyan: #00f2fe;
+            --accent: #c084fc;
+            --secondary: #fb7185;
+            --radius-lg: 16px;
+            --radius-md: 12px;
         }
 
-        .laundry-hero {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        body {
+            background-color: var(--bg-deep);
             color: white;
-            border-radius: var(--radius-lg);
-            padding: 3rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-            overflow: hidden;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
         }
 
-        .laundry-hero::before {
-            content: '';
-            position: absolute;
+        .mesh-bg {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
-            background-size: 20px 20px;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(0, 242, 254, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(192, 132, 252, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(2, 6, 23, 1) 0%, rgba(1, 2, 5, 1) 100%);
+            z-index: -5;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 4rem auto;
+            padding: 0 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .laundry-hero {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .laundry-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #fff, var(--cyber-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
         }
 
         .plan-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
         }
 
         .plan-card {
-            padding: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(25px);
+            padding: 3rem 2rem;
             text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cyber-cyan);
+            box-shadow: 0 25px 60px rgba(0, 242, 254, 0.15);
         }
 
         .plan-card.active {
-            border-color: var(--primary);
-            background: #eef2ff !important;
-            /* Override glass slightly */
+            border-color: var(--cyber-cyan);
+            background: rgba(0, 242, 254, 0.05);
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.2);
         }
 
         .plan-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 1rem 0;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--cyber-cyan);
+            margin: 1.5rem 0;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
         }
 
         .features-list {
             list-style: none;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
+            padding: 0;
             text-align: left;
         }
 
         .features-list li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.05rem;
+        }
+
+        .features-list i {
+            font-size: 1.2rem;
+            color: var(--cyber-cyan);
         }
 
         .subscription-status {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #166534;
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            margin-bottom: 2rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+
+        .history-table-container {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .history-table th {
+            background: rgba(2, 6, 23, 0.8);
+            color: var(--cyber-cyan);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            padding: 1.5rem;
+            font-weight: 800;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .history-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover .feature-icon {
+            background: rgba(0, 242, 254, 0.1);
+            border-color: var(--cyber-cyan);
+            transform: scale(1.1);
+        }
+
+        .payment-option {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .payment-option:hover {
+            border-color: var(--cyber-cyan);
+            background: rgba(0, 242, 254, 0.08);
+            transform: translateX(10px);
+        }
+
+        .modal-content {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--cyber-cyan);
+            color: white;
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00f2fe, #00c6ff);
+            color: #020617;
+            font-weight: 800;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
+            opacity: 0.9;
+        }
+
+        .btn-primary:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
+        }
+
+        /* Global Visibility Enhancements */
+        h1,
+        h2,
+        h3,
+        h4,
+        label,
+        strong {
+            color: white !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, #fff, var(--cyber-cyan), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.6));
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="navbar">
+    <div class="mesh-bg"></div>
+
+
+    <div class="navbar"
+        style="background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding: 1.2rem 5%;">
         <div class="logo">
-            <img src="../assets/logo.jpg" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
+            <img src="../assets/logo.jpg" alt="Logo"
+                style="height: 40px; width: auto; object-fit: contain; border-radius: 6px;">
             Happy Living
         </div>
         <div class="nav-links">
-            <a href="dashboard.html"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+            <a href="dashboard.html" class="btn-primary"
+                style="text-decoration: none; padding: 0.75rem 1.5rem; font-size: 0.9rem; background: rgba(0, 242, 254, 0.1); color: var(--cyber-cyan); border: 1px solid var(--cyber-cyan);">
+                <i class="fa-solid fa-arrow-left"></i> RETURN TO DASHBOARD
+            </a>
         </div>
     </div>
 
     <div class="page-container">
-        <div class="laundry-hero animate-slide-up">
-            <h1 style="position: relative; z-index: 1;">Premium Laundry Service</h1>
-            <p style="position: relative; z-index: 1; opacity: 0.9;">Look sharp every day with our professional laundry
-                care. Wash, Iron & Fold.</p>
+        <div class="laundry-hero">
+            <h1>LAUNDRY NEXUS</h1>
+            <p
+                style="font-size: 1.2rem; max-width: 600px; margin: 0 auto; line-height: 1.6; color: rgba(255,255,255,0.8);">
+                Engineered garment care. We manage your threads while you build your future. Wash, Iron & High-Precision
+                Calibration.</p>
         </div>
 
         <div id="active-subscription" class="subscription-status animate-fade-in" style="display: none;">
@@ -117,61 +317,66 @@
                 style="color: #ef4444; border-color: #ef4444;">Cancel</button>
         </div>
 
-        <h2 style="margin-bottom: 1.5rem;">Choose Your Plan</h2>
+        <h2 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
+            <i class="fa-solid fa-layer-group" style="color: var(--cyber-cyan);"></i> PROTOCOL SELECTION
+        </h2>
         <div class="plan-grid">
             <!-- Monthly Plan -->
-            <div class="glass-card plan-card animate-slide-up delay-100" id="card-monthly">
+            <div class="plan-card animate-slide-up" id="card-monthly">
                 <div class="feature-icon"
-                    style="margin: 0 auto 1rem auto; background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                    style="background: rgba(0, 242, 254, 0.1); color: var(--cyber-cyan); border-color: var(--cyber-cyan);">
                     <i class="fa-solid fa-calendar-check"></i>
                 </div>
-                <h3>Monthly Subscription</h3>
+                <h3 style="font-size: 1.5rem;">CONTINUOUS CYCLE</h3>
                 <div class="plan-price">₹600<span
-                        style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">/mo</span></div>
-                <p style="color: var(--text-muted);">Best for regular use</p>
+                        style="font-size: 1.2rem; color: rgba(255,255,255,0.5); font-weight: 400;">/MO</span></div>
+                <p style="color: rgba(255,255,255,0.6);">Optimized for daily operation</p>
 
                 <ul class="features-list">
-                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Up to 40 clothes/month</li>
-                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Wash & Ironing</li>
-                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> 48h Delivery</li>
+                    <li><i class="fa-solid fa-microchip"></i> 40 CLOTH CAPACITY</li>
+                    <li><i class="fa-solid fa-microchip"></i> FULL CALIBRATION (IRON)</li>
+                    <li><i class="fa-solid fa-microchip"></i> 48H SYNC</li>
                 </ul>
 
-                <button onclick="subscribe('Monthly')" class="btn btn-primary" style="width: 100%;">Subscribe
-                    Now</button>
+                <button onclick="subscribe('Monthly')" class="btn-primary" style="width: 100%;">ACTIVATE
+                    SUBSCRIPTION</button>
             </div>
 
             <!-- Per Cloth Plan -->
-            <div class="glass-card plan-card animate-slide-up delay-200" id="card-percloth">
+            <div class="plan-card animate-slide-up" id="card-percloth">
                 <div class="feature-icon"
-                    style="margin: 0 auto 1rem auto; background: rgba(249, 115, 22, 0.1); color: #f97316;">
+                    style="background: rgba(192, 132, 252, 0.1); color: var(--accent); border-color: var(--accent);">
                     <i class="fa-solid fa-shirt"></i>
                 </div>
-                <h3>Pay Per Cloth</h3>
+                <h3 style="font-size: 1.5rem;">UNIT-BASED FEED</h3>
                 <div class="plan-price">₹15<span
-                        style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">/item</span></div>
-                <p style="color: var(--text-muted);">Flexible for light use</p>
+                        style="font-size: 1.2rem; color: rgba(255,255,255,0.5); font-weight: 400;">/UNIT</span></div>
+                <p style="color: rgba(255,255,255,0.6);">Flexible on-demand processing</p>
 
                 <ul class="features-list">
-                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Pay as you go</li>
-                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> Wash & Ironing</li>
-                    <li><i class="fa-solid fa-check" style="color: var(--accent);"></i> 24h Express Delivery</li>
+                    <li><i class="fa-solid fa-microchip"></i> PAY PER TRANSMISSION</li>
+                    <li><i class="fa-solid fa-microchip"></i> FULL CALIBRATION</li>
+                    <li><i class="fa-solid fa-microchip"></i> 24H EXPRESS SYNC</li>
                 </ul>
 
-                <button onclick="subscribe('PerCloth')" class="btn btn-primary" style="width: 100%;">Select
-                    Plan</button>
+                <button onclick="subscribe('PerCloth')" class="btn-primary"
+                    style="width: 100%; background: linear-gradient(90deg, var(--accent), #9333ea);">SELECT
+                    PROTOCOL</button>
             </div>
         </div>
 
-        <h2 style="margin-bottom: 1.5rem;">Laundry History</h2>
-        <div class="glass-card animate-slide-up delay-300 table-container">
-            <table style="width: 100%; border-collapse: collapse;">
+        <h2 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
+            <i class="fa-solid fa-clock-rotate-left" style="color: var(--cyber-cyan);"></i> TRANSACTION LOGS
+        </h2>
+        <div class="history-table-container">
+            <table class="history-table">
                 <thead>
-                    <tr style="border-bottom: 1px solid #e2e8f0; text-align: left;">
-                        <th style="padding: 1rem;">Date</th>
-                        <th style="padding: 1rem;">Plan Type</th>
-                        <th style="padding: 1rem;">Items</th>
-                        <th style="padding: 1rem;">Amount</th>
-                        <th style="padding: 1rem;">Status</th>
+                    <tr>
+                        <th>TIMELINE</th>
+                        <th>PROTOCOL</th>
+                        <th>UNITS</th>
+                        <th>VALUATION</th>
+                        <th>STATUS</th>
                     </tr>
                 </thead>
                 <tbody id="laundry-history-body">
@@ -183,50 +388,47 @@
     </div>
 
     <!-- Payment Modal -->
-    <div id="payment-modal"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
-        <div class="glass-card animate-slide-up"
-            style="background: white; width: 90%; max-width: 500px; padding: 2rem; position: relative;">
+    <div id="payment-modal" class="modal">
+        <div class="bill-card modal-content" style="max-width: 500px; padding: 2.5rem; position: relative;">
             <button onclick="closePaymentModal()"
-                style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
-                    class="fa-solid fa-xmark"></i></button>
+                style="position: absolute; top: 1.5rem; right: 1.5rem; border: none; background: none; font-size: 1.5rem; cursor: pointer; color: white; opacity: 0.5;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
 
-            <h2 style="margin-bottom: 0.5rem;">Secure Payment</h2>
-            <p style="color: var(--text-muted); margin-bottom: 2rem;">Laundry Subscription: <span
-                    style="font-weight: 700; color: var(--text-main);" id="pay-amount">₹600</span></p>
+            <h2 style="margin-bottom: 0.5rem; color: var(--cyber-cyan) !important;">SECURE UPLINK</h2>
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 2.5rem;">Allocating funds for: <span
+                    style="font-weight: 700; color: white;" id="pay-amount">₹600</span></p>
 
             <div style="display: grid; gap: 1rem;">
-                <div class="payment-option" onclick="processPayment('PhonePe')"
-                    style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
-                    <i class="fa-solid fa-mobile-screen-button" style="color: #673ab7; font-size: 1.5rem;"></i>
+                <div class="payment-option" onclick="processPayment('PhonePe')">
+                    <i class="fa-solid fa-mobile-screen-button" style="color: #673ab7; font-size: 2rem;"></i>
                     <div>
-                        <div style="font-weight: 600;">PhonePe</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">UPI ID: 9876543210@ybl</div>
+                        <div style="font-weight: 700; font-size: 1.1rem;">CREDIT / PHONEPE</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">9876543210@YBL</div>
                     </div>
                 </div>
 
-                <div class="payment-option" onclick="processPayment('UPI')"
-                    style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
-                    <i class="fa-solid fa-at" style="color: #eab308; font-size: 1.5rem;"></i>
+                <div class="payment-option" onclick="processPayment('UPI')">
+                    <i class="fa-solid fa-bolt" style="color: var(--cyber-cyan); font-size: 2rem;"></i>
                     <div>
-                        <div style="font-weight: 600;">Other UPI</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">GPay, Paytm, Amazon Pay</div>
+                        <div style="font-weight: 700; font-size: 1.1rem;">GENERIC UPI GATEWAY</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">GPAY, PAYTM, AMAZON</div>
                     </div>
                 </div>
 
-                <div class="payment-option" onclick="processPayment('Card')"
-                    style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.2s;">
-                    <i class="fa-solid fa-credit-card" style="color: #0ea5e9; font-size: 1.5rem;"></i>
+                <div class="payment-option" onclick="processPayment('Card')">
+                    <i class="fa-solid fa-credit-card" style="color: var(--accent); font-size: 2rem;"></i>
                     <div>
-                        <div style="font-weight: 600;">Debit / Credit Card</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Visa, Mastercard, RuPay</div>
+                        <div style="font-weight: 700; font-size: 1.1rem;">PHYSICAL TERMINAL (CARD)</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">VISA, MASTERCARD, RUPAY</div>
                     </div>
                 </div>
             </div>
 
             <div id="payment-status" style="margin-top: 2rem; text-align: center; display: none;">
-                <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--primary); font-size: 2rem;"></i>
-                <p style="margin-top: 0.5rem;">Processing Secure Payment...</p>
+                <i class="fa-solid fa-atom fa-spin" style="color: var(--cyber-cyan); font-size: 2.5rem;"></i>
+                <p style="margin-top: 1rem; color: var(--cyber-cyan); letter-spacing: 1px;">ENCRYPTING TRANSACTION...
+                </p>
             </div>
 
             <input type="hidden" id="pending-plan" value="">
@@ -234,17 +436,17 @@
     </div>
 
     <!-- Success Modal -->
-    <div id="success-modal"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
-        <div class="glass-card animate-pop-in"
-            style="background: white !important; padding: 2rem; width: 90%; max-width: 400px; text-align: center;">
+    <div id="success-modal" class="modal">
+        <div class="bill-card modal-content" style="max-width: 400px; text-align: center; border-color: #10b981;">
             <div
-                style="width: 60px; height: 60px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; color: #166534; font-size: 1.5rem;">
+                style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem auto; color: #10b981; font-size: 2rem; border: 1px solid #10b981;">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <h3>Payment Successful!</h3>
-            <p style="color: var(--text-muted); margin: 1rem 0;">Your laundry subscription is now active.</p>
-            <button onclick="closeModal()" class="btn btn-primary">Okay, Great!</button>
+            <h2 style="color: #10b981 !important;">UPLINK SUCCESSFUL</h2>
+            <p style="color: rgba(255,255,255,0.7); margin: 1.5rem 0;">Your laundry subscription logic is now live in
+                the residential grid.</p>
+            <button onclick="closeModal()" class="btn-primary"
+                style="width: 100%; background: #10b981; color: white;">INITIALIZE SYSTEM</button>
         </div>
     </div>
 

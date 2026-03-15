@@ -181,6 +181,7 @@ const AuthService = {
                         AuthService.recordLoginAttempt(identifier, false);
                         throw new Error('Invalid credentials');
                     }
+                    user.role = 'student';
                 } else {
                     if (identifier === 'student' || identifier === 'student@example.com') {
                         if (password === 'student123' || password === 'demo123' || password === 'otp_verified') {
@@ -467,7 +468,7 @@ const AuthService = {
                 });
 
                 if (userFound) {
-                    localStorage.setItem('happyLiving_Bookings', JSON.stringify(updatedBookings));
+                    localStorage.setItem('bookings', JSON.stringify(updatedBookings));
                 }
             }
         }

@@ -23,7 +23,7 @@
             align-items: center;
             margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .menu-grid {
@@ -34,34 +34,41 @@
         }
 
         .meal-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s ease;
+            color: white !important;
         }
 
         .action-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
             padding: 1.5rem;
             border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .action-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md);
+            border-color: var(--cyber-cyan);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.2);
+            transform: translateY(-5px);
         }
 
         .action-icon {
             font-size: 2rem;
             margin-bottom: 1rem;
-            color: var(--primary);
+            color: var(--cyber-cyan);
+            filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.3));
         }
 
         .menu-tab-btn {
@@ -70,13 +77,15 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
             font-weight: 500;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.9);
             border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
         }
 
         .menu-tab-btn.active {
-            color: var(--primary);
-            border-color: var(--primary);
+            color: var(--cyber-cyan);
+            border-color: var(--cyber-cyan);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
         }
 
         .pg-grid {
@@ -87,14 +96,17 @@
         }
 
         .pg-card {
-            background: white;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
-            transition: transform 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             height: 100%;
+            color: white;
         }
 
         .pg-card:hover {
@@ -134,15 +146,18 @@
         }
 
         .payment-option:hover {
-            border-color: var(--primary) !important;
-            background-color: #f0f4ff !important;
+            border-color: var(--cyber-cyan) !important;
+            background-color: rgba(0, 242, 254, 0.1) !important;
         }
 
         .table-container {
-            background: white;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
             overflow-x: auto;
         }
 
@@ -155,18 +170,166 @@
         .table-container td {
             text-align: left;
             padding: 0.75rem;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: white;
         }
 
         .table-container th {
-            color: var(--text-muted);
+            color: var(--cyber-cyan);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link {
+            color: white !important;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--cyber-cyan) !important;
+        }
+
+        .header strong,
+        .header span,
+        .dashboard-container h2 {
+            color: white !important;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Global Visibility Enhancements */
+        h1,
+        h2,
+        h3,
+        h4,
+        .header strong,
+        .header span,
+        label,
+        strong {
+            color: white !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+            line-height: 1.6;
+        }
+
+        .dashboard-container h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, #fff, var(--cyber-cyan), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.6));
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .user-name-glow {
+            color: var(--cyber-cyan) !important;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.6), 0 2px 10px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700;
+        }
+
+        .room-info-pill {
+            display: inline-block;
+            padding: 3px 12px;
+            background: rgba(0, 242, 254, 0.15);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            color: var(--cyber-cyan) !important;
+            font-size: 0.85rem;
+            margin-top: 4px;
             font-weight: 600;
-            font-size: 0.875rem;
+        }
+
+        .offline-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(251, 113, 133, 0.4);
+            animation: pulseSoft 2s infinite;
+        }
+
+        input,
+        select,
+        textarea {
+            background: rgba(15, 23, 42, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+            border-radius: var(--radius-md) !important;
+        }
+
+        /* Fix Select Option Visibility */
+        select option {
+            background: #1e293b;
+            color: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--cyber-cyan) !important;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3) !important;
+        }
+
+        ::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-paid {
+            background: rgba(16, 185, 129, 0.2) !important;
+            color: #10b981 !important;
+            border-color: rgba(16, 185, 129, 0.3) !important;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2) !important;
+            color: #f59e0b !important;
+            border-color: rgba(245, 158, 11, 0.3) !important;
+        }
+
+        .save-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
         }
     </style>
 </head>
 
-<body>
+<body style="background-color: var(--bg-deep);">
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-follower"></div>
+    <div class="mesh-bg"></div>
+
     <div class="dashboard-container">
         <header class="header">
             <div class="logo">
@@ -175,26 +338,31 @@
                 Happy Living
             </div>
             <nav style="display: flex; gap: 1.5rem;">
-
                 <a href="#menu-section" class="nav-link" onclick="showSection('menu')">My Menu</a>
                 <a href="#pg-section" class="nav-link" onclick="showSection('pgs')">Find PG</a>
                 <a href="#attendance-section" class="nav-link" onclick="showSection('attendance')">Attendance</a>
                 <a href="laundry.html" class="nav-link">Laundry</a>
                 <a href="#complaint-section" class="nav-link" onclick="showSection('complaint')">Complaints</a>
                 <a href="#actions-section" class="nav-link" onclick="showSection('actions')">Actions</a>
+                <a href="#" class="nav-link" onclick="Auth.logout()"
+                    style="color: var(--secondary) !important; font-weight: 700;">Logout</a>
             </nav>
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <div style="position: relative; cursor: pointer;" onclick="showNotifications()">
                     <i class="fa-solid fa-bell" style="color: var(--text-muted); font-size: 1.2rem;"></i>
                     <span id="notification-badge"
-                        style="display: none; position: absolute; top: -5px; right: -5px; background: var(--secondary); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; align-items: center; justify-content: center; font-weight: bold; text-align: center; line-height: 18px;">0</span>
+                        style="display: none; position: absolute; top: -8px; right: -8px; background: var(--secondary); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.75rem; align-items: center; justify-content: center; font-weight: 800; text-align: center; line-height: 20px; box-shadow: 0 0 10px rgba(251, 113, 133, 0.5); border: 1.5px solid var(--bg-deep);">0</span>
                 </div>
-                <div style="text-align: right;">
-                    <strong>Hi, Student</strong>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">Room 101</div>
+                <div style="text-align: right; line-height: 1.2;">
+                    <strong style="display: block; font-size: 1.1rem;">Hi, <span id="display-user-name"
+                            class="user-name-glow">Student</span></strong>
+                    <div id="display-room-info" class="room-info-pill">Room 101</div>
                 </div>
-                <div style="cursor: pointer;" onclick="Auth.logout()">
-                    <i class="fa-solid fa-right-from-bracket" style="color: var(--secondary); font-size: 1.2rem;"></i>
+                <div style="cursor: pointer; padding: 0.5rem; border-radius: 50%; background: rgba(251, 113, 133, 0.1); border: 1px solid rgba(251, 113, 133, 0.2); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(251, 113, 133, 0.15);"
+                    onclick="Auth.logout()"
+                    onmouseover="this.style.transform='scale(1.1)'; this.style.background='rgba(251, 113, 133, 0.2)'; this.style.boxShadow='0 0 25px rgba(251, 113, 133, 0.3)';"
+                    onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(251, 113, 133, 0.1)'; this.style.boxShadow='0 0 15px rgba(251, 113, 133, 0.15)';">
+                    <i class="fa-solid fa-right-from-bracket" style="color: var(--secondary); font-size: 1.1rem;"></i>
                 </div>
             </div>
         </header>
@@ -208,23 +376,24 @@
 
         <!-- PG Listing Section -->
         <section id="pg-section" class="animate-slide-up delay-100" style="display: none;">
-            <h2 style="margin-bottom: 1rem;">Explore Top PGs</h2>
-            <p style="color: var(--text-muted); margin-bottom: 2rem;">Find your perfect home away from home.</p>
+            <h2 style="margin-bottom: 0.5rem;">Explore Top PGs</h2>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 2.5rem; font-size: 1.1rem; font-weight: 400;">Find
+                your perfect home away from home with premium amenities.</p>
             <div id="pg-list" class="pg-grid">
                 <!-- JS Populated -->
             </div>
         </section>
 
-        <!-- Attendance Section -->
         <section id="attendance-section" class="animate-slide-up delay-100" style="display: none;">
-            <h2 style="margin-bottom: 1rem;">Mess Attendance</h2>
-            <p style="color: var(--text-muted); margin-bottom: 2rem;">Mark your attendance for each meal</p>
+            <h2 style="margin-bottom: 0.5rem; text-shadow: 0 0 20px rgba(0, 242, 254, 0.3);">Mess Attendance</h2>
+            <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 2.5rem; font-size: 1.1rem;">Mark your attendance
+                for each meal of the day.</p>
 
             <div
                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
                 <div class="meal-card" id="breakfast-attendance">
                     <div class="meal-header">
-                        <h3 style="color: var(--primary);">Breakfast</h3>
+                        <h3 style="color: var(--cyber-cyan);">Breakfast</h3>
                         <span class="meal-time">7:30 AM - 9:30 AM</span>
                     </div>
                     <div class="meal-body">
@@ -248,7 +417,7 @@
 
                 <div class="meal-card" id="lunch-attendance">
                     <div class="meal-header">
-                        <h3 style="color: var(--secondary);">Lunch</h3>
+                        <h3 style="color: var(--cyber-cyan);">Lunch</h3>
                         <span class="meal-time">12:30 PM - 2:30 PM</span>
                     </div>
                     <div class="meal-body">
@@ -295,215 +464,232 @@
                 </div>
             </div>
 
-            <div class="table-container" style="margin-top: 2rem;">
-                <h3 style="margin-bottom: 1rem;">Attendance History</h3>
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                    <input type="date" id="attendance-date-filter" onchange="renderAttendanceHistory()"
-                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                    <select id="attendance-meal-filter" onchange="renderAttendanceHistory()"
-                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                        <option value="all">All Meals</option>
-                        <option value="Breakfast">Breakfast</option>
-                        <option value="Lunch">Lunch</option>
-                        <option value="Dinner">Dinner</option>
-                    </select>
+            <div id="attendance-history-container" style="margin-top: 3rem;">
+                <h3
+                    style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: white !important;">
+                    <i class="fa-solid fa-clock-rotate-left" style="color: var(--cyber-cyan);"></i> Attendance History
+                </h3>
+                <div class="table-container">
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        <input type="date" id="attendance-date-filter" onchange="renderAttendanceHistory()"
+                            class="form-input" style="padding: 0.6rem; min-width: 150px;">
+                        <select id="attendance-meal-filter" onchange="renderAttendanceHistory()" class="form-input"
+                            style="padding: 0.6rem; min-width: 150px;">
+                            <option value="all">All Meals</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                        </select>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Meal</th>
+                                <th>Status</th>
+                                <th>Mode</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-history-body">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Meal</th>
-                            <th>Status</th>
-                            <th>Mode</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody id="attendance-history-body">
-                        <!-- JS Populated -->
-                    </tbody>
-                </table>
             </div>
         </section>
 
         <!-- Complaint Section -->
         <section id="complaint-section" class="animate-slide-up delay-100" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2>Raise Complaint</h2>
-                <button onclick="showComplaintForm()" class="btn btn-primary">
-                    <i class="fa-solid fa-plus"></i> New Complaint
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="margin: 0; text-shadow: 0 0 30px rgba(0, 242, 254, 0.5);">Raise Complaint</h2>
+                <button onclick="showComplaintForm()" class="btn btn-primary"
+                    style="padding: 0.8rem 1.5rem; font-weight: 700;">
+                    <i class="fa-solid fa-plus"></i> NEW COMPLAINT
                 </button>
             </div>
 
             <div id="complaint-form-container" style="display: none; margin-bottom: 2rem;">
-                <div class="glass-card" style="padding: 2rem;">
-                    <h3 style="margin-bottom: 1rem;">Submit Complaint</h3>
-                    <form id="complaint-form" onsubmit="submitComplaint(event)" style="display: grid; gap: 1rem;">
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Category *</label>
-                            <select id="complaint-category" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="">Select Category</option>
-                                <option value="Food">Food</option>
-                                <option value="Room">Room</option>
-                                <option value="Water">Water</option>
-                                <option value="Electricity">Electricity</option>
-                                <option value="Cleaning">Cleaning</option>
-                                <option value="Other">Other</option>
-                            </select>
+                <div class="glass-card"
+                    style="padding: 2.5rem; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--cyber-cyan);">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--cyber-cyan) !important;">Submit New Complaint</h3>
+                    <form id="complaint-form" onsubmit="submitComplaint(event)" style="display: grid; gap: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Category
+                                    *</label>
+                                <select id="complaint-category" required class="form-input" style="width: 100%;">
+                                    <option value="">Select Category</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Room">Room</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Electricity">Electricity</option>
+                                    <option value="Cleaning">Cleaning</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Priority
+                                    *</label>
+                                <select id="complaint-priority" required class="form-input" style="width: 100%;">
+                                    <option value="Low">Low</option>
+                                    <option value="Medium" selected>Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
                         </div>
                         <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Priority *</label>
-                            <select id="complaint-priority" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                                <option value="Low">Low</option>
-                                <option value="Medium" selected>Medium</option>
-                                <option value="High">High</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description
+                            <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Description
                                 *</label>
-                            <textarea id="complaint-description" required rows="4"
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); resize: vertical;"
+                            <textarea id="complaint-description" required rows="4" class="form-input"
+                                style="width: 100%; resize: vertical;"
                                 placeholder="Describe your complaint in detail..."></textarea>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Complaint</button>
+                        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                            <button type="submit" class="btn btn-primary"
+                                style="flex: 1; padding: 1rem; font-weight: 700;">SUBMIT COMPLAINT</button>
                             <button type="button" onclick="hideComplaintForm()" class="btn btn-secondary"
-                                style="flex: 1;">Cancel</button>
+                                style="flex: 1; padding: 1rem; font-weight: 700;">CANCEL</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div class="table-container">
-                <h3 style="margin-bottom: 1rem;">My Complaints</h3>
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                    <select id="complaint-status-filter" onchange="renderComplaints()"
-                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                        <option value="all">All Status</option>
-                        <option value="Open">Open</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Resolved">Resolved</option>
-                        <option value="Closed">Closed</option>
-                    </select>
-                    <select id="complaint-category-filter" onchange="renderComplaints()"
-                        style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                        <option value="all">All Categories</option>
-                        <option value="Food">Food</option>
-                        <option value="Room">Room</option>
-                        <option value="Water">Water</option>
-                        <option value="Electricity">Electricity</option>
-                        <option value="Cleaning">Cleaning</option>
-                        <option value="Other">Other</option>
-                    </select>
+            <div id="complaint-history-container" style="margin-top: 3rem;">
+                <h3
+                    style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: white !important;">
+                    <i class="fa-solid fa-list-ul" style="color: var(--cyber-cyan);"></i> My Complaints
+                </h3>
+                <div class="table-container">
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        <select id="complaint-status-filter" onchange="renderComplaints()" class="form-input"
+                            style="padding: 0.6rem; min-width: 150px;">
+                            <option value="all">All Status</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                        <select id="complaint-category-filter" onchange="renderComplaints()" class="form-input"
+                            style="padding: 0.6rem; min-width: 150px;">
+                            <option value="all">All Categories</option>
+                            <option value="Food">Food</option>
+                            <option value="Room">Room</option>
+                            <option value="Water">Water</option>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="complaints-list-body">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Assigned To</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="complaints-body">
-                        <!-- JS Populated -->
-                    </tbody>
-                </table>
             </div>
         </section>
 
         <!-- Actions Section -->
         <section id="actions-section" class="animate-slide-up delay-100" style="display: none;">
-            <h2 style="margin-bottom: 1.5rem;">Quick Actions</h2>
-            <div class="action-grid">
+            <h2 style="margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(0, 242, 254, 0.3);">Quick Actions</h2>
+            <div class="action-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
                 <div class="action-card" onclick="window.location.href='payments.html'">
                     <i class="fa-solid fa-receipt action-icon"></i>
-                    <h3>Pay Bills & History</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">View and pay your monthly rent</p>
+                    <h3 style="color: white !important;">Pay Bills</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Rent & Food Dues</p>
                 </div>
                 <div class="action-card" onclick="window.location.href='laundry.html'">
                     <i class="fa-solid fa-shirt action-icon"></i>
-                    <h3>Laundry Service</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Manage wash plans & history</p>
+                    <h3 style="color: white !important;">Laundry</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Wash Plans</p>
                 </div>
                 <div class="action-card" onclick="showSection('complaint')">
                     <i class="fa-solid fa-circle-exclamation action-icon" style="color: var(--secondary);"></i>
-                    <h3>Complaints</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Raise housekeeping or food issues</p>
+                    <h3 style="color: white !important;">Complaints</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Raise Issues</p>
                 </div>
                 <div class="action-card" onclick="showSection('profile')">
                     <i class="fa-solid fa-id-card action-icon" style="color: var(--accent);"></i>
-                    <h3>My Profile</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Update your personal details</p>
+                    <h3 style="color: white !important;">My Profile</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Your Details</p>
                 </div>
             </div>
         </section>
 
         <!-- Profile Section -->
         <section id="profile-section" class="animate-slide-up delay-100" style="display: none;">
-            <h2 style="margin-bottom: 1.5rem;">My Profile</h2>
-            <div class="glass-card" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
-                <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(0, 242, 254, 0.3);">My Profile</h2>
+            <div class="glass-card"
+                style="max-width: 600px; margin: 0 auto; padding: 3rem; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);">
+                <div style="text-align: center; margin-bottom: 2.5rem;">
                     <div
-                        style="width: 100px; height: 100px; border-radius: 50%; background: #e0e7ff; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 2.5rem; color: var(--primary);">
+                        style="width: 110px; height: 110px; border-radius: 50%; background: rgba(0, 242, 254, 0.1); border: 2px solid var(--cyber-cyan); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; font-size: 3rem; color: var(--cyber-cyan); box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);">
                         <i class="fa-solid fa-user"></i>
                     </div>
-                    <h3 id="profile-name-display">John Doe</h3>
-                    <p style="color: var(--text-muted);">Student</p>
+                    <h3 id="profile-name-display"
+                        style="font-size: 1.8rem; margin-bottom: 0.5rem; color: white !important;">John Doe</h3>
+                    <p class="user-name-glow"
+                        style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Active Resident</p>
                 </div>
 
                 <form id="profile-form" onsubmit="updateProfile(event)">
                     <div style="display: grid; gap: 1.5rem;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                             <div>
-                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Student
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Student
                                     ID</label>
-                                <input type="text" id="profile-id" readonly
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); background: #f8fafc; cursor: not-allowed;">
+                                <input type="text" id="profile-id" readonly class="form-input"
+                                    style="width: 100%; cursor: not-allowed; background: rgba(0,0,0,0.3) !important;">
                             </div>
                             <div>
-                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Room
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Room
                                     Number</label>
-                                <input type="text" id="profile-room" readonly
-                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md); background: #f8fafc; cursor: not-allowed;">
+                                <input type="text" id="profile-room" readonly class="form-input"
+                                    style="width: 100%; cursor: not-allowed; background: rgba(0,0,0,0.3) !important;">
                             </div>
                         </div>
 
                         <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name</label>
-                            <input type="text" id="profile-name" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Full Name</label>
+                            <input type="text" id="profile-name" required class="form-input" style="width: 100%;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Email
+                                    Address</label>
+                                <input type="email" id="profile-email" required class="form-input" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Phone
+                                    Number</label>
+                                <input type="tel" id="profile-phone" required class="form-input" style="width: 100%;">
+                            </div>
                         </div>
 
                         <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email
-                                Address</label>
-                            <input type="email" id="profile-email" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                        </div>
-
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone Number</label>
-                            <input type="tel" id="profile-phone" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
-                        </div>
-
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Emergency
+                            <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Emergency
                                 Contact</label>
-                            <input type="tel" id="profile-emergency" required
-                                style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: var(--radius-md);">
+                            <input type="tel" id="profile-emergency" required class="form-input" style="width: 100%;">
                         </div>
 
-                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-                            <i class="fa-solid fa-save"></i> Save Changes
-                        </button>
+                        <div class="save-btn-container">
+                            <button type="submit" class="btn btn-primary luminous-btn"
+                                style="width: auto; min-width: 250px; padding: 1rem 2.5rem; font-weight: 700;">
+                                <i class="fa-solid fa-save"></i> SAVE PROFILE CHANGES
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -511,16 +697,16 @@
 
         <!-- Payment Modal -->
         <div id="payment-modal"
-            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center;">
             <div class="glass-card animate-slide-up"
-                style="background: white; width: 90%; max-width: 500px; padding: 2rem; position: relative;">
+                style="background: rgba(15, 23, 42, 0.95); border: 1px solid var(--cyber-cyan); width: 90%; max-width: 500px; padding: 2.5rem; position: relative; color: white; box-shadow: 0 0 50px rgba(0, 242, 254, 0.2);">
                 <button onclick="closePaymentModal()"
-                    style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; border: none; background: none; font-size: 1.5rem; cursor: pointer; color: white;"><i
                         class="fa-solid fa-xmark"></i></button>
 
-                <h2 style="margin-bottom: 0.5rem;">Pay Rent</h2>
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Total Amount Due: <span
-                        style="font-weight: 700; color: var(--text-main);">₹8,500</span></p>
+                <h2 style="margin-bottom: 0.5rem; color: var(--cyber-cyan) !important;">Pay Rent / Bills</h2>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 1.1rem;">Total Amount Due: <span
+                        style="font-weight: 800; color: white;">₹8,500</span></p>
 
                 <div style="display: grid; gap: 1rem;">
                     <div class="payment-option" onclick="processPayment('PhonePe')"
@@ -561,7 +747,7 @@
         <div id="vendor-menu-modal"
             style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2100; align-items: center; justify-content: center;">
             <div class="glass-card animate-slide-up"
-                style="background: white; width: 90%; max-width: 400px; padding: 1.5rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                style="background: var(--bg-glass-dark); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); width: 90%; max-width: 400px; padding: 1.5rem; position: relative; max-height: 90vh; overflow-y: auto; color: white;">
                 <button onclick="closeVendorMenu()"
                     style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
                         class="fa-solid fa-xmark"></i></button>
@@ -587,7 +773,7 @@
         <div id="pg-booking-modal"
             style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2200; align-items: center; justify-content: center;">
             <div class="glass-card animate-slide-up"
-                style="background: white; width: 90%; max-width: 500px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                style="background: var(--bg-glass-dark); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); width: 90%; max-width: 500px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto; color: white;">
                 <button onclick="closePGBookingModal()"
                     style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
                         class="fa-solid fa-xmark"></i></button>
@@ -667,7 +853,7 @@
         <div id="mess-subscription-modal"
             style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2200; align-items: center; justify-content: center;">
             <div class="glass-card animate-slide-up"
-                style="background: white; width: 90%; max-width: 600px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                style="background: var(--bg-glass-dark); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); width: 90%; max-width: 600px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto; color: white;">
                 <button onclick="closeMessSubscriptionModal()"
                     style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
                         class="fa-solid fa-xmark"></i></button>
@@ -746,7 +932,7 @@
         <div id="payment-receipt-modal"
             style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 2500; align-items: center; justify-content: center;">
             <div class="glass-card animate-slide-up"
-                style="background: white; width: 90%; max-width: 600px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;">
+                style="background: var(--bg-glass-dark); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); width: 90%; max-width: 600px; padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto; color: white;">
                 <button onclick="closeReceiptModal()"
                     style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; font-size: 1.2rem; cursor: pointer;"><i
                         class="fa-solid fa-xmark"></i></button>
@@ -778,7 +964,7 @@
 
         <!-- Notifications Panel -->
         <div id="notifications-panel"
-            style="display: none; position: fixed; top: 60px; right: 20px; width: 350px; max-height: 500px; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 3000; overflow-y: auto;">
+            style="display: none; position: fixed; top: 60px; right: 20px; width: 350px; max-height: 500px; background: var(--bg-glass-dark); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 3000; overflow-y: auto; color: white;">
             <div
                 style="padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
                 <h3 style="margin: 0;">Notifications</h3>
@@ -942,8 +1128,8 @@
                     <button 
                         class="share-btn ${k === defaultShare ? 'active' : ''}" 
                         onclick="updateRent(this, ${index}, ${k}, ${pg.sharingVariants[k]})"
-                        style="padding: 6px 10px; border: 1px solid #e2e8f0; border-radius: 6px; background: white; cursor: pointer; font-size: 0.85rem; flex: 1; transition: all 0.2s;">
-                        ${k} Sharing
+                        style="padding: 6px 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; background: rgba(255,255,255,0.05); color: white; cursor: pointer; font-size: 0.85rem; flex: 1; transition: all 0.2s;">
+                        ${k}
                     </button>
                 `).join('');
 
@@ -964,8 +1150,8 @@
                             <i class="fa-solid fa-location-dot" style="color: var(--primary);"></i> ${pg.address}
                         </p>
                         
-                        <div style="margin-bottom: 1rem; background: #f8fafc; padding: 0.75rem; border-radius: 8px;">
-                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 600;">Select Sharing Type:</p>
+                        <div style="margin-bottom: 1rem; background: rgba(0, 0, 0, 0.2); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                            <p style="font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; font-weight: 600;">Select Sharing:</p>
                             <div style="display: flex; gap: 0.5rem;">
                                 ${sharingButtons}
                             </div>
@@ -981,13 +1167,14 @@
                         </div>
                         
                         <!-- Mess Info (Integrated) -->
-                        <div style="margin-bottom: 1rem; padding: 0.6rem; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 6px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                                <span style="font-size: 0.9rem; font-weight: 600; color: var(--secondary); display: flex; align-items: center; gap: 0.4rem;">
-                                    <i class="fa-solid fa-utensils" style="color: #ea580c;"></i> ${pg.messOptions && pg.messOptions[0] ? pg.messOptions[0].name : 'Integrated Mess'}
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            ${pg.amenities.slice(0, 4).map(a => `
+                                <span class="pg-tag" title="${a}" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
+                                    <i class="fa-solid ${amenityIcons[a] || 'fa-check'}"></i> ${a}
                                 </span>
-                                ${pg.messOptions && pg.messOptions[0] ? `<span style="font-size: 0.75rem; background: white; padding: 2px 6px; border-radius: 10px; border: 1px solid #e2e8f0;"><i class="fa-solid fa-star" style="color: #fbbf24;"></i> ${pg.messOptions[0].rating}</span>` : ''}
-                            </div>
+                            `).join('')}
+                            ${pg.amenities.length > 4 ? `<span class="pg-tag" title="More amenities" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">+${pg.amenities.length - 4}</span>` : ''}
+                        </div>
                             <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
                                 <span><i class="fa-solid fa-circle-check" style="color: #10b981; margin-right: 4px;"></i> All Meals Included</span>
                                 <button onclick="openVendorMenu('${pg.messOptions && pg.messOptions[0] ? pg.messOptions[0].name.replace(/'/g, "\\'") : 'Mess'}', ${pg.messOptions && pg.messOptions[0] ? pg.messOptions[0].id : 0})" 
@@ -997,12 +1184,12 @@
                             </div>
                          </div>
 
-                        <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <span class="pg-rent strength-price" style="font-size: 1.4rem; font-weight: 700; color: var(--primary);">₹${defaultRent}</span>
+                                <span class="pg-rent strength-price" style="font-size: 1.4rem; font-weight: 700; color: var(--cyber-cyan);">₹${defaultRent}</span>
                                 <span style="font-size: 0.8rem; color: var(--text-muted);">/mo</span>
                             </div>
-                            <button class="btn btn-primary pg-req-btn" 
+                            <button class="btn btn-primary pg-req-btn luminous-btn" 
                                 data-pg-id="${pg.id}"
                                 data-pg-name="${pg.name}"
                                 data-share="${defaultShare}" 
@@ -1049,14 +1236,14 @@
 
             // Update buttons styling
             card.querySelectorAll('.share-btn').forEach(b => {
-                b.style.backgroundColor = 'white';
-                b.style.color = 'black';
-                b.style.borderColor = '#e2e8f0';
+                b.style.backgroundColor = 'rgba(255,255,255,0.05)';
+                b.style.color = 'white';
+                b.style.borderColor = 'rgba(255,255,255,0.2)';
                 b.classList.remove('active');
             });
-            btn.style.backgroundColor = 'var(--primary)';
-            btn.style.color = 'white';
-            btn.style.borderColor = 'var(--primary)';
+            btn.style.backgroundColor = 'rgba(0, 242, 254, 0.2)';
+            btn.style.color = 'var(--cyber-cyan)';
+            btn.style.borderColor = 'var(--cyber-cyan)';
             btn.classList.add('active');
 
             // Update rent display
@@ -1104,11 +1291,11 @@
         function selectPaymentMethod(method) {
             document.getElementById('selected-payment-method').value = method;
             document.querySelectorAll('#pg-payment-section .payment-option').forEach(opt => {
-                opt.style.borderColor = '#e2e8f0';
-                opt.style.backgroundColor = 'white';
+                opt.style.borderColor = 'rgba(255,255,255,0.1)';
+                opt.style.backgroundColor = 'rgba(15, 23, 42, 0.6)';
             });
-            event.currentTarget.style.borderColor = 'var(--primary)';
-            event.currentTarget.style.backgroundColor = '#f0f4ff';
+            event.currentTarget.style.borderColor = 'var(--cyber-cyan)';
+            event.currentTarget.style.backgroundColor = 'rgba(0, 242, 254, 0.1)';
         }
 
         async function submitPGBooking(event) {
@@ -1267,21 +1454,22 @@
             subscriptionContext.finalPrice = price;
 
             document.querySelectorAll('.tier-card').forEach(card => {
-                card.style.borderColor = '#e2e8f0';
-                card.style.backgroundColor = 'white';
+                card.style.borderColor = 'rgba(255,255,255,0.1)';
+                card.style.backgroundColor = 'rgba(15, 23, 42, 0.6)';
             });
-            document.getElementById(`tier-${tier}`).style.borderColor = SubscriptionTiers[tier].color;
-            document.getElementById(`tier-${tier}`).style.backgroundColor = SubscriptionTiers[tier].color + '15';
+            const activeCard = document.getElementById(`tier-${tier}`);
+            activeCard.style.borderColor = SubscriptionTiers[tier].color;
+            activeCard.style.backgroundColor = SubscriptionTiers[tier].color + '25';
         }
 
         function selectMessPaymentMethod(method) {
             document.getElementById('selected-mess-payment-method').value = method;
             document.querySelectorAll('#mess-payment-section .payment-option').forEach(opt => {
-                opt.style.borderColor = '#e2e8f0';
-                opt.style.backgroundColor = 'white';
+                opt.style.borderColor = 'rgba(255,255,255,0.1)';
+                opt.style.backgroundColor = 'rgba(15, 23, 42, 0.6)';
             });
-            event.currentTarget.style.borderColor = 'var(--primary)';
-            event.currentTarget.style.backgroundColor = '#f0f4ff';
+            event.currentTarget.style.borderColor = 'var(--cyber-cyan)';
+            event.currentTarget.style.backgroundColor = 'rgba(0, 242, 254, 0.1)';
         }
 
         async function submitMessSubscription(event) {
@@ -1468,7 +1656,7 @@
 
                     return `
                         <div onclick="NotificationSystem.markAsRead(${notif.id}); updateNotificationBadge(); this.style.opacity='0.6';" 
-                             style="padding: 1rem; border-bottom: 1px solid #e2e8f0; cursor: pointer; background: ${notif.read ? '#f8fafc' : 'white'};">
+                             style="padding: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; background: ${notif.read ? 'rgba(255, 255, 255, 0.02)' : 'rgba(255, 255, 255, 0.08)'};">
                             <div style="display: flex; gap: 0.75rem;">
                                 <i class="fa-solid ${icon}" style="color: ${color}; font-size: 1.2rem; margin-top: 0.2rem;"></i>
                                 <div style="flex: 1;">
@@ -1714,7 +1902,7 @@
                 complaints = complaints.filter(c => c.category === categoryFilter);
             }
 
-            const tbody = document.getElementById('complaints-body');
+            const tbody = document.getElementById('complaints-list-body');
             if (complaints.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-muted);">No complaints found</td></tr>';
                 return;
@@ -1743,7 +1931,7 @@
                         <td>${c.assignedToName || 'Unassigned'}</td>
                         <td>${new Date(c.createdAt).toLocaleDateString()}</td>
                         <td>
-                            <button onclick="viewComplaintDetails(${c.id})" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">View</button>
+                            <button onclick="viewComplaintDetails(${c.id})" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">View</button>
                         </td>
                     </tr>
                 `;
@@ -2118,8 +2306,10 @@ Thank you for choosing Happy Living PG!
     </div>
 
     <!-- Offline Indicator -->
-    <div id="offline-indicator">
-        <i class="fa-solid fa-wifi"></i> You are offline. Some features may be limited.
+    <div id="offline-indicator"
+        style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--secondary); color: white; padding: 1rem 2rem; border-radius: 50px; bottom: 30px; box-shadow: 0 0 30px rgba(251, 113, 133, 0.4);">
+        <i class="fa-solid fa-wifi-slash" style="color: var(--secondary); margin-right: 10px;"></i>
+        <strong style="color: white !important;">OFFLINE MODE:</strong> Some features may be limited.
     </div>
 </body>
 

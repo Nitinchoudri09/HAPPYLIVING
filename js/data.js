@@ -745,7 +745,8 @@ const NotificationSystem = {
             (targetRole === 'all' || targetRole === user.role || !user.role)) {
             new Notification(title, {
                 body: message,
-                icon: '/assets/hero_image.png',
+                // Use an existing visible icon from assets to avoid 404
+                icon: '/assets/logo.jpg',
                 tag: notification.id.toString()
             });
         }

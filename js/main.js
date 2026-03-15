@@ -1,20 +1,91 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Scroll Animation Observer
+    // Custom Cursor Logic
+    let cursor = document.getElementById('custom-cursor');
+    let follower = document.getElementById('custom-cursor-follower');
+
+    if (!cursor) {
+        cursor = document.createElement('div');
+        cursor.id = 'custom-cursor';
+        document.body.appendChild(cursor);
+    }
+    if (!follower) {
+        follower = document.createElement('div');
+        follower.id = 'custom-cursor-follower';
+        document.body.appendChild(follower);
+    }
+
+    if (cursor && follower) {
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            }, 50);
+        });
+
+        // Use event delegation for hover effects to handle dynamically added elements
+        document.addEventListener('mouseover', (e) => {
+            const target = e.target.closest('a, button, .role-card, .nav-link, .pg-req-btn, .action-card, .btn');
+            if (target) {
+                cursor.style.transform = 'scale(2)';
+                follower.style.transform = 'scale(1.5)';
+                follower.style.borderColor = 'var(--cyber-cyan)';
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            const target = e.target.closest('a, button, .role-card, .nav-link, .pg-req-btn, .action-card, .btn');
+            if (target) {
+                cursor.style.transform = 'scale(1)';
+                follower.style.transform = 'scale(1)';
+                follower.style.borderColor = 'var(--cyber-cyan)'; // Keep cyan for consistency
+            }
+        });
+    }
+
+    // Scroll Animation Observer (Enhanced)
     const observerOptions = {
-        threshold: 0.1
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-slide-up');
+                if (entry.target.classList.contains('glass-card')) {
+                    entry.target.classList.add('animate-pop-in');
+                }
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    document.querySelectorAll('.animate-on-scroll, .glass-card, .feature-card').forEach(el => {
         observer.observe(el);
+    });
+
+    // Parallax Hero & Background Shapes
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const heroText = document.querySelector('.hero-text');
+        if (heroText) {
+            heroText.style.transform = `translateY(${scrolled * 0.3}px)`;
+            heroText.style.opacity = 1 - (scrolled / 500);
+        }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) - 0.5;
+        const y = (e.clientY / window.innerHeight) - 0.5;
+
+        const shapes = document.querySelectorAll('.shape');
+        shapes.forEach((shape, index) => {
+            const factor = (index + 1) * 20;
+            shape.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+        });
     });
 });
 
@@ -109,40 +180,32 @@ function toggleMobileNav() {
 
 // Global Toast System
 window.showToast = function (title, message, type = 'info') {
-    const container = document.getElementById('toast-container');
+    let container = document.getElementById('toast-container');
     if (!container) {
-        const div = document.createElement('div');
-        div.id = 'toast-container';
-        div.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; display: grid; gap: 10px; pointer-events: none;';
-        document.body.appendChild(div);
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        document.body.appendChild(container);
     }
 
     const toast = document.createElement('div');
-    const colors = {
+    toast.className = 'luminous-toast';
+
+    // Custom colors based on type
+    const accentColors = {
         success: '#10b981',
         error: '#ef4444',
-        info: '#3b82f6',
+        info: '#00f2fe',
         warning: '#f59e0b'
     };
 
-    toast.style.cssText = `
-        background: white; 
-        padding: 1rem 1.5rem; 
-        border-radius: 8px; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-        border-left: 5px solid ${colors[type]}; 
-        min-width: 250px; 
-        max-width: 400px;
-        pointer-events: auto;
-        animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 4.7s forwards;
-    `;
+    toast.style.borderLeftColor = accentColors[type];
 
     toast.innerHTML = `
-        <div style="font-weight: bold; font-size: 0.9rem; margin-bottom: 0.2rem; color: ${colors[type]}">${title}</div>
-        <div style="font-size: 0.85rem; color: #4b5563">${message}</div>
+        <div style="font-weight: 800; font-size: 1rem; color: ${accentColors[type]}">${title}</div>
+        <div style="font-size: 0.9rem; color: rgba(255,255,255,0.9)">${message}</div>
     `;
 
-    document.getElementById('toast-container').appendChild(toast);
+    container.appendChild(toast);
     setTimeout(() => toast.remove(), 5000);
 }
 

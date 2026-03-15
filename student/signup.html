@@ -73,7 +73,7 @@
                             <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password')"></i>
                         </div>
                         <div id="strength-bar"
-                            style="height: 4px; background: #e2e8f0; margin-top: 0.5rem; border-radius: 2px; overflow: hidden;">
+                            style="height: 4px; background: rgba(255,255,255,0.1); margin-top: 0.5rem; border-radius: 2px; overflow: hidden;">
                             <div id="strength-fill" style="height: 100%; width: 0%; transition: all 0.3s;"></div>
                         </div>
                         <div id="strength-text"
@@ -90,14 +90,14 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary"
-                        style="width: 100%; background: linear-gradient(135deg, var(--secondary) 0%, #e11d48 100%);">
+                    <button type="submit" class="btn btn-primary luminous-btn" style="width: 100%;">
                         Create Account <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </form>
 
                 <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
-                    Already have an account? <a href="login.html" style="color: var(--secondary); font-weight: 600;">Log
+                    Already have an account? <a href="login.html"
+                        style="color: var(--cyber-cyan); font-weight: 600;">Log
                         In</a>
                 </div>
             </div>
@@ -108,7 +108,7 @@
     <div id="success-modal"
         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
         <div class="glass-card animate-pop-in"
-            style="background: white !important; padding: 2rem; width: 90%; max-width: 400px; text-align: center;">
+            style="background: var(--bg-glass-dark) !important; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 2rem; width: 90%; max-width: 400px; text-align: center; color: white;">
             <div
                 style="width: 60px; height: 60px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; color: #166534; font-size: 1.5rem;">
                 <i class="fa-solid fa-check"></i>
@@ -119,6 +119,7 @@
         </div>
     </div>
 
+    <script src="../js/data.js"></script>
     <script src="../js/auth-service.js"></script>
     <script>
         function togglePassword(inputId) {

@@ -81,9 +81,18 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/auth-service.js"></script>
     <script>
+        // Init Tilt
+        VanillaTilt.init(document.querySelector(".auth-card"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2
+        });
+
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
             const icon = event.currentTarget;
