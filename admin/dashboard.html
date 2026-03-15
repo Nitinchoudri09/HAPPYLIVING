@@ -36,6 +36,16 @@
             transition: all 0.3s ease;
         }
 
+        /* Full-screen mode for specific sections (e.g., Laundry) */
+        .main-content.full-screen {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .sidebar.hidden {
+            display: none;
+        }
+
         @media (max-width: 900px) {
             .sidebar {
                 width: 100%;
@@ -1112,11 +1122,24 @@
 
             // Show specific section
             const target = document.getElementById(sectionId);
+            const mainContent = document.querySelector('.main-content');
+            const sidebar = document.querySelector('.sidebar');
             if (target) {
                 target.style.display = 'block';
                 // Trigger reflow to restart animation
                 void target.offsetWidth;
                 target.classList.add('animate-pop-in');
+            }
+
+            // Toggle full-screen mode for Laundry section
+            if (mainContent && sidebar) {
+                if (sectionId === 'laundry-section') {
+                    mainContent.classList.add('full-screen');
+                    sidebar.classList.add('hidden');
+                } else {
+                    mainContent.classList.remove('full-screen');
+                    sidebar.classList.remove('hidden');
+                }
             }
 
             // Update Active Nav State
