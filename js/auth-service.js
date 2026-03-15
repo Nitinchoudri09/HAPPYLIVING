@@ -60,7 +60,7 @@ const AuthService = {
 
     // Verify password
     verifyPassword: (password, hash) => {
-        return this.hashPassword(password) === hash;
+        return AuthService.hashPassword(password) === hash;
     },
 
     // Generate OTP
@@ -125,15 +125,39 @@ const AuthService = {
         return { valid: true, message: 'OTP verified' };
     },
 
-    // Enhanced login
-    login: function (identifier, password, role = 'student') {
-        // Rate limiting check removed by user request
-        const email = identifier; // Alias for backward compatibility in rest of function if needed, though we should use identifier for lookup
+    // Enhanced login with API support
+    login: async function (identifier, password, role = 'student') {
+        const email = identifier;
 
-        // Get user from bookings or create mock
+        // Try API login first (Real Data Connection)
+        try {
+            // Replace with your actual API endpoint base URL
+            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier, password, role })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // Store actual API tokens
+                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('refreshToken', data.refreshToken);
+                localStorage.setItem('user', JSON.stringify(data.user));
+
+                this.clearLoginAttempts(email);
+                return data;
+            }
+        } catch (error) {
+            console.warn('API login failed or unavailable, falling back to local database...', error);
+        }
+
+        // Fallback to local data if API is not available
         let user = null;
         if (role === 'student') {
-            // Priority 1: Check registered students (created via signup)
             const registeredStudents = JSON.parse(localStorage.getItem('registered_students') || '[]');
             user = registeredStudents.find(s =>
                 (s.email && s.email.trim().toLowerCase() === identifier.toLowerCase()) ||
@@ -141,13 +165,11 @@ const AuthService = {
             );
 
             if (user) {
-                // Verify against hashed password
                 if (password !== 'otp_verified' && user.password !== this.hashPassword(password)) {
                     AuthService.recordLoginAttempt(identifier, false);
                     throw new Error('Invalid credentials');
                 }
             } else {
-                // Priority 2: Check bookings (created via PG booking)
                 const bookings = window.BookingSystem ? window.BookingSystem.getBookings() : [];
                 user = bookings.find(b =>
                     (b.email && b.email.trim().toLowerCase() === identifier.toLowerCase()) ||
@@ -155,13 +177,11 @@ const AuthService = {
                 );
 
                 if (user) {
-                    // Bookings currently store plain text passwords in this project's logic
                     if (password !== 'otp_verified' && user.password !== password) {
                         AuthService.recordLoginAttempt(identifier, false);
                         throw new Error('Invalid credentials');
                     }
                 } else {
-                    // Fallback: Demo accounts (only if no real user found)
                     if (identifier === 'student' || identifier === 'student@example.com') {
                         if (password === 'student123' || password === 'demo123' || password === 'otp_verified') {
                             user = {
@@ -175,7 +195,6 @@ const AuthService = {
                 }
             }
         } else if (role === 'admin') {
-            // Check hardcoded admin
             if ((email === 'admin' || email === 'admin@happylivingpg.com') && password === 'admin123') {
                 user = {
                     id: 1,
@@ -184,9 +203,8 @@ const AuthService = {
                     role: 'admin'
                 };
             } else {
-                // Check registered admins
                 const admins = JSON.parse(localStorage.getItem('registered_admins') || '[]');
-                user = admins.find(a => a.email === email && a.password === this.hashPassword(password));
+                user = admins.find(a => a.email === email && a.password === AuthService.hashPassword(password));
 
                 if (!user) {
                     AuthService.recordLoginAttempt(email, false);
@@ -200,7 +218,6 @@ const AuthService = {
             throw new Error('User not found or invalid account');
         }
 
-        // Generate tokens
         const accessToken = AuthService.generateToken({
             userId: user.id,
             email: user.email,
@@ -214,7 +231,6 @@ const AuthService = {
             type: 'refresh'
         }, '7d');
 
-        // Store tokens
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('user', JSON.stringify({
@@ -224,7 +240,6 @@ const AuthService = {
             role: user.role
         }));
 
-        // Clear login attempts
         AuthService.clearLoginAttempts(email);
 
         return {
@@ -240,9 +255,39 @@ const AuthService = {
     },
 
     // Register new user
-    register: function (userData, role = 'student') {
+    register: async function (userData, role = 'student') {
+        const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...userData, role })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (role === 'student') {
+                    const students = JSON.parse(localStorage.getItem('registered_students') || '[]');
+                    students.push(data);
+                    localStorage.setItem('registered_students', JSON.stringify(students));
+                } else if (role === 'admin') {
+                    const admins = JSON.parse(localStorage.getItem('registered_admins') || '[]');
+                    admins.push(data);
+                    localStorage.setItem('registered_admins', JSON.stringify(admins));
+                }
+
+                return data;
+            } else {
+                console.warn('API /register failed, falling back to local DB...');
+            }
+        } catch (error) {
+            console.warn('API connection failed during register, using fallback', error);
+        }
+
+        // Fallback to local
         if (role === 'student') {
-            // For students, we usually store in bookings or a separate users list
             const students = JSON.parse(localStorage.getItem('registered_students') || '[]');
             if (students.find(s => s.email === userData.email)) {
                 throw new Error('User already exists with this email');
@@ -252,7 +297,7 @@ const AuthService = {
                 ...userData,
                 id: Date.now(),
                 role: 'student',
-                password: this.hashPassword(userData.password)
+                password: AuthService.hashPassword(userData.password)
             };
 
             students.push(newUser);
@@ -268,7 +313,7 @@ const AuthService = {
                 ...userData,
                 id: Date.now(),
                 role: 'admin',
-                password: this.hashPassword(userData.password)
+                password: AuthService.hashPassword(userData.password)
             };
 
             admins.push(newAdmin);
@@ -307,7 +352,26 @@ const AuthService = {
     },
 
     // Forgot password
-    forgotPassword: function (email) {
+    forgotPassword: async function (email) {
+        const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data; // Assume API returns { message, email, otp (for dev) }
+            } else {
+                console.warn('API /forgot-password failed, falling back to local implementation...');
+            }
+        } catch (error) {
+            console.warn('API connection failed during forgotPassword, using fallback', error);
+        }
+
         const otp = AuthService.generateOTP();
         AuthService.storeOTP(email, otp, 15); // 15 minutes for password reset
 
@@ -327,14 +391,34 @@ const AuthService = {
     },
 
     // Reset password
-    resetPassword: function (email, otp, newPassword) {
+    resetPassword: async function (email, otp, newPassword) {
+        const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, otp, newPassword })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                console.warn('API /reset-password failed, falling back to local implementation...');
+            }
+        } catch (error) {
+            console.warn('API connection failed during resetPassword, using fallback', error);
+        }
+
+        // Fallback to local
         const verification = AuthService.verifyOTP(email, otp);
 
         if (!verification.valid) {
             throw new Error(verification.message);
         }
 
-        const hashedPassword = this.hashPassword(newPassword);
+        const hashedPassword = AuthService.hashPassword(newPassword);
         let userFound = false;
 
         // 1. Check/Update registered students
@@ -443,15 +527,15 @@ const AuthService = {
             return null;
         }
 
-        const payload = this.verifyToken(accessToken);
+        const payload = AuthService.verifyToken(accessToken);
         if (!payload) {
             // Try to refresh
             try {
-                this.refreshAccessToken();
+                AuthService.refreshAccessToken();
                 const newToken = localStorage.getItem('accessToken');
-                return this.verifyToken(newToken);
+                return AuthService.verifyToken(newToken);
             } catch (error) {
-                this.logout();
+                AuthService.logout();
                 return null;
             }
         }

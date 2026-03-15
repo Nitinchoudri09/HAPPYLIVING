@@ -107,35 +107,35 @@
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifying...';
             btn.disabled = true;
 
-            // Simulate delay
-            setTimeout(() => {
-                try {
-                    let success = false;
+            try {
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 800));
 
-                    if (window.AuthService) {
-                        const email = username.includes('@') ? username : 'admin@happylivingpg.com';
-                        const result = AuthService.login(email, password, 'admin');
-                        localStorage.setItem('user', JSON.stringify(result.user));
+                let success = false;
+
+                if (window.AuthService) {
+                    const email = username.includes('@') ? username : 'admin@happylivingpg.com';
+                    const result = await AuthService.login(email, password, 'admin');
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                    success = true;
+                } else {
+                    // Fallback logic if Service not loaded
+                    if (username === 'admin' && password === 'admin123') {
                         success = true;
-                    } else {
-                        // Fallback logic if Service not loaded
-                        if (username === 'admin' && password === 'admin123') {
-                            success = true;
-                            localStorage.setItem('user', JSON.stringify({ name: 'System Admin', role: 'admin', id: 'admin-001' }));
-                        }
+                        localStorage.setItem('user', JSON.stringify({ name: 'System Admin', role: 'admin', id: 'admin-001' }));
                     }
-
-                    if (success) {
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        throw new Error('Invalid credentials');
-                    }
-                } catch (err) {
-                    alert('Login Failed: ' + err.message);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
                 }
-            }, 800);
+
+                if (success) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    throw new Error('Invalid credentials');
+                }
+            } catch (err) {
+                alert('Login Failed: ' + err.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     </script>
 </body>

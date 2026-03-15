@@ -116,7 +116,7 @@
 
         async function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const emailInput = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const btn = e.target.querySelector('button[type="submit"]');
 
@@ -125,53 +125,48 @@
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Signing in...';
             btn.disabled = true;
 
-            // Simulate delay
-            setTimeout(() => {
-                try {
-                    // Logic from existing files
-                    let success = false;
-                    let redirect = '';
+            try {
+                // Logic from existing files
+                let success = false;
+                let redirect = '';
 
-                    if (currentRole === 'Student') {
-                        // Use AuthService or basic check
-                        // For demo: verify simple credentials or use AuthService logic
-                        if (window.AuthService) {
-                            const result = AuthService.login(email, password, 'student'); // AuthService handles mock logic
-                            localStorage.setItem('user', JSON.stringify(result.user));
-                            success = true;
-                            redirect = 'dashboard.html'; // In current directory (student/)
-                        } else {
-                            // Fallback
-                            if (password.length > 3) { success = true; redirect = 'dashboard.html'; }
-                        }
+                // Simulate slight network delay
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                if (currentRole === 'Student') {
+                    if (window.AuthService) {
+                        const result = await AuthService.login(emailInput, password, 'student');
+                        localStorage.setItem('user', JSON.stringify(result.user));
+                        success = true;
+                        redirect = 'dashboard.html';
                     } else {
-                        // Admin Check
-                        if (window.AuthService) {
-                            // Hacky fix for email check in AuthService mock
-                            const adminEmail = email.includes('@') ? email : 'admin@happylivingpg.com';
-                            const result = AuthService.login(adminEmail, password, 'admin');
-                            localStorage.setItem('user', JSON.stringify(result.user));
+                        if (password.length > 3) { success = true; redirect = 'dashboard.html'; }
+                    }
+                } else {
+                    if (window.AuthService) {
+                        const adminEmail = emailInput.includes('@') ? emailInput : 'admin@happylivingpg.com';
+                        const result = await AuthService.login(adminEmail, password, 'admin');
+                        localStorage.setItem('user', JSON.stringify(result.user));
+                        success = true;
+                        redirect = '../admin/dashboard.html';
+                    } else {
+                        if (emailInput === 'admin' && password === 'admin123') {
                             success = true;
                             redirect = '../admin/dashboard.html';
-                        } else {
-                            if (email === 'admin' && password === 'admin123') {
-                                success = true;
-                                redirect = '../admin/dashboard.html';
-                            }
                         }
                     }
-
-                    if (success) {
-                        window.location.href = redirect;
-                    } else {
-                        throw new Error('Invalid credentials');
-                    }
-                } catch (err) {
-                    alert('Login Failed: ' + err.message);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
                 }
-            }, 800);
+
+                if (success) {
+                    window.location.href = redirect;
+                } else {
+                    throw new Error('Invalid credentials');
+                }
+            } catch (err) {
+                alert('Login Failed: ' + err.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     </script>
 </body>

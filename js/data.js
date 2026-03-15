@@ -4,7 +4,7 @@
 const DB = {
     init: () => {
         // Data Version Control (increment to force update)
-        const currentVersion = '1.5';
+        const currentVersion = '1.6';
         const savedVersion = localStorage.getItem('happyLiving_DataVersion');
 
         if (savedVersion !== currentVersion) {
@@ -37,7 +37,7 @@ const PGs_Static = [
         type: "Co-Ed",
         image: "../assets/pg_room.png",
         amenities: ["WiFi", "Mess", "Power Backup", "Water Supply"],
-        messOptions: [{ id: 101, name: "Premium Mess", price: 0, rating: 4.8 }] // Included
+        messOptions: [{ id: 101, name: "Premium Mess", price: 0, rating: 4.8 }]
     },
     {
         id: 2,
@@ -79,7 +79,7 @@ const PGs_Static = [
         sharingVariants: { 2: 9200, 3: 7400, 4: 5900 },
         rating: 4.4,
         type: "Boys",
-        image: "../assets/pg_exterior.png",
+        image: "../assets/pg_garden_view.png",
         amenities: ["WiFi", "Mess", "Security"],
         messOptions: [{ id: 105, name: "Homely Mess", price: 0, rating: 4.4 }]
     },
@@ -90,7 +90,7 @@ const PGs_Static = [
         sharingVariants: { 2: 8500, 3: 6800, 4: 5300 },
         rating: 4.0,
         type: "Girls",
-        image: "../assets/pg_room.png",
+        image: "../assets/pg_boutique_interior.png",
         amenities: ["WiFi", "Mess", "Garden"],
         messOptions: [{ id: 106, name: "Comfort Foods", price: 0, rating: 4.0 }]
     },
@@ -112,7 +112,7 @@ const PGs_Static = [
         sharingVariants: { 2: 10500, 3: 8300, 4: 6700 },
         rating: 4.7,
         type: "Boys",
-        image: "../assets/pg_rooftop.png",
+        image: "../assets/pg_modern_facade.png",
         amenities: ["WiFi", "AC", "Mess", "Laundry"],
         messOptions: [{ id: 108, name: "Urban Bites", price: 0, rating: 4.7 }]
     },
@@ -123,7 +123,7 @@ const PGs_Static = [
         sharingVariants: { 2: 9000, 3: 7000, 4: 5600 },
         rating: 4.3,
         type: "Girls",
-        image: "../assets/pg_interior_2.png",
+        image: "../assets/pg_balcony_room.png",
         amenities: ["WiFi", "Mess", "Metro Access"],
         messOptions: [{ id: 109, name: "Smart Kitchen", price: 0, rating: 4.3 }]
     },
@@ -134,9 +134,339 @@ const PGs_Static = [
         sharingVariants: { 2: 8700, 3: 6900, 4: 5400 },
         rating: 4.5,
         type: "Co-Ed",
-        image: "../assets/pg_room.png",
+        image: "../assets/pg_dining_hall.png",
         amenities: ["WiFi", "Mess", "Study Room"],
         messOptions: [{ id: 110, name: "Golden Spoon", price: 0, rating: 4.5 }]
+    },
+    {
+        id: 11,
+        name: "Zenith Heights PG",
+        address: "Skyline Avenue",
+        sharingVariants: { 2: 11000, 3: 8500, 4: 7000 },
+        rating: 4.9,
+        type: "Co-Ed",
+        image: "../assets/pg_minimalist_exterior.png",
+        amenities: ["WiFi", "AC", "Gym", "Mess", "CCTV"],
+        messOptions: [{ id: 111, name: "Zenith Kitchen", price: 0, rating: 4.9 }]
+    },
+    {
+        id: 12,
+        name: "Blue Sky Residency",
+        address: "North Park",
+        sharingVariants: { 2: 8500, 3: 6500, 4: 5000 },
+        rating: 4.1,
+        type: "Boys",
+        image: "../assets/pg_balcony_view.png",
+        amenities: ["WiFi", "Mess", "Power Backup"],
+        messOptions: [{ id: 112, name: "Blue Sky Meals", price: 0, rating: 4.1 }]
+    },
+    {
+        id: 13,
+        name: "Student Nest",
+        address: "University Circle",
+        sharingVariants: { 2: 8000, 3: 6000, 4: 4500 },
+        rating: 4.0,
+        type: "Girls",
+        image: "../assets/pg_common_area.png",
+        amenities: ["WiFi", "Mess", "Laundry"],
+        messOptions: [{ id: 113, name: "Nest Canteen", price: 0, rating: 4.0 }]
+    },
+    {
+        id: 14,
+        name: "Comfort Stay PG",
+        address: "South Extension",
+        sharingVariants: { 2: 9500, 3: 7500, 4: 6000 },
+        rating: 4.4,
+        type: "Co-Ed",
+        image: "../assets/pg_luxury_room.png",
+        amenities: ["WiFi", "AC", "Mess", "Security"],
+        messOptions: [{ id: 114, name: "Comfort Dining", price: 0, rating: 4.4 }]
+    },
+    {
+        id: 15,
+        name: "Pine Crest PG",
+        address: "Hill View",
+        sharingVariants: { 2: 8200, 3: 6200, 4: 5000 },
+        rating: 4.2,
+        type: "Boys",
+        image: "../assets/pg_attic_room.png",
+        amenities: ["WiFi", "Mess", "Park Access"],
+        messOptions: [{ id: 115, name: "Pine Foods", price: 0, rating: 4.2 }]
+    },
+    {
+        id: 16,
+        name: "Maple Leaf PG",
+        address: "Suburban Street",
+        sharingVariants: { 2: 8800, 3: 6800, 4: 5500 },
+        rating: 4.3,
+        type: "Girls",
+        image: "../assets/pg_loft_room.png",
+        amenities: ["WiFi", "Mess", "Library"],
+        messOptions: [{ id: 116, name: "Maple Kitchen", price: 0, rating: 4.3 }]
+    },
+    {
+        id: 17,
+        name: "Ocean Breeze PG",
+        address: "Coast Road",
+        sharingVariants: { 2: 12000, 3: 9500, 4: 7500 },
+        rating: 5.0,
+        type: "Co-Ed",
+        image: "../assets/pg_terrace.png",
+        amenities: ["WiFi", "AC", "Pool", "Mess", "Gym"],
+        messOptions: [{ id: 117, name: "Ocean Tastes", price: 0, rating: 5.0 }]
+    },
+    {
+        id: 18,
+        name: "Silver Oak Residency",
+        address: "Business Hub",
+        sharingVariants: { 2: 10500, 3: 8000, 4: 6500 },
+        rating: 4.6,
+        type: "Boys",
+        image: "../assets/pg_reception.png",
+        amenities: ["WiFi", "Mess", "CCTV", "Parking"],
+        messOptions: [{ id: 118, name: "Oak Dining", price: 0, rating: 4.6 }]
+    },
+    {
+        id: 19,
+        name: "City Pulse PG",
+        address: "Central Square",
+        sharingVariants: { 2: 9800, 3: 7800, 4: 6200 },
+        rating: 4.5,
+        type: "Girls",
+        image: "../assets/pg_study_room_v2.png",
+        amenities: ["WiFi", "AC", "Mess", "Metro Access"],
+        messOptions: [{ id: 119, name: "City Bites", price: 0, rating: 4.5 }]
+    },
+    {
+        id: 20,
+        name: "Tranquil Stay",
+        address: "Zen Garden",
+        sharingVariants: { 2: 9000, 3: 7000, 4: 5500 },
+        rating: 4.7,
+        type: "Co-Ed",
+        image: "../assets/pg_garden_view.png",
+        amenities: ["WiFi", "Mess", "Yoga Room", "Garden"],
+        messOptions: [{ id: 120, name: "Zen Foods", price: 0, rating: 4.7 }]
+    },
+    {
+        id: 21,
+        name: "Harmony House",
+        address: "Peaceful Lane",
+        sharingVariants: { 2: 8500, 3: 6500, 4: 5000 },
+        rating: 4.4,
+        type: "Girls",
+        image: "../assets/pg_gym_facility.png",
+        amenities: ["WiFi", "Mess", "Laundry"],
+        messOptions: [{ id: 121, name: "Harmony Mess", price: 0, rating: 4.4 }]
+    },
+    {
+        id: 22,
+        name: "Elite Executive PG",
+        address: "Industrial Area",
+        sharingVariants: { 2: 13000, 3: 10000, 4: 8000 },
+        rating: 4.8,
+        type: "Boys",
+        image: "../assets/pg_luxury_room.png",
+        amenities: ["WiFi", "AC", "Office Desk", "Mess", "Gym"],
+        messOptions: [{ id: 122, name: "Executive Club", price: 0, rating: 4.8 }]
+    },
+    {
+        id: 23,
+        name: "Grand Central PG",
+        address: "Terminal Plaza",
+        sharingVariants: { 2: 9200, 3: 7200, 4: 5800 },
+        rating: 4.3,
+        type: "Co-Ed",
+        image: "../assets/pg_minimalist_exterior.png",
+        amenities: ["WiFi", "Mess", "Transport Access"],
+        messOptions: [{ id: 123, name: "Grand Meals", price: 0, rating: 4.3 }]
+    },
+    {
+        id: 24,
+        name: "Metro Nest PG",
+        address: "Railway Gate",
+        sharingVariants: { 2: 8700, 3: 6700, 4: 5200 },
+        rating: 4.2,
+        type: "Girls",
+        image: "../assets/pg_balcony_room.png",
+        amenities: ["WiFi", "Mess", "CCTV"],
+        messOptions: [{ id: 124, name: "Metro Kitchen", price: 0, rating: 4.2 }]
+    },
+    {
+        id: 25,
+        name: "Scholars Paradise",
+        address: "Education Hub",
+        sharingVariants: { 2: 9500, 3: 7500, 4: 6000 },
+        rating: 4.6,
+        type: "Boys",
+        image: "../assets/pg_study_room_v2.png",
+        amenities: ["WiFi", "Mess", "Study Cabins", "Library"],
+        messOptions: [{ id: 125, name: "Scholars Mess", price: 0, rating: 4.6 }]
+    },
+    {
+        id: 26,
+        name: "Cozy Corner PG",
+        address: "Aptly Named Lane",
+        sharingVariants: { 2: 7800, 3: 5800, 4: 4500 },
+        rating: 4.0,
+        type: "Girls",
+        image: "../assets/pg_attic_room.png",
+        amenities: ["WiFi", "Mess"],
+        messOptions: [{ id: 126, name: "Cozy Kitchen", price: 0, rating: 4.0 }]
+    },
+    {
+        id: 27,
+        name: "Prime Stay PG",
+        address: "Golden Mile",
+        sharingVariants: { 2: 10000, 3: 8000, 4: 6500 },
+        rating: 4.7,
+        type: "Co-Ed",
+        image: "../assets/pg_modern_facade.png",
+        amenities: ["WiFi", "AC", "Mess", "Security", "Laundry"],
+        messOptions: [{ id: 127, name: "Prime Dining", price: 0, rating: 4.7 }]
+    },
+    {
+        id: 28,
+        name: "Serene Living PG",
+        address: "Lake View Road",
+        sharingVariants: { 2: 9100, 3: 7100, 4: 5600 },
+        rating: 4.5,
+        type: "Boys",
+        image: "../assets/pg_loft_room.png",
+        amenities: ["WiFi", "Mess", "Cycling Path"],
+        messOptions: [{ id: 128, name: "Serene Foods", price: 0, rating: 4.5 }]
+    },
+    {
+        id: 29,
+        name: "Urban Oasis PG",
+        address: "Park Avenue",
+        sharingVariants: { 2: 11500, 3: 9000, 4: 7000 },
+        rating: 4.9,
+        type: "Co-Ed",
+        image: "../assets/pg_terrace.png",
+        amenities: ["WiFi", "AC", "Gym", "Mess", "CCTV"],
+        messOptions: [{ id: 129, name: "Oasis Kitchen", price: 0, rating: 4.9 }]
+    },
+    {
+        id: 30,
+        name: "Heritage Heights PG",
+        address: "Old Town Square",
+        sharingVariants: { 2: 8500, 3: 6500, 4: 5000 },
+        rating: 4.4,
+        type: "Girls",
+        image: "../assets/pg_reception.png",
+        amenities: ["WiFi", "Mess", "Vintage Library"],
+        messOptions: [{ id: 130, name: "Heritage Mess", price: 0, rating: 4.4 }]
+    },
+    {
+        id: 31,
+        name: "Royal Heritage PG",
+        address: "Palace Road",
+        sharingVariants: { 2: 12500, 3: 10000, 4: 8000 },
+        rating: 4.8,
+        type: "Boys",
+        image: "../assets/pg_modern_facade.png",
+        amenities: ["WiFi", "AC", "Mess", "Parking"],
+        messOptions: [{ id: 131, name: "Royal Kitchen", price: 0, rating: 4.8 }]
+    },
+    {
+        id: 32,
+        name: "Aspen Residency",
+        address: "Woodland Way",
+        sharingVariants: { 2: 8900, 3: 6900, 4: 5400 },
+        rating: 4.2,
+        type: "Girls",
+        image: "../assets/pg_exterior.png",
+        amenities: ["WiFi", "Mess", "Garden"],
+        messOptions: [{ id: 132, name: "Aspen Food", price: 0, rating: 4.2 }]
+    },
+    {
+        id: 33,
+        name: "The Student Lodge",
+        address: "College Gali",
+        sharingVariants: { 2: 7500, 3: 5500, 4: 4000 },
+        rating: 3.9,
+        type: "Co-Ed",
+        image: "../assets/pg_room.png",
+        amenities: ["WiFi", "Mess"],
+        messOptions: [{ id: 133, name: "Lodge Canteen", price: 0, rating: 3.9 }]
+    },
+    {
+        id: 34,
+        name: "Mountain View PG",
+        address: "Hill Side",
+        sharingVariants: { 2: 9000, 3: 7000, 4: 5500 },
+        rating: 4.4,
+        type: "Boys",
+        image: "../assets/pg_balcony_view.png",
+        amenities: ["WiFi", "Mess", "AC"],
+        messOptions: [{ id: 134, name: "Mountain Bites", price: 0, rating: 4.4 }]
+    },
+    {
+        id: 35,
+        name: "Grace Paradise PG",
+        address: "Mercy Lane",
+        sharingVariants: { 2: 8200, 3: 6200, 4: 4700 },
+        rating: 4.3,
+        type: "Girls",
+        image: "../assets/pg_boutique_interior.png",
+        amenities: ["WiFi", "Mess", "Laundry"],
+        messOptions: [{ id: 135, name: "Graceful Dining", price: 0, rating: 4.3 }]
+    },
+    {
+        id: 36,
+        name: "Techie Stay PG",
+        address: "Cyber City",
+        sharingVariants: { 2: 10500, 3: 8500, 4: 6500 },
+        rating: 4.7,
+        type: "Co-Ed",
+        image: "../assets/pg_minimalist_exterior.png",
+        amenities: ["WiFi", "AC", "24/7 Power", "Mess"],
+        messOptions: [{ id: 136, name: "Cyber Cafe", price: 0, rating: 4.7 }]
+    },
+    {
+        id: 37,
+        name: "Crescent Stay PG",
+        address: "Moonlight Street",
+        sharingVariants: { 2: 9400, 3: 7400, 4: 5900 },
+        rating: 4.5,
+        type: "Boys",
+        image: "../assets/pg_luxury_room.png",
+        amenities: ["WiFi", "Mess", "CCTV"],
+        messOptions: [{ id: 137, name: "Crescent Meals", price: 0, rating: 4.5 }]
+    },
+    {
+        id: 38,
+        name: "Rosewood Residency",
+        address: "Flower Market",
+        sharingVariants: { 2: 8600, 3: 6600, 4: 5100 },
+        rating: 4.2,
+        type: "Girls",
+        image: "../assets/pg_common_area.png",
+        amenities: ["WiFi", "Mess", "Security"],
+        messOptions: [{ id: 138, name: "Rose Kitchen", price: 0, rating: 4.2 }]
+    },
+    {
+        id: 39,
+        name: "The Urban Nest",
+        address: "Metro Line 2",
+        sharingVariants: { 2: 10000, 3: 8000, 4: 6500 },
+        rating: 4.6,
+        type: "Co-Ed",
+        image: "../assets/pg_loft_room.png",
+        amenities: ["WiFi", "AC", "Laundry", "Mess"],
+        messOptions: [{ id: 139, name: "Urban Foodie", price: 0, rating: 4.6 }]
+    },
+    {
+        id: 40,
+        name: "Vista View PG",
+        address: "Panorama Road",
+        sharingVariants: { 2: 11000, 3: 9000, 4: 7000 },
+        rating: 4.9,
+        type: "Boys",
+        image: "../assets/pg_balcony_room.png",
+        amenities: ["WiFi", "AC", "Gym", "Mess"],
+        messOptions: [{ id: 140, name: "Vista Dining", price: 0, rating: 4.9 }]
     }
 ];
 
@@ -151,36 +481,36 @@ const VendorMenus = {
     108: { special: "Hyderabadi Dum Biryani", items: ["Mutton Biryani", "Mirchi ka Salan", "Raita"] },
     109: { special: "Dhokla & Fafda", items: ["Khaman", "Kadhi", "Jalebi"] },
     110: { special: "Vada Pav Combo", items: ["2 Vada Pav", "Chutney", "Fried Chilli", "Tea"] },
-    111: { special: "Dosa Platter", items: ["Masala Dosa", "Idli", "Vada", "Sambar"] },
-    112: { special: "Dal Baati Churma", items: ["Dal", "Baati", "Churma", "Gatte ki Sabzi"] },
-    113: { special: "Royal Thali", items: ["Butter Chicken", "Biryani", "Naan", "Raita", "Dessert"] },
-    114: { special: "Coastal Fish Curry", items: ["Pomfret Fry", "Rice", "Coconut Curry", "Appam"] },
-    115: { special: "Garden Fresh Salad", items: ["Quinoa Bowl", "Grilled Vegetables", "Hummus", "Fresh Juice"] },
-    116: { special: "Home Style Thali", items: ["Dal Tadka", "Aloo Matar", "Roti", "Rice", "Pickle"] },
-    117: { special: "Tech Special Burger", items: ["Chicken Burger", "French Fries", "Coke", "Dessert"] },
-    118: { special: "Quick Wrap Combo", items: ["Chicken Wrap", "Salad", "Soup", "Juice"] },
-    119: { special: "Nawabi Biryani", items: ["Mutton Biryani", "Mirchi ka Salan", "Raita", "Shahi Tukda"] },
-    120: { special: "Traditional South Thali", items: ["Sambar", "Rasam", "Curry", "Rice", "Papad"] },
-    121: { special: "Kerala Fish Curry", items: ["Karimeen Fry", "Rice", "Avial", "Pappadam"] },
-    122: { special: "Kerala Sadya", items: ["Rice", "Sambar", "Aviyal", "Olan", "Pachadi", "Payasam"] },
-    123: { special: "Campus Special Meal", items: ["Rajma Chawal", "Roti", "Salad", "Lassi"] },
-    124: { special: "Student Thali", items: ["Dal", "Sabzi", "Roti", "Rice", "Sweet"] },
-    125: { special: "Fine Dining Platter", items: ["Grilled Salmon", "Mashed Potatoes", "Asparagus", "Wine"] },
-    126: { special: "Gourmet Pasta", items: ["Truffle Pasta", "Garlic Bread", "Caesar Salad", "Tiramisu"] },
-    127: { special: "Economy Thali", items: ["Dal", "Aloo Sabzi", "Roti", "Rice"] },
-    128: { special: "Budget Meal", items: ["Khichdi", "Kadhi", "Papad", "Pickle"] },
-    129: { special: "Healthy Bowl", items: ["Brown Rice", "Grilled Chicken", "Steamed Veggies", "Tahini"] },
-    130: { special: "Organic Thali", items: ["Organic Dal", "Farm Fresh Vegetables", "Whole Wheat Roti", "Brown Rice"] },
-    131: { special: "Metro Quick Meal", items: ["Fried Rice", "Manchurian", "Soup", "Noodles"] },
-    132: { special: "Express Thali", items: ["Dal Fry", "Mix Veg", "Roti", "Rice", "Salad"] },
-    133: { special: "Goan Fish Curry", items: ["Kingfish Curry", "Rice", "Kokum", "Poi"] },
-    134: { special: "Seafood Platter", items: ["Prawns Curry", "Fish Fry", "Rice", "Salad"] },
-    135: { special: "Study Meal", items: ["Khichdi", "Kadhi", "Papad", "Buttermilk"] },
-    136: { special: "Brain Booster Thali", items: ["Omega-3 Rich Fish", "Brown Rice", "Nuts", "Fruits"] },
-    137: { special: "Elite Continental", items: ["Grilled Chicken", "Mashed Potatoes", "Vegetables", "Dessert"] },
-    138: { special: "Premium Thali", items: ["Paneer Butter Masala", "Dal Makhani", "Naan", "Biryani", "Ice Cream"] },
-    139: { special: "City Special Meal", items: ["Butter Chicken", "Naan", "Rice", "Raita", "Gulab Jamun"] },
-    140: { special: "Urban Thali", items: ["Dal Makhani", "Paneer Tikka", "Roti", "Jeera Rice", "Salad"] },
+    111: { special: "Zenith Special Platter", items: ["Paneer Tikka", "Dal Fry", "Butter Naan", "Ice Cream"] },
+    112: { special: "South Indian Express", items: ["Paper Dosa", "Vada", "Kesari Bath", "Coffee"] },
+    113: { special: "Home Style Thali", items: ["Aloo Poori", "Halwa", "Chana Masala", "Lassi"] },
+    114: { special: "Comfort Bowl", items: ["Creamy White Pasta", "Garlic Toast", "Coke"] },
+    115: { special: "Mountain Meal", items: ["Pahadi Dal", "Steamed Rice", "Mixed Veg", "Chatni"] },
+    116: { special: "Maple Special", items: ["Veg Biryani", "Mirchi Salan", "Raita", "Gulab Jamun"] },
+    117: { special: "Seaside Feast", items: ["Grilled Fish", "Lemon Rice", "Tossed Salad", "Juice"] },
+    118: { special: "Business Lunch", items: ["Executive Thali", "Curd", "Sweet", "Papad"] },
+    119: { special: "City Pulse Combo", items: ["Veg Burger", "Fries", "Iced Tea"] },
+    120: { special: "Zen Delight", items: ["Mixed Sprouts Salad", "Grilled Tofu", "Green Tea"] },
+    121: { special: "Harmony Special", items: ["Bhindi Fry", "Dal Tadka", "Phulka", "Rice"] },
+    122: { special: "Elite Platter", items: ["Mutton Rogan Josh", "Kashmiri Pulao", "Raita"] },
+    123: { special: "Grand Thali", items: ["Chole Bhature", "Lassi", "Pickle"] },
+    124: { special: "Metro Meal", items: ["Veg Hakka Noodles", "Manchurian", "Spring Roll"] },
+    125: { special: "Scholars Fuel", items: ["Rajma Chawal", "Boondi Raita", "Salad"] },
+    126: { special: "Cozy Comfort", items: ["Khichdi", "Kadhu", "Papad", "Curd"] },
+    127: { special: "Prime Platter", items: ["Shahi Paneer", "Missi Roti", "Pulao", "Kheer"] },
+    128: { special: "Serene Special", items: ["Grilled Chicken", "Mashed Potatoes", "Sautéed Veggies"] },
+    129: { special: "Oasis Grill", items: ["Chicken Tikka", "Mint Chutney", "Rumali Roti"] },
+    130: { special: "Heritage Thali", items: ["Traditional Dal Bati", "Churma", "Gatte ki Sabzi"] },
+    131: { special: "Royal Feast", items: ["Lucknowi Biryani", "Kebab", "Sheer Khurma"] },
+    132: { special: "Aspen Fresh", items: ["Greek Salad", "Falafel", "Hummus", "Pita"] },
+    133: { special: "Student Special", items: ["Maggi", "Egg Sandwich", "Cold Coffee"] },
+    134: { special: "Mountain Roast", items: ["Roasted Chicken", "Bread", "Soup"] },
+    135: { special: "Graceful Meal", items: ["Methi Thepla", "Chunda", "Curd"] },
+    136: { special: "Techie Combo", items: ["Fried Rice", "Chili Chicken", "Coke"] },
+    137: { special: "Crescent Special", items: ["Egg Curry", "Paratha", "Rice"] },
+    138: { special: "Rose Kitchen Special", items: ["Stuffed Paratha", "Butter", "Curd"] },
+    139: { special: "Urban Bowl", items: ["Burrito Bowl", "Nachos", "Salsa"] },
+    140: { special: "Vista View Thali", items: ["Paneer Do Pyaza", "Dal Makhani", "Naan", "Salad"] },
     141: { special: "Hill Station Special", items: ["Mutton Curry", "Rice", "Local Vegetables", "Tea"] },
     142: { special: "Organic Farm Thali", items: ["Organic Dal", "Seasonal Vegetables", "Millet Roti", "Brown Rice", "Honey"] }
 };
@@ -245,7 +575,41 @@ DB.init();
 
 // Export accessors (using var/window to be global in browser)
 window.getData = {
+    // Synchronous getter for local state
     PGs: () => {
+        const pgs = DB.get('happyLiving_PGs');
+        return (pgs && pgs.length > 0) ? pgs : PGs_Static;
+    },
+    // Async function for Real Data API connection
+    fetchPGs: async () => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        try {
+            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const response = await fetch(`${API_BASE_URL}/pgs`, {
+                method: 'GET',
+                signal: controller.signal,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
+            clearTimeout(timeoutId);
+
+            if (response.ok) {
+                const apiPGs = await response.json();
+                DB.set('happyLiving_PGs', apiPGs); // Update local cache with real data
+                return apiPGs;
+            } else {
+                console.warn('API /pgs failed, falling back to local PG data');
+            }
+        } catch (error) {
+            clearTimeout(timeoutId);
+            console.warn('API not accessible or timed out, using mock PG data.', error);
+        }
+
+        // Fallback
         const pgs = DB.get('happyLiving_PGs');
         return (pgs && pgs.length > 0) ? pgs : PGs_Static;
     },
@@ -337,9 +701,9 @@ const PaymentSystem = {
         });
     },
 
-    getPayments: function () {
+    getPayments: async function () {
         if (window.PaymentService) {
-            return PaymentService.getAllPayments();
+            return await PaymentService.getAllPayments();
         }
         return JSON.parse(localStorage.getItem('payments') || '[]');
     }
@@ -466,8 +830,8 @@ const NotificationSystem = {
         );
     },
 
-    triggerComplaintNotification(complaintId, event, details) {
-        const complaint = window.ComplaintService ? ComplaintService.getComplaintById(complaintId) : null;
+    async triggerComplaintNotification(complaintId, event, details) {
+        const complaint = window.ComplaintService ? await ComplaintService.getComplaintById(complaintId) : null;
         if (!complaint) return;
 
         if (event === 'created') {
@@ -1052,7 +1416,7 @@ const ProfileService = {
 
         // Default dummy profile
         return {
-            fullName: "John Doe",
+            fullName: "john",
             studentId: studentId || "STU-1001",
             roomNumber: "101",
             phone: "+91 98765 43210",
@@ -1079,13 +1443,6 @@ window.SubscriptionTiers = SubscriptionTiers;
 // window.ComplaintService = ComplaintService;
 window.ProfileService = ProfileService;
 
-// Expose Data Access globally
-window.getData = {
-    PGs: () => DB.get('happyLiving_PGs') || [],
-    Menu: () => DB.get('happyLiving_Menu') || {},
-    Allocations: () => DB.get('happyLiving_Allocations') || [],
-    VendorMenu: (id) => VendorMenus[id] || { special: "Standard Meal", items: ["Rice", "Dal", "Veg"] }
-};
+// Initialize DB on load (was already called above, but ensuring it runs)
+if (typeof DB !== 'undefined') DB.init();
 
-// Initialize DB on load
-DB.init();

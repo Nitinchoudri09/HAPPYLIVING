@@ -158,7 +158,7 @@
             }
         }
 
-        function handleSignup(e) {
+        async function handleSignup(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -177,23 +177,24 @@
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating Account...';
             btn.disabled = true;
 
-            setTimeout(() => {
-                try {
-                    if (window.AuthService) {
-                        AuthService.register({ name, email, phone, password }, 'student');
-                        document.getElementById('success-modal').style.display = 'flex';
-                        setTimeout(() => {
-                            window.location.href = 'login.html';
-                        }, 2000);
-                    } else {
-                        throw new Error('Auth service not found');
-                    }
-                } catch (err) {
-                    alert('Registration Failed: ' + err.message);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
+            try {
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                if (window.AuthService) {
+                    await AuthService.register({ name, email, phone, password }, 'student');
+                    document.getElementById('success-modal').style.display = 'flex';
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    throw new Error('Auth service not found');
                 }
-            }, 1000);
+            } catch (err) {
+                alert('Registration Failed: ' + err.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     </script>
 </body>

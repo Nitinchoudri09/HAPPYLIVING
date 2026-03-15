@@ -949,6 +949,7 @@
     </div>
     <script src="../js/data.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/payment.js"></script>
     <script src="../js/attendance.js"></script>
     <script src="../js/complaint.js"></script>
     <script src="../js/auth-service.js"></script>
@@ -1198,7 +1199,7 @@
             document.getElementById('room-management-view').style.display = 'none';
         }
 
-        function showRoomList(pgId, pgName) {
+        async function showRoomList(pgId, pgName) {
             document.getElementById('pg-management-view').style.display = 'none';
             document.getElementById('room-management-view').style.display = 'block';
 
@@ -1211,7 +1212,7 @@
             const select = document.getElementById('pg-filter-select');
             // Ensure options are populated first
             if (select.children.length === 1) {
-                const PGs = getData.PGs();
+                const PGs = await getData.fetchPGs();
                 PGs.forEach(pg => {
                     const option = document.createElement('option');
                     option.value = pg.id;
@@ -1226,16 +1227,16 @@
             renderRooms();
         }
 
-        function renderRoomsFromSelect() {
+        async function renderRoomsFromSelect() {
             const select = document.getElementById('pg-filter-select');
             const text = select.options[select.selectedIndex].text;
             document.getElementById('room-view-title').textContent = text === 'All PGs' ? 'All Rooms' : `Rooms - ${text}`;
-            renderRooms();
+            await renderRooms();
         }
 
-        function renderRooms() {
+        async function renderRooms() {
             const bookings = BookingSystem ? BookingSystem.getBookings() : [];
-            const PGs = getData.PGs();
+            const PGs = await getData.fetchPGs();
             const selectedPG = document.getElementById('pg-filter-select').value;
 
             // Populate PG filter dropdown if not done (fallback)
@@ -1406,10 +1407,10 @@
         }
 
         // --- Billing Logic ---
-        function renderBilling() {
+        async function renderBilling() {
             const bookings = BookingSystem ? BookingSystem.getBookings() : [];
             const subscriptions = BookingSystem ? BookingSystem.getSubscriptions() : [];
-            const payments = PaymentSystem ? PaymentSystem.getPayments() : [];
+            const payments = PaymentSystem ? await PaymentSystem.getPayments() : [];
 
             // Create billing records for each student
             const billingMap = {};
@@ -1529,10 +1530,10 @@
         }
 
         // --- Stats Update ---
-        function updateStats() {
+        async function updateStats() {
             const bookings = BookingSystem ? BookingSystem.getBookings() : [];
             const allocations = getData.Allocations();
-            const PGs = getData.PGs();
+            const PGs = await getData.fetchPGs();
 
             // Calculate total residents
             const totalResidents = bookings.filter(b => b.status === 'Confirmed').length;
@@ -1640,7 +1641,7 @@ Share this QR code with students for attendance marking.
         }
 
         // --- Complaint Management Functions ---
-        function renderAdminComplaints() {
+        async function renderAdminComplaints() {
             const statusFilter = document.getElementById('admin-complaint-status').value;
             const categoryFilter = document.getElementById('admin-complaint-category').value;
             const priorityFilter = document.getElementById('admin-complaint-priority').value;
@@ -1650,7 +1651,7 @@ Share this QR code with students for attendance marking.
             if (categoryFilter !== 'all') filters.category = categoryFilter;
             if (priorityFilter !== 'all') filters.priority = priorityFilter;
 
-            const complaints = ComplaintService.getAllComplaints(filters);
+            const complaints = await ComplaintService.getAllComplaints(filters);
             const tbody = document.getElementById('admin-complaints-body');
 
             if (complaints.length === 0) {
@@ -1693,27 +1694,27 @@ Share this QR code with students for attendance marking.
             }).join('');
 
             // Update stats
-            const stats = ComplaintService.getComplaintStats();
+            const stats = await ComplaintService.getComplaintStats();
             document.getElementById('complaints-open-count').textContent = stats.open;
             document.getElementById('complaints-progress-count').textContent = stats.inProgress;
             document.getElementById('complaints-resolved-count').textContent = stats.resolved;
         }
 
-        function assignComplaint(complaintId) {
+        async function assignComplaint(complaintId) {
             const staffName = prompt('Enter staff name to assign:');
             if (!staffName) return;
 
             try {
-                ComplaintService.assignComplaint(complaintId, Date.now(), staffName);
-                renderAdminComplaints();
+                await ComplaintService.assignComplaint(complaintId, Date.now(), staffName);
+                await renderAdminComplaints();
                 alert('Complaint assigned successfully!');
             } catch (error) {
                 alert('Error: ' + error.message);
             }
         }
 
-        function updateComplaintStatus(complaintId) {
-            const complaint = ComplaintService.getComplaintById(complaintId);
+        async function updateComplaintStatus(complaintId) {
+            const complaint = await ComplaintService.getComplaintById(complaintId);
             if (!complaint) {
                 alert('Complaint not found');
                 return;
@@ -1725,16 +1726,16 @@ Share this QR code with students for attendance marking.
             const resolution = prompt('Enter resolution (optional):', complaint.resolution || '');
 
             try {
-                ComplaintService.updateComplaintStatus(complaintId, status, resolution || null);
-                renderAdminComplaints();
+                await ComplaintService.updateComplaintStatus(complaintId, status, resolution || null);
+                await renderAdminComplaints();
                 alert('Complaint status updated!');
             } catch (error) {
                 alert('Error: ' + error.message);
             }
         }
 
-        function viewComplaintAdmin(complaintId) {
-            const complaint = ComplaintService.getComplaintById(complaintId);
+        async function viewComplaintAdmin(complaintId) {
+            const complaint = await ComplaintService.getComplaintById(complaintId);
             if (!complaint) {
                 alert('Complaint not found');
                 return;
@@ -1757,8 +1758,8 @@ Share this QR code with students for attendance marking.
         }
 
         // --- Recent Activity Logic ---
-        function renderRecentActivity() {
-            const payments = PaymentSystem.getPayments();
+        async function renderRecentActivity() {
+            const payments = await PaymentSystem.getPayments();
             const bookings = BookingSystem.getBookings();
             const subscriptions = BookingSystem.getSubscriptions();
             const allocations = getData.Allocations();
@@ -1813,8 +1814,8 @@ Share this QR code with students for attendance marking.
         }
 
         // --- Add Resident Logic ---
-        function populateAddResidentPGs() {
-            const PGs = getData.PGs();
+        async function populateAddResidentPGs() {
+            const PGs = await getData.fetchPGs();
             const select = document.getElementById('ar-pg-select');
             // Keep first option
             select.innerHTML = '<option value="">Select PG...</option>';
@@ -1829,7 +1830,7 @@ Share this QR code with students for attendance marking.
             updateResidentSharingTypes();
         }
 
-        function updateResidentSharingTypes() {
+        async function updateResidentSharingTypes() {
             const pgId = document.getElementById('ar-pg-select').value;
             const sharingSelect = document.getElementById('ar-sharing');
 
@@ -1838,7 +1839,7 @@ Share this QR code with students for attendance marking.
                 return;
             }
 
-            const PGs = getData.PGs();
+            const PGs = await getData.fetchPGs();
             const pg = PGs.find(p => p.id === parseInt(pgId));
 
             if (pg && pg.sharingVariants) {
@@ -1855,14 +1856,14 @@ Share this QR code with students for attendance marking.
             }
         }
 
-        function updateResidentRent() {
+        async function updateResidentRent() {
             const pgId = document.getElementById('ar-pg-select').value;
             const sharing = document.getElementById('ar-sharing').value;
             const rentInput = document.getElementById('ar-rent');
 
             if (!pgId || !sharing) return;
 
-            const PGs = getData.PGs();
+            const PGs = await getData.fetchPGs();
             const pg = PGs.find(p => p.id === parseInt(pgId));
 
             if (pg && pg.sharingVariants && pg.sharingVariants[sharing]) {

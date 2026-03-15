@@ -1257,10 +1257,10 @@
         }
 
         // --- Billing Logic ---
-        function renderBilling() {
+        async function renderBilling() {
             const bookings = BookingSystem ? BookingSystem.getBookings() : [];
             const subscriptions = BookingSystem ? BookingSystem.getSubscriptions() : [];
-            const payments = PaymentSystem ? PaymentSystem.getPayments() : [];
+            const payments = PaymentSystem ? await PaymentSystem.getPayments() : [];
 
             // Create billing records for each student
             const billingMap = {};
@@ -1608,8 +1608,8 @@ Share this QR code with students for attendance marking.
         }
 
         // --- Recent Activity Logic ---
-        function renderRecentActivity() {
-            const payments = PaymentSystem.getPayments();
+        async function renderRecentActivity() {
+            const payments = await PaymentSystem.getPayments();
             const bookings = BookingSystem.getBookings();
             const allocations = getData.Allocations();
 

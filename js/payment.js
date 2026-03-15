@@ -70,7 +70,7 @@ const PaymentService = {
                 }, 2500);
             };
 
-            const completePayment = () => {
+            const completePayment = async () => {
                 const transactionId = PaymentService.generateTransactionId();
                 const payment = {
                     id: Date.now(),
@@ -83,8 +83,28 @@ const PaymentService = {
                     type: details.type || 'Payment'
                 };
 
+                try {
+                    const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+                    const response = await fetch(`${API_BASE_URL}/payments/process`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body: JSON.stringify(payment)
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        payment.transactionId = data.transactionId || payment.transactionId;
+                    } else {
+                        console.warn('API /payments/process failed, falling back to local storage');
+                    }
+                } catch (error) {
+                    console.warn('API connection failed during payment, using fallback', error);
+                }
+
                 // Store payment
-                const payments = JSON.parse(localStorage.getItem('payments') || '[]');
+                const payments = await PaymentService.getAllPayments();
                 payments.unshift(payment);
                 localStorage.setItem('payments', JSON.stringify(payments));
 
@@ -156,7 +176,20 @@ const PaymentService = {
     },
 
     // Get all payments
-    getAllPayments: function () {
+    getAllPayments: async function () {
+        try {
+            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const response = await fetch(`${API_BASE_URL}/payments`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('payments', JSON.stringify(data));
+                return data;
+            }
+        } catch (error) {
+            console.warn('API fetch failed for payments', error);
+        }
         return JSON.parse(localStorage.getItem('payments') || '[]');
     }
 };

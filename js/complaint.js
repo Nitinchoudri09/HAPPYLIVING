@@ -11,7 +11,20 @@ const ComplaintService = {
     statuses: ['Open', 'In Progress', 'Resolved', 'Closed'],
 
     // Get all complaints (Admin/Staff)
-    getAllComplaints: function(filters = {}) {
+    getAllComplaints: async function (filters = {}) {
+        try {
+            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const response = await fetch(`${API_BASE_URL}/complaints`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('complaints', JSON.stringify(data));
+            }
+        } catch (error) {
+            console.warn('API fetch failed, falling back to local storage', error);
+        }
+
         let complaints = JSON.parse(localStorage.getItem('complaints') || '[]');
 
         if (filters.status) {
@@ -34,10 +47,10 @@ const ComplaintService = {
     },
 
     // Helper functions
-    getStudentEmail: function(studentId) {
+    getStudentEmail: function (studentId) {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         if (user.email) return user.email;
-        
+
         if (window.BookingSystem) {
             const bookings = BookingSystem.getBookings();
             const booking = bookings.find(b => String(b.id) === String(studentId));
@@ -46,10 +59,10 @@ const ComplaintService = {
         return 'unknown@example.com';
     },
 
-    getStudentName: function(studentId) {
+    getStudentName: function (studentId) {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         if (user.name) return user.name;
-        
+
         if (window.BookingSystem) {
             const bookings = BookingSystem.getBookings();
             const booking = bookings.find(b => String(b.id) === String(studentId));
@@ -59,7 +72,7 @@ const ComplaintService = {
     },
 
     // Create complaint
-    createComplaint: function(studentId, category, description, priority = 'Medium') {
+    createComplaint: async function (studentId, category, description, priority = 'Medium') {
         if (!studentId || !category || !description || !description.trim()) {
             throw new Error('All fields are required');
         }
@@ -89,7 +102,29 @@ const ComplaintService = {
             attachments: []
         };
 
-        const complaints = ComplaintService.getAllComplaints();
+        // Try to post to API first
+        try {
+            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const response = await fetch(`${API_BASE_URL}/complaints`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                },
+                body: JSON.stringify(complaint)
+            });
+
+            if (response.ok) {
+                const apiComplaint = await response.json();
+                complaint.id = apiComplaint.id || complaint.id;
+            } else {
+                console.warn('API /complaints failed, saving to local storage');
+            }
+        } catch (error) {
+            console.warn('API not accessible, saving complaint locally.', error);
+        }
+
+        const complaints = await ComplaintService.getAllComplaints();
         complaints.unshift(complaint);
         localStorage.setItem('complaints', JSON.stringify(complaints));
 
@@ -102,18 +137,18 @@ const ComplaintService = {
     },
 
     // Get complaints by student
-    getComplaintsByStudent: function(studentId) {
-        const complaints = ComplaintService.getAllComplaints();
+    getComplaintsByStudent: async function (studentId) {
+        const complaints = await ComplaintService.getAllComplaints();
         return complaints.filter(c => String(c.studentId) === String(studentId));
     },
 
     // Assign complaint to staff
-    assignComplaint: function(complaintId, staffId, staffName) {
+    assignComplaint: async function (complaintId, staffId, staffName) {
         if (!complaintId || !staffId || !staffName) {
             throw new Error('Complaint ID, Staff ID, and Staff Name are required');
         }
 
-        const complaints = ComplaintService.getAllComplaints();
+        const complaints = await ComplaintService.getAllComplaints();
         const complaint = complaints.find(c => c.id === complaintId);
 
         if (!complaint) {
@@ -136,7 +171,7 @@ const ComplaintService = {
     },
 
     // Update complaint status (Staff/Admin)
-    updateComplaintStatus: function(complaintId, status, resolution = null) {
+    updateComplaintStatus: async function (complaintId, status, resolution = null) {
         if (!complaintId || !status) {
             throw new Error('Complaint ID and Status are required');
         }
@@ -145,7 +180,7 @@ const ComplaintService = {
             throw new Error('Invalid status');
         }
 
-        const complaints = ComplaintService.getAllComplaints();
+        const complaints = await ComplaintService.getAllComplaints();
         const complaint = complaints.find(c => c.id === complaintId);
 
         if (!complaint) {
@@ -171,26 +206,26 @@ const ComplaintService = {
     },
 
     // Get complaint by ID
-    getComplaintById: function(complaintId) {
-        const complaints = ComplaintService.getAllComplaints();
+    getComplaintById: async function (complaintId) {
+        const complaints = await ComplaintService.getAllComplaints();
         return complaints.find(c => c.id === complaintId);
     },
 
     // Get complaint statistics
-    getComplaintStats: function() {
-        const complaints = ComplaintService.getAllComplaints();
-        
+    getComplaintStats: async function () {
+        const complaints = await ComplaintService.getAllComplaints();
+
         return {
             total: complaints.length,
-            byStatus: ComplaintService.statuses.reduce(function(acc, status) {
+            byStatus: ComplaintService.statuses.reduce(function (acc, status) {
                 acc[status] = complaints.filter(c => c.status === status).length;
                 return acc;
             }, {}),
-            byCategory: ComplaintService.categories.reduce(function(acc, category) {
+            byCategory: ComplaintService.categories.reduce(function (acc, category) {
                 acc[category] = complaints.filter(c => c.category === category).length;
                 return acc;
             }, {}),
-            byPriority: ComplaintService.priorities.reduce(function(acc, priority) {
+            byPriority: ComplaintService.priorities.reduce(function (acc, priority) {
                 acc[priority] = complaints.filter(c => c.priority === priority).length;
                 return acc;
             }, {}),

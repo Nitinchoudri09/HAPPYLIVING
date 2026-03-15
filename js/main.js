@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Mock Authentication Helper (Legacy - use AuthService for new features)
 const Auth = {
-    login: (role, username, password) => {
+    login: async (role, username, password) => {
         // Use AuthService if available
         if (window.AuthService) {
             try {
                 const email = username.includes('@') ? username : username + '@happylivingpg.com';
-                const result = AuthService.login(email, password, role);
+                const result = await AuthService.login(email, password, role);
                 return true;
             } catch (error) {
                 return false;

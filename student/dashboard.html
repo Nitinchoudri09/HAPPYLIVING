@@ -904,9 +904,12 @@
         });
 
         // --- PG Listing Logic ---
-        function renderPGs() {
+        async function renderPGs() {
             const container = document.getElementById('pg-list');
+
+            // Get PGs synchronously from local storage/static data to avoid 'API loading' delay
             const PGs = getData.PGs();
+
 
             if (!PGs || PGs.length === 0) {
                 container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No PGs found. Please check data connection.</div>';
@@ -1168,7 +1171,7 @@
                 `;
 
                 // Get payment details
-                const payments = window.PaymentSystem ? PaymentSystem.getPayments() : [];
+                const payments = window.PaymentSystem ? await PaymentSystem.getPayments() : [];
                 const payment = payments.find(p => p.id === booking.paymentId) || { transactionId: 'DEMO-' + Date.now() };
 
                 setTimeout(() => {
@@ -1327,7 +1330,7 @@
                 );
 
                 // Get payment details
-                const payments = PaymentSystem.getPayments();
+                const payments = await PaymentSystem.getPayments();
                 const payment = payments.find(p => p.id === subscription.paymentId);
 
                 // Show receipt modal
@@ -1527,7 +1530,7 @@
             return 'student_guest';
         }
 
-        function markAttendance(mealType, status) {
+        async function markAttendance(mealType, status) {
             try {
                 if (!window.AttendanceService) {
                     alert('Attendance service not loaded. Please refresh the page.');
@@ -1538,14 +1541,15 @@
                 const today = new Date().toISOString().split('T')[0];
 
                 // Check if already marked
-                if (AttendanceService.isAttendanceMarked(studentId, today, mealType)) {
+                const isMarked = await AttendanceService.isAttendanceMarked(studentId, today, mealType);
+                if (isMarked) {
                     alert('Attendance already marked for this meal today!');
                     updateAttendanceStatus();
                     return;
                 }
 
                 // Mark attendance
-                const result = AttendanceService.markAttendance(studentId, today, mealType, status);
+                const result = await AttendanceService.markAttendance(studentId, today, mealType, status);
 
                 if (result) {
                     updateAttendanceStatus();
@@ -1561,7 +1565,7 @@
             }
         }
 
-        function scanQRCode(mealType) {
+        async function scanQRCode(mealType) {
             const qrData = prompt('Scan QR Code or enter QR data:');
             if (!qrData) return;
 
@@ -1572,7 +1576,7 @@
                 }
 
                 const studentId = getStudentId();
-                const result = AttendanceService.markAttendanceQR(studentId, qrData);
+                const result = await AttendanceService.markAttendanceQR(studentId, qrData);
 
                 if (result) {
                     updateAttendanceStatus();
@@ -1588,7 +1592,7 @@
             }
         }
 
-        function updateAttendanceStatus() {
+        async function updateAttendanceStatus() {
             if (!window.AttendanceService) return;
 
             try {
@@ -1596,11 +1600,11 @@
                 const today = new Date().toISOString().split('T')[0];
                 const meals = ['Breakfast', 'Lunch', 'Dinner'];
 
-                meals.forEach(meal => {
+                for (const meal of meals) {
                     const statusDiv = document.getElementById(`${meal.toLowerCase()}-status`);
-                    if (!statusDiv) return;
+                    if (!statusDiv) continue;
 
-                    const attendances = AttendanceService.getAttendanceByStudent(studentId, today, meal);
+                    const attendances = await AttendanceService.getAttendanceByStudent(studentId, today, meal);
                     const attendance = attendances.length > 0 ? attendances[0] : null;
 
                     if (attendance) {
@@ -1614,13 +1618,13 @@
                     } else {
                         statusDiv.innerHTML = '<span class="status-badge" style="background: #e2e8f0; color: #64748b;">Not Marked</span>';
                     }
-                });
+                }
             } catch (error) {
                 console.error('Error updating attendance status:', error);
             }
         }
 
-        function renderAttendanceHistory() {
+        async function renderAttendanceHistory() {
             if (!window.AttendanceService) return;
 
             try {
@@ -1628,7 +1632,7 @@
                 const dateFilter = document.getElementById('attendance-date-filter')?.value;
                 const mealFilter = document.getElementById('attendance-meal-filter')?.value;
 
-                let attendances = AttendanceService.getAttendanceByStudent(studentId);
+                let attendances = await AttendanceService.getAttendanceByStudent(studentId);
 
                 if (dateFilter) {
                     attendances = attendances.filter(a => a.date === dateFilter);
@@ -1672,7 +1676,7 @@
             document.getElementById('complaint-form').reset();
         }
 
-        function submitComplaint(event) {
+        async function submitComplaint(event) {
             event.preventDefault();
 
             try {
@@ -1686,9 +1690,9 @@
                     return;
                 }
 
-                ComplaintService.createComplaint(studentId, category, description, priority);
+                await ComplaintService.createComplaint(studentId, category, description, priority);
                 hideComplaintForm();
-                renderComplaints();
+                await renderComplaints();
                 updateNotificationBadge();
                 alert('Complaint submitted successfully!');
             } catch (error) {
@@ -1696,12 +1700,12 @@
             }
         }
 
-        function renderComplaints() {
+        async function renderComplaints() {
             const studentId = getStudentId();
             const statusFilter = document.getElementById('complaint-status-filter').value;
             const categoryFilter = document.getElementById('complaint-category-filter').value;
 
-            let complaints = ComplaintService.getComplaintsByStudent(studentId);
+            let complaints = await ComplaintService.getComplaintsByStudent(studentId);
 
             if (statusFilter !== 'all') {
                 complaints = complaints.filter(c => c.status === statusFilter);
@@ -1746,8 +1750,8 @@
             }).join('');
         }
 
-        function viewComplaintDetails(complaintId) {
-            const complaint = ComplaintService.getComplaintById(complaintId);
+        async function viewComplaintDetails(complaintId) {
+            const complaint = await ComplaintService.getComplaintById(complaintId);
             if (!complaint) {
                 alert('Complaint not found');
                 return;

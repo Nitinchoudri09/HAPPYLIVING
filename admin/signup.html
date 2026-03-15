@@ -154,7 +154,7 @@
             }
         }
 
-        function handleSignup(e) {
+        async function handleSignup(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -172,24 +172,25 @@
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Registering...';
             btn.disabled = true;
 
-            setTimeout(() => {
-                try {
-                    if (window.AuthService) {
-                        AuthService.register({ name, email, password }, 'admin');
+            try {
+                // Simulate delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-                        document.getElementById('success-modal').style.display = 'flex';
-                        setTimeout(() => {
-                            window.location.href = 'login.html';
-                        }, 2000);
-                    } else {
-                        throw new Error('Auth service not available');
-                    }
-                } catch (err) {
-                    alert('Registration Failed: ' + err.message);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
+                if (window.AuthService) {
+                    await AuthService.register({ name, email, password }, 'admin');
+
+                    document.getElementById('success-modal').style.display = 'flex';
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    throw new Error('Auth service not available');
                 }
-            }, 1000);
+            } catch (err) {
+                alert('Registration Failed: ' + err.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     </script>
 </body>

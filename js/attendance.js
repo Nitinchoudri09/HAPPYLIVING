@@ -2,29 +2,42 @@
 
 const AttendanceService = {
     // Get all attendance records
-    getAllAttendance: function() {
+    getAllAttendance: async function () {
+        try {
+            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const response = await fetch(`${API_BASE_URL}/attendance`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('attendance_records', JSON.stringify(data));
+                return data;
+            }
+        } catch (error) {
+            console.warn('API fetch failed, falling back to local storage', error);
+        }
         return JSON.parse(localStorage.getItem('attendance_records') || '[]');
     },
 
     // Get student email helper
-    getStudentEmail: function(studentId) {
+    getStudentEmail: function (studentId) {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         if (user.email) return user.email;
-        
+
         // Try to get from bookings
         if (window.BookingSystem) {
             const bookings = BookingSystem.getBookings();
             const booking = bookings.find(b => String(b.id) === String(studentId));
             if (booking && booking.email) return booking.email;
         }
-        
+
         // Fallback
         return user.email || 'student@happylivingpg.com';
     },
 
     // Get attendance by student
-    getAttendanceByStudent: function(studentId, date = null, mealType = null) {
-        const attendances = AttendanceService.getAllAttendance();
+    getAttendanceByStudent: async function (studentId, date = null, mealType = null) {
+        const attendances = await AttendanceService.getAllAttendance();
         return attendances.filter(a => {
             // Convert both to string for comparison
             if (String(a.studentId) !== String(studentId)) return false;
@@ -35,7 +48,7 @@ const AttendanceService = {
     },
 
     // Get current meal type based on time
-    getCurrentMealType: function() {
+    getCurrentMealType: function () {
         const hour = new Date().getHours();
         if (hour >= 7 && hour < 10) return 'Breakfast';
         if (hour >= 12 && hour < 15) return 'Lunch';
@@ -44,13 +57,13 @@ const AttendanceService = {
     },
 
     // Mark attendance (prevents duplicates)
-    markAttendance: function(studentId, date, mealType, status = 'Present') {
+    markAttendance: async function (studentId, date, mealType, status = 'Present') {
         if (!studentId || !date || !mealType) {
             throw new Error('Missing required fields: studentId, date, mealType');
         }
 
-        // Check for duplicate
-        const existing = AttendanceService.getAttendanceByStudent(studentId, date, mealType);
+        // Check for duplicate locally
+        const existing = await AttendanceService.getAttendanceByStudent(studentId, date, mealType);
         if (existing && existing.length > 0) {
             throw new Error('Attendance already marked for this meal');
         }
@@ -66,7 +79,29 @@ const AttendanceService = {
             mode: 'Manual' // Manual or QR
         };
 
-        const attendances = AttendanceService.getAllAttendance();
+        // Try to post to API first
+        try {
+            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const response = await fetch(`${API_BASE_URL}/attendance`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                },
+                body: JSON.stringify(attendance)
+            });
+
+            if (response.ok) {
+                const apiAttendance = await response.json();
+                attendance.id = apiAttendance.id || attendance.id;
+            } else {
+                console.warn('API /attendance failed, saving to local storage');
+            }
+        } catch (error) {
+            console.warn('API not accessible, saving attendance locally.', error);
+        }
+
+        const attendances = await AttendanceService.getAllAttendance();
         attendances.unshift(attendance);
         localStorage.setItem('attendance_records', JSON.stringify(attendances));
 
@@ -79,11 +114,11 @@ const AttendanceService = {
     },
 
     // Mark attendance via QR Code
-    markAttendanceQR: function(studentId, qrData) {
+    markAttendanceQR: function (studentId, qrData) {
         try {
             const qrInfo = JSON.parse(qrData);
             const today = new Date().toISOString().split('T')[0];
-            
+
             if (qrInfo.date !== today) {
                 throw new Error('QR code expired or invalid date');
             }
@@ -105,7 +140,7 @@ const AttendanceService = {
     },
 
     // Generate QR code data for admin
-    generateQRCode: function(mealType) {
+    generateQRCode: function (mealType) {
         const today = new Date().toISOString().split('T')[0];
         const qrData = {
             date: today,
@@ -117,8 +152,8 @@ const AttendanceService = {
     },
 
     // Get attendance report (Admin)
-    getAttendanceReport: function(filters = {}) {
-        let attendances = AttendanceService.getAllAttendance();
+    getAttendanceReport: async function (filters = {}) {
+        let attendances = await AttendanceService.getAllAttendance();
 
         if (filters.date) {
             attendances = attendances.filter(a => a.date === filters.date);
@@ -165,10 +200,10 @@ const AttendanceService = {
     },
 
     // Get monthly attendance for student
-    getMonthlyAttendance: function(studentId, year, month) {
-        const attendances = AttendanceService.getAttendanceByStudent(studentId);
+    getMonthlyAttendance: async function (studentId, year, month) {
+        const attendances = await AttendanceService.getAttendanceByStudent(studentId);
         const targetMonth = String(month).padStart(2, '0');
-        
+
         return attendances.filter(a => {
             const [aYear, aMonth] = a.date.split('-');
             return aYear === String(year) && aMonth === targetMonth;
@@ -176,8 +211,8 @@ const AttendanceService = {
     },
 
     // Calculate attendance percentage
-    calculateAttendancePercentage: function(studentId, startDate, endDate) {
-        const attendances = AttendanceService.getAttendanceByStudent(studentId);
+    calculateAttendancePercentage: async function (studentId, startDate, endDate) {
+        const attendances = await AttendanceService.getAttendanceByStudent(studentId);
         const filtered = attendances.filter(a => {
             return a.date >= startDate && a.date <= endDate;
         });
@@ -189,8 +224,8 @@ const AttendanceService = {
     },
 
     // Check if attendance already marked
-    isAttendanceMarked: function(studentId, date, mealType) {
-        const attendances = AttendanceService.getAttendanceByStudent(studentId, date, mealType);
+    isAttendanceMarked: async function (studentId, date, mealType) {
+        const attendances = await AttendanceService.getAttendanceByStudent(studentId, date, mealType);
         return attendances.length > 0;
     }
 };
