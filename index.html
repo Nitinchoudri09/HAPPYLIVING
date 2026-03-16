@@ -3,261 +3,281 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Happy Living | Premium PG & Mess Management</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2e7d32">
+    <meta name="theme-color" content="#9333ea">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 </head>
 
-<div id="custom-cursor"></div>
-<div id="custom-cursor-follower"></div>
-<div class="mesh-bg"></div>
-<div class="cyber-scanner"></div>
+<body>
 
-<!-- 3D Floating Shapes & Design Elements -->
-<div class="floating-shapes">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-    <div class="shape shape-4"></div>
-    <div class="orbital-ring" style="width: 500px; height: 500px; top: 10%; left: 5%;"></div>
-    <div class="orbital-ring" style="width: 700px; height: 700px; bottom: 5%; right: 2%;"></div>
-</div>
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-follower"></div>
+    <div class="mesh-bg"></div>
+    <div class="cyber-scanner"></div>
 
-<style>
-    body::before,
-    body::after {
-        display: none !important;
-    }
-</style>
-<nav class="navbar animate-fade-in">
-    <div class="logo shining-text">
-        <img src="assets/logo.jpg" alt="Happy Living Logo" style="height: 40px; width: auto; object-fit: contain;">
-        Happy Living
+    <!-- 3D Floating Shapes & Design Elements -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="orbital-ring" style="width: 500px; height: 500px; top: 10%; left: 5%;"></div>
+        <div class="orbital-ring" style="width: 700px; height: 700px; bottom: 5%; right: 2%;"></div>
     </div>
-    <div class="nav-links">
-        <a href="#about">About Us</a>
-        <a href="#features">Features</a>
-        <a href="#login">Login</a>
-        <a href="#contact">Contact</a>
-    </div>
-    <div id="hamburger-menu" style="display: none;" onclick="toggleMobileNav()">
-        <i class="fa-solid fa-bars"></i>
-    </div>
-</nav>
 
-<div id="mobile-nav" class="mobile-nav">
-    <a href="#about" onclick="toggleMobileNav()">About Us</a>
-    <a href="#features" onclick="toggleMobileNav()">Features</a>
-    <a href="#login" onclick="toggleMobileNav()">Login</a>
-    <a href="#contact" onclick="toggleMobileNav()">Contact</a>
-</div>
-
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-text animate-slide-up">
-            <h1 class="shining-text">Experience the Future of Student Living</h1>
-            <p>More than just a PG. We provide a comfortable, secure, and hyper-modern environment with digital
-                dining facilities.</p>
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <a href="#login" class="btn btn-primary luminous-btn">
-                    Get Started <i class="fa-solid fa-rocket"></i>
-                </a>
-                <a href="#features" class="btn btn-outline">
-                    Explore Features
-                </a>
-            </div>
-            <div class="hero-stats animate-slide-up delay-300">
-                <div class="stat-pill"><strong>30+</strong> Premium PGs</div>
-                <div class="stat-pill"><strong>500+</strong> Happy Students</div>
-            </div>
+    <nav class="navbar animate-fade-in">
+        <div class="logo shining-text">
+            <img src="assets/logo.jpg" alt="Happy Living Logo" style="height: 40px; width: auto; object-fit: contain;">
+            Happy Living
         </div>
-        <div class="hero-image animate-slide-up delay-200" style="position: relative;">
-
-            <div class="image-portal">
-                <img src="assets/mess_hero.png" alt="Delicious Mess Meals" style="position: relative; z-index: 1;">
-            </div>
+        <div class="nav-links">
+            <a href="#about">About Us</a>
+            <a href="#features">Features</a>
+            <a href="#login">Login</a>
+            <a href="#contact">Contact</a>
         </div>
-    </div>
-</section>
-
-<section id="features" class="features">
-    <div class="feature-card glass-card animate-on-scroll">
-        <div class="feature-icon">
-            <i class="fa-solid fa-utensils"></i>
+        <div id="hamburger-menu" onclick="toggleMobileNav()">
+            <i class="fa-solid fa-bars"></i>
         </div>
-        <h3>Hygienic Mess</h3>
-        <p>Nutritious and delicious meals planned weekly. Manage your meal preferences digitally.</p>
-    </div>
-    <div class="feature-card glass-card animate-on-scroll">
-        <div class="feature-icon">
-            <i class="fa-solid fa-wifi"></i>
-        </div>
-        <h3>High-Speed WiFi</h3>
-        <p>24/7 unlimited high-speed internet connectivity for your studies and entertainment.</p>
-    </div>
-    <div class="feature-card glass-card animate-on-scroll">
-        <div class="feature-icon">
-            <i class="fa-solid fa-shield-halved"></i>
-        </div>
-        <h3>Top Notch Security</h3>
-        <p>CCTV surveillance and secure biometric access to ensure safety for all residents.</p>
-    </div>
-    <div class="feature-card glass-card animate-on-scroll">
-        <div class="feature-icon">
-            <i class="fa-solid fa-jug-detergent"></i>
-        </div>
-        <h3>Laundry Service</h3>
-        <p>Premium laundry facilities available to keep you looking sharp with zero hassle.</p>
-    </div>
-</section>
+    </nav>
 
-<section id="login" class="login-section">
-    <h2 class="animate-on-scroll">Login to Your Dashboard</h2>
-    <p class="animate-on-scroll" style="color: var(--text-muted); font-size: 1.1rem;">Choose your role to continue
-    </p>
-
-    <div class="login-options bento-grid">
-        <a href="student/login.html" class="role-card student-card bento-wide animate-on-scroll delay-100">
-            <div class="role-icon-container">
-                <i class="fa-solid fa-user-graduate"></i>
-            </div>
-            <h3>Student Login</h3>
-            <p>Access your room, mess menu, payments, laundry & complaints with our futuristic student portal.</p>
-            <div class="role-btn">
-                Login as Student <i class="fa-solid fa-arrow-right"></i>
-            </div>
-        </a>
-
-        <a href="admin/login.html" class="role-card admin-card bento-wide animate-on-scroll delay-200">
-            <div class="role-icon-container">
-                <i class="fa-solid fa-user-shield"></i>
-            </div>
-            <h3>Admin Login</h3>
-            <p>Take full control of management, student data, and real-time revenue analytics.</p>
-            <div class="role-btn">
-                Login as Admin <i class="fa-solid fa-arrow-right"></i>
-            </div>
-        </a>
+    <div id="mobile-nav" class="mobile-nav">
+        <a href="#about" onclick="toggleMobileNav()">About Us</a>
+        <a href="#features" onclick="toggleMobileNav()">Features</a>
+        <a href="#login" onclick="toggleMobileNav()">Login</a>
+        <a href="#contact" onclick="toggleMobileNav()">Contact</a>
     </div>
-</section>
 
-<section id="about" class="about-section">
-    <div class="about-grid">
-        <div class="about-text animate-on-scroll">
-            <h2 class="shining-text">Pioneering the Next Generation of Student Housing</h2>
-            <p>At Happy Living, we believe your PG should be more than just a place to sleep. It should be a tech-driven
-                ecosystem that empowers your academic and personal growth. Founded in 2020, we've revolutionized the
-                traditional PG model with smart management, transparent billing, and a focus on community and security.
-            </p>
-
-            <div class="about-stats">
-                <div class="about-stat-item">
-                    <h4>4.8/5</h4>
-                    <span>Average Resident Rating</span>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text animate-slide-up">
+                <h1 class="shining-text">Experience the Future of Student Living</h1>
+                <p>More than just a PG. We provide a comfortable, secure, and hyper-modern environment with digital
+                    dining facilities.</p>
+                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="#login" class="btn btn-primary luminous-btn">
+                        Get Started <i class="fa-solid fa-rocket"></i>
+                    </a>
+                    <a href="#features" class="btn btn-outline">
+                        Explore Features
+                    </a>
                 </div>
-                <div class="about-stat-item">
-                    <h4>24/7</h4>
-                    <span>Active Support & Security</span>
-                </div>
-                <div class="about-stat-item">
-                    <h4>95%</h4>
-                    <span>Resident Satisfaction</span>
-                </div>
-                <div class="about-stat-item">
-                    <h4>100%</h4>
-                    <span>Digital Experience</span>
+                <div class="hero-stats animate-slide-up delay-300">
+                    <div class="stat-pill"><strong>30+</strong> Premium PGs</div>
+                    <div class="stat-pill"><strong>500+</strong> Happy Students</div>
                 </div>
             </div>
+            <div class="hero-image animate-slide-up delay-200" style="position: relative;">
 
-            <div class="mission-vision-grid animate-on-scroll delay-200"
-                style="margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                <div class="glass-card" style="padding: 1.5rem;">
-                    <h5 style="color: var(--cyber-cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-eye"></i> Our
-                        Vision</h5>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">To become the global
-                        standard for smart student housing, blending luxury with absolute convenience.</p>
-                </div>
-                <div class="glass-card" style="padding: 1.5rem;">
-                    <h5 style="color: var(--secondary); margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye"></i> Our
-                        Mission</h5>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Empowering students with a
-                        safe, healthy, and digitally-integrated living environment that feels like home.</p>
+                <div class="image-portal">
+                    <img src="assets/mess_hero.png" alt="Delicious Mess Meals" style="position: relative; z-index: 1;">
                 </div>
             </div>
         </div>
-        <div class="about-image animate-on-scroll" style="position: relative;">
+    </section>
 
-            <img src="assets/about_hero.png" alt="Happy Living Premium Lounge"
-                style="position: relative; z-index: 1; border-radius: var(--radius-xl); box-shadow: 0 0 30px rgba(0, 242, 254, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);">
+    <section id="features" class="features">
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <h3>Hygienic Mess</h3>
+            <p>Nutritious and delicious meals planned weekly. Manage your meal preferences digitally.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-wifi"></i>
+            </div>
+            <h3>High-Speed WiFi</h3>
+            <p>24/7 unlimited high-speed internet connectivity for your studies and entertainment.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3>Top Notch Security</h3>
+            <p>CCTV surveillance and secure biometric access to ensure safety for all residents.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll">
+            <div class="feature-icon">
+                <i class="fa-solid fa-jug-detergent"></i>
+            </div>
+            <h3>Laundry Service</h3>
+            <p>Premium laundry facilities available to keep you looking sharp with zero hassle.</p>
+        </div>
+    </section>
+
+    <section id="login" class="login-section">
+        <h2 class="animate-on-scroll">Login to Your Dashboard</h2>
+        <p class="animate-on-scroll" style="color: var(--text-muted); font-size: 1.1rem;">Choose your role to continue
+        </p>
+
+        <div class="login-options bento-grid">
+            <a href="student/login.html" class="role-card student-card bento-wide animate-on-scroll delay-100">
+                <div class="role-icon-container">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h3>Student Login</h3>
+                <p>Access your room, mess menu, payments, laundry & complaints with our futuristic student portal.</p>
+                <div class="role-btn">
+                    Login as Student <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <a href="admin/login.html" class="role-card admin-card bento-wide animate-on-scroll delay-200">
+                <div class="role-icon-container">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h3>Admin Login</h3>
+                <p>Take full control of management, student data, and real-time revenue analytics.</p>
+                <div class="role-btn">
+                    Login as Admin <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-grid">
+            <div class="about-text animate-on-scroll">
+                <h2 class="shining-text">Pioneering the Next Generation of Student Housing</h2>
+                <p>At Happy Living, we believe your PG should be more than just a place to sleep. It should be a
+                    tech-driven
+                    ecosystem that empowers your academic and personal growth. Founded in 2020, we've revolutionized the
+                    traditional PG model with smart management, transparent billing, and a focus on community and
+                    security.
+                </p>
+
+                <div class="about-stats">
+                    <div class="about-stat-item">
+                        <h4>4.8/5</h4>
+                        <span>Average Resident Rating</span>
+                    </div>
+                    <div class="about-stat-item">
+                        <h4>24/7</h4>
+                        <span>Active Support & Security</span>
+                    </div>
+                    <div class="about-stat-item">
+                        <h4>95%</h4>
+                        <span>Resident Satisfaction</span>
+                    </div>
+                    <div class="about-stat-item">
+                        <h4>100%</h4>
+                        <span>Digital Experience</span>
+                    </div>
+                </div>
+
+                <div class="mission-vision-grid animate-on-scroll delay-200"
+                    style="margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="glass-card" style="padding: 1.5rem;">
+                        <h5 style="color: var(--cyber-cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-eye"></i> Our
+                            Vision</h5>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">To become the global
+                            standard for smart student housing, blending luxury with absolute convenience.</p>
+                    </div>
+                    <div class="glass-card" style="padding: 1.5rem;">
+                        <h5 style="color: var(--secondary); margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye"></i>
+                            Our
+                            Mission</h5>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Empowering students
+                            with a
+                            safe, healthy, and digitally-integrated living environment that feels like home.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image animate-on-scroll" style="position: relative;">
+
+                <img src="assets/about_hero.png" alt="Happy Living Premium Lounge"
+                    style="position: relative; z-index: 1; border-radius: var(--radius-xl); box-shadow: 0 0 30px rgba(0, 242, 254, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="color: var(--text-muted);">&copy; 2024 Happy Living PG. All rights reserved.</p>
+    </footer>
+
+    <!-- Missing PWA UI Elements -->
+    <div id="pwa-install-prompt" class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+            <div>
+                <strong style="display: block;">Install Happy Living</strong>
+                <span style="font-size: 0.8rem; opacity: 0.8;">Add to home screen for better experience</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button onclick="installPWA()" class="btn btn-primary"
+                    style="padding: 0.4rem 1rem; font-size: 0.8rem;">Install</button>
+                <button onclick="document.getElementById('pwa-install-prompt').classList.remove('show')" class="btn"
+                    style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Later</button>
+            </div>
         </div>
     </div>
-</section>
 
-<footer>
-    <p style="color: var(--text-muted);">&copy; 2024 Happy Living PG. All rights reserved.</p>
-</footer>
+    <div id="offline-indicator"
+        style="position: fixed; top: 0; left: 0; width: 100%; background: #ef4444; color: white; text-align: center; padding: 0.5rem; z-index: 10001; display: none;">
+        <i class="fa-solid fa-wifi-slash"></i> You are currently offline. Some features may be limited.
+    </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-<script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="js/main.js"></script>
 
-<script>
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("service-worker.js")
-            .then(function () {
-                console.log("Service Worker Registered");
-            });
-    }
-
-    // Initialize Vanilla Tilt
-    VanillaTilt.init(document.querySelectorAll(".glass-card, .feature-card, .role-card, .image-portal"), {
-        max: 15,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.3,
-        perspective: 1000,
-        scale: 1.05
-    });
-
-    // PWA Install Prompt
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        const installPrompt = document.getElementById('pwa-install-prompt');
-        if (installPrompt) installPrompt.classList.add('show');
-    });
-
-    function installPWA() {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                }
-                deferredPrompt = null;
-                const installPrompt = document.getElementById('pwa-install-prompt');
-                if (installPrompt) installPrompt.classList.remove('show');
-            });
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(function () {
+                    console.log("Service Worker Registered");
+                });
         }
-    }
 
-    // Offline Detection
-    window.addEventListener('online', () => {
-        const indicator = document.getElementById('offline-indicator');
-        if (indicator) indicator.classList.remove('show');
-    });
+        // Initialize Vanilla Tilt
+        VanillaTilt.init(document.querySelectorAll(".glass-card, .feature-card, .role-card, .image-portal"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.3,
+            perspective: 1000,
+            scale: 1.05
+        });
 
-    window.addEventListener('offline', () => {
-        const indicator = document.getElementById('offline-indicator');
-        if (indicator) indicator.classList.add('show');
-    });
-</script>
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installPrompt = document.getElementById('pwa-install-prompt');
+            if (installPrompt) installPrompt.classList.add('show');
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    const installPrompt = document.getElementById('pwa-install-prompt');
+                    if (installPrompt) installPrompt.classList.remove('show');
+                });
+            }
+        }
+
+        // Offline Detection
+        window.addEventListener('online', () => {
+            const indicator = document.getElementById('offline-indicator');
+            if (indicator) indicator.classList.remove('show');
+        });
+
+        window.addEventListener('offline', () => {
+            const indicator = document.getElementById('offline-indicator');
+            if (indicator) indicator.classList.add('show');
+        });
+    </script>
 </body>
 
 </html>

@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(follower);
     }
 
+    // Disable custom cursor on touch devices
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) {
+        cursor.style.display = 'none';
+        follower.style.display = 'none';
+        document.body.style.cursor = 'auto';
+    }
+
     if (cursor && follower) {
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
