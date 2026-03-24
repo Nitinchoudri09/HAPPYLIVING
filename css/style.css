@@ -101,6 +101,31 @@ body::before, body::after { display: none; }
 ::-webkit-scrollbar-thumb { background: #b8e890; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #6dbf2e; }
 
+/* ── Layout Container ──────────────────────────── */
+/* Apply to any inner wrapper that should be max 1200px wide */
+.container,
+.section-wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+/* Dashboard main area constraint */
+.dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 5%;
+}
+
+.main-content-inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 /* ── Typography ────────────────────────────────── */
 a { text-decoration: none; color: var(--primary); transition: color 0.15s; }
 a:hover { color: var(--primary-hover); }
@@ -808,3 +833,19 @@ footer p { color: rgba(255,255,255,0.6) !important; }
 /* Btn hover reset */
 .btn-primary:hover, .btn-secondary:hover,
 .luminous-btn:hover, .role-btn:hover { box-shadow: var(--shadow-md); }
+
+/* ── Mobile 768px breakpoint ───────────────────── */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
