@@ -834,10 +834,50 @@ footer p { color: rgba(255,255,255,0.6) !important; }
 .btn-primary:hover, .btn-secondary:hover,
 .luminous-btn:hover, .role-btn:hover { box-shadow: var(--shadow-md); }
 
+
+/* ── Auth Split Screen Responsiveness ──────────── */
+.split-screen {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.split-left, .split-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 992px) {
+    .split-screen {
+        flex-direction: column;
+    }
+    
+    .split-left {
+        display: none; /* Hide illustrative side on mobile/tablet to focus on form */
+    }
+    
+    .split-right {
+        width: 100%;
+        padding: 2rem 5%;
+    }
+
+    /* Hamburger visibility at tablet scale */
+    .navbar .hamburger {
+        display: flex !important;
+    }
+
+    .navbar .nav-links {
+        display: none !important;
+    }
+}
+
 /* ── Mobile 768px breakpoint ───────────────────── */
 @media (max-width: 768px) {
-    .container {
+    .container, .section-wrap, .hero-inner, .about-grid {
         flex-direction: column;
+        display: flex;
     }
 
     img {
@@ -846,6 +886,16 @@ footer p { color: rgba(255,255,255,0.6) !important; }
     }
 
     h1 {
-        font-size: 20px;
+        font-size: 22px !important;
+        line-height: 1.2;
+    }
+
+    .hero-text h1 {
+        font-size: 24px !important;
+    }
+
+    #pwa-install-prompt {
+        width: 95%;
+        padding: 0.75rem;
     }
 }

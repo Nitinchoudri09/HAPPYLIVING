@@ -7,6 +7,7 @@
     <title>Happy Living | Premium PG & Mess Management</title>
     <meta name="description"
         content="Happy Living PG - Eat Healthy, Stay Healthy. A comfortable, secure, and digitally-managed paying guest accommodation with smart mess facilities.">
+    <link rel="stylesheet" href="css/style.css?v=1.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -765,164 +766,40 @@
             transform: none;
         }
 
+
         /* ── Responsive ─────────────────────── */
-        @media (max-width: 900px) {
+        @media (max-width: 992px) {
+            .hamburger { display: flex; }
+            .nav-links { display: none !important; }
+            
+            .hero-inner, .about-grid { grid-template-columns: 1fr; }
+            .hero { min-height: auto; padding: 2.5rem 5%; }
+            .hero-inner { text-align: center; gap: 2rem; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .food-collage { max-width: 420px; margin: 0 auto; }
+            .hero-btns, .hero-pills { justify-content: center; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-image { order: -1; }
+        }
 
-            .hero-inner,
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                min-height: auto;
-                padding: 2.5rem 5%;
-            }
-
-            .hero-inner {
-                text-align: center;
-                gap: 2rem;
-            }
-
-            .hero-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .food-collage {
-                max-width: 420px;
-                margin: 0 auto;
-            }
-
-            .hero-btns {
-                justify-content: center;
-            }
-
-            .hero-pills {
-                justify-content: center;
-            }
-
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .about-grid {
-                gap: 2rem;
-            }
-
-            .about-image {
-                order: -1;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .login-options {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-            }
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            h1 { font-size: 20px !important; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 680px) {
-
-            /* Show hamburger, hide desktop nav */
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                display: none !important;
-            }
-
-            .hero {
-                padding: 2rem 5%;
-            }
-
-            .hero-text h1 {
-                font-size: 2rem;
-            }
-
-            .hero-text p {
-                font-size: 0.9rem;
-            }
-
-            .food-collage {
-                max-width: 320px;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .about-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .login-options {
-                grid-template-columns: 1fr;
-            }
-
-            .role-card {
-                width: 100%;
-                max-width: 100%;
-            }
-
-            .contact-section {
-                padding: 3rem 5%;
-            }
-
-            .features-section {
-                padding: 3rem 5%;
-            }
-
-            .gallery-section {
-                padding: 2.5rem 5%;
-            }
-
-            .about-section {
-                padding: 3rem 5%;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
+            .features-grid { grid-template-columns: 1fr; }
+            .login-options { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .section-title { font-size: 1.75rem; }
+            .hero-text h1 { font-size: 2rem; }
         }
 
-        @media (max-width: 420px) {
-            .hero-text h1 {
-                font-size: 1.75rem;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .food-collage {
-                max-width: 100%;
-            }
-
-            .hero-btns {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn-green,
-            .btn-outline-dark {
-                width: 100%;
-                justify-content: center;
-            }
+        @media (max-width: 480px) {
+            .gallery-grid { grid-template-columns: 1fr; }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+            .hero-btns { flex-direction: column; gap: 1rem; }
+            .hero-btns .btn-green, .hero-btns .btn-outline-dark { width: 100%; text-align: center; justify-content: center; }
         }
 
         /* PWA */
@@ -979,7 +856,7 @@
 
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-inner">
+        <div class="hero-inner container">
             <!-- Food collage (left) -->
             <div class="food-collage reveal">
                 <img src="assets/mess_hero.png" alt="Mess Food"
@@ -1013,8 +890,8 @@
 
     <!-- Features -->
     <section id="features" class="features-section">
-        <div style="max-width:1200px; margin:0 auto;">
-            <p class="section-label">What We Offer</p>
+        <div class="container">
+            <p class="section-label">Our Facilities</p>
             <h2 class="section-title">Everything You Need</h2>
             <div class="features-grid">
                 <div class="feature-card reveal">
@@ -1064,10 +941,11 @@
 
     <!-- Login -->
     <section id="login" class="login-section">
-        <p class="section-label" style="color:#6dbf2e;">Access Your Portal</p>
-        <h2 class="section-title" style="color:#1a3800;">Login to Your Dashboard</h2>
-        <p style="color:#5a7a40; font-size:0.95rem;">Choose your role to continue</p>
-        <div class="login-options">
+        <div class="container">
+            <p class="section-label" style="color:#6dbf2e;">Access Your Portal</p>
+            <h2 class="section-title" style="color:#1a3800;">Login to Your Dashboard</h2>
+            <p style="color:#5a7a40; font-size:0.95rem;">Choose your role to continue</p>
+            <div class="login-options">
             <a href="student/login.html" class="role-card student-card">
                 <div class="role-icon-container"><i class="fa-solid fa-user-graduate"></i></div>
                 <h3>Student</h3>
@@ -1084,10 +962,10 @@
     </section>
 
     <!-- Gallery -->
-    <section class="gallery-section">
-        <div style="max-width:1200px; margin:0 auto;">
-            <p class="section-label">Our Facilities</p>
-            <h2 class="section-title">Life at Happy Living</h2>
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <p class="section-label">Property Tour</p>
+            <h2 class="section-title">Our Living Spaces</h2>
             <div class="gallery-grid">
                 <div class="gallery-item reveal">
                     <img src="assets/pg_luxury_room.png" alt="Luxury Room">
@@ -1111,7 +989,7 @@
 
     <!-- About -->
     <section id="about" class="about-section">
-        <div class="about-grid">
+        <div class="about-grid container">
             <div class="about-image reveal">
                 <img src="assets/about_hero.png" alt="Happy Living"
                     onerror="this.src='assets/pg_boutique_interior.png'">
@@ -1142,27 +1020,32 @@
 
     <!-- Contact -->
     <section id="contact" class="contact-section">
-        <div style="max-width:1200px; margin:0 auto;">
+
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
+        <div class="container" style="text-align: center;">
             <p class="section-label">Get In Touch</p>
-            <h2 class="section-title" style="margin-bottom:2rem;">Contact Us</h2>
-            <div class="contact-card">
-                <div class="contact-row">
-                    <div class="icon"><i class="fa-solid fa-user"></i></div>
-                    <div>
-                        <div class="label">Owner / Manager</div><strong>Nitin Choudri</strong>
+            <h2 class="section-title" style="margin-bottom:2rem; color:white;">Contact Us</h2>
+            <div style="display:flex; justify-content:center;">
+                <div class="contact-card">
+                    <div class="contact-row">
+                        <div class="icon"><i class="fa-solid fa-user"></i></div>
+                        <div>
+                            <div class="label">Owner / Manager</div><strong>Nitin Choudri</strong>
+                        </div>
                     </div>
-                </div>
-                <div class="contact-row">
-                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
-                    <div>
-                        <div class="label">Email</div><a
-                            href="mailto:nitinchoudri6@gmail.com">nitinchoudri6@gmail.com</a>
+                    <div class="contact-row">
+                        <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <div class="label">Email</div><a
+                                href="mailto:nitinchoudri6@gmail.com">nitinchoudri6@gmail.com</a>
+                        </div>
                     </div>
-                </div>
-                <div class="contact-row">
-                    <div class="icon"><i class="fa-solid fa-phone"></i></div>
-                    <div>
-                        <div class="label">Phone</div><a href="tel:+919880359114">+91 98803 59114</a>
+                    <div class="contact-row">
+                        <div class="icon"><i class="fa-solid fa-phone"></i></div>
+                        <div>
+                            <div class="label">Phone</div><a href="tel:+919880359114">+91 98803 59114</a>
+                        </div>
                     </div>
                 </div>
             </div>
