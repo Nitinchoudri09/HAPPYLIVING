@@ -9,236 +9,203 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-deep: #020617;
-            --bg-slate: #0f172a;
-            --cyber-cyan: #00f2fe;
-            --accent: #c084fc;
-            --secondary: #fb7185;
-            --radius-lg: 16px;
-            --radius-md: 12px;
+            --bg-deep: #0d1117;
+            --bg-card: #161b22;
+            --border: rgba(255,255,255,0.08);
+            --accent-blue: #58a6ff;
+            --accent-purple: #a371f7;
+            --accent-green: #3fb950;
+            --text-primary: #e6edf3;
+            --text-muted: #8b949e;
+            --radius: 10px;
         }
+
+        * { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-deep);
-            color: white;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
-            overflow-x: hidden;
-        }
-
-        .mesh-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 10% 10%, rgba(0, 242, 254, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 90% 90%, rgba(192, 132, 252, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(2, 6, 23, 1) 0%, rgba(1, 2, 5, 1) 100%);
-            z-index: -5;
+            font-size: 15px;
+            line-height: 1.6;
         }
 
         .page-container {
-            max-width: 1100px;
-            margin: 4rem auto;
-            padding: 0 5%;
-            position: relative;
-            z-index: 1;
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 2.5rem 5%;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary) !important;
+            margin: 0 0 0.4rem;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.95rem;
         }
 
         .tabs {
             display: flex;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 0;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .tab-btn {
-            padding: 1.25rem 2.5rem;
+            padding: 0.75rem 1.5rem;
             background: none;
             border: none;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
+            border-bottom: 2px solid transparent;
             margin-bottom: -1px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
         }
 
         .tab-btn.active {
-            color: var(--cyber-cyan);
-            border-bottom-color: var(--cyber-cyan);
-            text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            color: var(--text-primary);
+            border-bottom-color: var(--accent-blue);
         }
 
-        .tab-btn:hover {
-            color: white;
-        }
+        .tab-btn:hover { color: var(--text-primary); }
 
-        .section-content {
-            display: none;
-            animation: slideUpFade 0.6s ease-out;
-        }
-
-        @keyframes slideUpFade {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-content.active {
-            display: block;
-        }
+        .section-content { display: none; }
+        .section-content.active { display: block; }
 
         .bill-card {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(25px);
-            padding: 3.5rem;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            max-width: 650px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 620px;
             margin: 0 auto;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .bill-card h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary) !important;
+            margin: 0 0 1.75rem;
+            text-align: center;
+            text-shadow: none !important;
         }
 
         .bill-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.85rem 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .bill-row span:first-child {
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 500;
+        .bill-row span:first-child,
+        .bill-row > span:first-child {
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
         .bill-row strong {
-            color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
         .bill-total {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--cyber-cyan);
-            text-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-blue);
         }
 
         .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1.5rem;
-            margin: 2.5rem 0;
+            display: flex;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
         }
 
         .method-card {
-            background: rgba(2, 6, 23, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
+            flex: 1;
+            background: var(--bg-deep);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: border-color 0.2s;
         }
 
-        .method-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--cyber-cyan);
-            background: rgba(0, 242, 254, 0.05);
-        }
+        .method-card:hover { border-color: rgba(255,255,255,0.25); }
 
         .method-card.selected {
-            border-color: var(--cyber-cyan);
-            background: rgba(0, 242, 254, 0.1);
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.2);
+            border-color: var(--accent-blue);
+            background: rgba(88, 166, 255, 0.06);
         }
 
-        .method-card i {
-            display: block;
-            margin-bottom: 0.75rem;
-            transition: transform 0.3s ease;
-        }
-
-        .method-card:hover i {
-            transform: scale(1.2);
-        }
+        .method-card i { display: block; margin-bottom: 0.5rem; }
+        .method-card div { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+        .method-card.selected div { color: var(--text-primary); }
 
         .history-table-container {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(25px);
-            border-radius: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
-        .history-table {
-            width: 100%;
-            border-collapse: collapse;
-            color: white;
-        }
+        .history-table { width: 100%; border-collapse: collapse; color: var(--text-primary); }
 
         .history-table th,
         .history-table td {
-            padding: 1.5rem;
+            padding: 0.875rem 1.25rem;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid var(--border);
         }
 
         .history-table th {
-            background: rgba(2, 6, 23, 0.6);
-            font-weight: 800;
-            color: var(--cyber-cyan);
+            background: rgba(0,0,0,0.2);
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1.5px;
+            letter-spacing: 0.5px;
         }
 
-        .history-table tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
+        .history-table tr:last-child td { border-bottom: none; }
+        .history-table tbody tr:hover { background: rgba(255,255,255,0.02); }
 
         .form-input {
-            background: rgba(2, 6, 23, 0.6) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            color: white !important;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
+            background: var(--bg-deep) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text-primary) !important;
+            padding: 0.5rem 0.875rem;
+            border-radius: 6px;
             font-family: inherit;
+            font-size: 0.9rem;
         }
 
-        h1,
-        h2,
-        h3 {
-            color: white !important;
-            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
+        h1, h2, h3 {
+            color: var(--text-primary) !important;
+            text-shadow: none !important;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(1, 2, 5, 0.9);
-            backdrop-filter: blur(15px);
+            inset: 0;
+            background: rgba(0,0,0,0.75);
             align-items: center;
             justify-content: center;
             z-index: 2000;
@@ -248,73 +215,41 @@
             background: #ffffff;
             color: #1a1a1a;
             width: 90%;
-            max-width: 450px;
-            padding: 3rem;
-            border-radius: 2px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            position: relative;
-        }
-
-        .receipt-paper::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background: linear-gradient(135deg, #fff 5px, transparent 0), linear-gradient(-135deg, #fff 5px, transparent 0);
-            background-size: 15px 15px;
+            max-width: 420px;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
         @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            #receipt-modal,
-            #receipt-modal * {
-                visibility: visible;
-            }
-
-            #receipt-modal {
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
+            body * { visibility: hidden; }
+            #receipt-modal, #receipt-modal * { visibility: visible; }
+            #receipt-modal { position: absolute; left: 0; top: 0; }
         }
     </style>
 </head>
 
 <body>
-    <div class="mesh-bg"></div>
-
-
-    <div class="navbar"
-        style="background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding: 1.2rem 5%;">
-        <div class="logo">
-            <img src="../assets/logo.jpg" alt="Happy Living Logo"
-                style="height: 40px; width: auto; object-fit: contain; border-radius: 6px;">
+    <div class="topbar" style="background: #161b22; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;">
+        <div style="display: flex; align-items: center; gap: 0.6rem; font-weight: 600; font-size: 0.95rem;">
+            <img src="../assets/logo.jpg" alt="Happy Living" style="height: 28px; width: 28px; border-radius: 6px; object-fit: cover;">
             Happy Living
         </div>
-        <div class="nav-links">
-            <a href="dashboard.html" class="btn btn-secondary"
-                style="color: white; padding: 0.7rem 1.5rem; text-decoration: none; border-radius: 12px; font-weight: 700;">
-                <i class="fa-solid fa-arrow-left"></i> RETURN TO DASHBOARD
-            </a>
-        </div>
+        <a href="dashboard.html" style="color: #8b949e; text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s;" onmouseover="this.style.color='#e6edf3'" onmouseout="this.style.color='#8b949e'">
+            <i class="fa-solid fa-arrow-left" style="font-size: 0.8rem;"></i> Back to Dashboard
+        </a>
     </div>
 
     <div class="page-container">
-        <h1
-            style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(90deg, #fff, var(--cyber-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-            Transact & Track</h1>
-        <p style="margin-bottom: 3.5rem; font-size: 1.2rem; color: rgba(255,255,255,0.7);">Manage your residential
-            financial ecosystem</p>
+        <div class="page-header">
+            <h1>Payments</h1>
+            <p>Manage rent and mess subscription payments</p>
+        </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('rent')">Lease Payment</button>
-            <button class="tab-btn" onclick="switchTab('mess')">Sustenance Fee</button>
-            <button class="tab-btn" onclick="switchTab('history')">Transaction Ledger</button>
+            <button class="tab-btn active" onclick="switchTab('rent')">Rent Payment</button>
+            <button class="tab-btn" onclick="switchTab('mess')">Mess Subscription</button>
+            <button class="tab-btn" onclick="switchTab('history')">Payment History</button>
         </div>
 
         <!-- Rent Payment Section -->
@@ -377,68 +312,108 @@
                     </div>
                 </div>
 
-                <button onclick="processPayment('Rent')" class="btn btn-primary"
-                    style="width: 100%; padding: 1.25rem; font-weight: 800; font-size: 1.1rem; border-radius: 14px; box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);">
-                    INITIALIZE SETTLEMENT
+                <button onclick="processPayment('Rent')" style="width: 100%; padding: 0.8rem; background: #238636; border: 1px solid rgba(240,246,252,0.1); color: #fff; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit;">
+                    Pay Rent
                 </button>
             </div>
         </div>
 
         <!-- Mess Payment Section -->
         <div id="mess-section" class="section-content">
-            <div class="bill-card">
-                <h2 style="margin-bottom: 2.5rem; text-align: center; color: var(--cyber-cyan) !important;">SUSTENANCE
-                    SUBSCRIPTION</h2>
+            <!-- Plan Cards -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
 
-                <div class="bill-row">
-                    <span>Service Protocol</span>
-                    <select id="mess-plan" class="form-input" onchange="updateMessFee()">
-                        <option value="Silver">Silver (2 Meals)</option>
-                        <option value="Gold" selected>Gold (3 Meals)</option>
-                        <option value="Platinum">Platinum (Premium)</option>
-                    </select>
+                <!-- Silver -->
+                <div class="sub-card" onclick="selectMessPlan('Silver', 2500, this)" data-plan="Silver"
+                    style="background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.5rem; cursor: pointer; transition: border-color 0.2s; position: relative;">
+                    <div style="font-size: 0.72rem; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem;">Silver</div>
+                    <div style="font-size: 1.75rem; font-weight: 700; color: #e6edf3; margin-bottom: 0.25rem;">₹2,500<span style="font-size: 0.9rem; color: #8b949e; font-weight: 400;">/mo</span></div>
+                    <ul style="list-style: none; padding: 0; margin: 1rem 0 0; font-size: 0.85rem; color: #8b949e;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>2 Meals/Day</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Basic Menu</li>
+                        <li><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Standard Area</li>
+                    </ul>
+                    <div class="plan-status" style="position: absolute; top: 1rem; right: 1rem; display: none;"><i class="fa-solid fa-circle-check" style="color: #3fb950;"></i></div>
                 </div>
 
-                <div class="bill-row">
-                    <span>Dietary Preference</span>
-                    <div style="display: flex; gap: 1.5rem;">
-                        <label
-                            style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: white;"><input
-                                type="radio" name="preference" value="Veg" checked
-                                style="accent-color: var(--cyber-cyan);"> Veg</label>
-                        <label
-                            style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: white;"><input
-                                type="radio" name="preference" value="Non-Veg" style="accent-color: var(--cyber-cyan);">
-                            Non-Veg</label>
+                <!-- Gold -->
+                <div class="sub-card active" onclick="selectMessPlan('Gold', 3500, this)" data-plan="Gold"
+                    style="background: #161b22; border: 1px solid #58a6ff; border-radius: 10px; padding: 1.5rem; cursor: pointer; transition: border-color 0.2s; position: relative;">
+                    <div style="position: absolute; top: -1px; right: 16px; background: #58a6ff; color: #0d1117; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 0 0 4px 4px; text-transform: uppercase;">Popular</div>
+                    <div style="font-size: 0.72rem; font-weight: 600; color: #58a6ff; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem;">Gold</div>
+                    <div style="font-size: 1.75rem; font-weight: 700; color: #e6edf3; margin-bottom: 0.25rem;">₹3,500<span style="font-size: 0.9rem; color: #8b949e; font-weight: 400;">/mo</span></div>
+                    <ul style="list-style: none; padding: 0; margin: 1rem 0 0; font-size: 0.85rem; color: #8b949e;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>3 Meals/Day</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Premium Menu</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Priority Dining</li>
+                        <li><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Evening Snacks</li>
+                    </ul>
+                    <div class="plan-status" style="position: absolute; top: 1rem; right: 1rem; display: block;"><i class="fa-solid fa-circle-check" style="color: #58a6ff;"></i></div>
+                </div>
+
+                <!-- Platinum -->
+                <div class="sub-card" onclick="selectMessPlan('Platinum', 5000, this)" data-plan="Platinum"
+                    style="background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.5rem; cursor: pointer; transition: border-color 0.2s; position: relative;">
+                    <div style="font-size: 0.72rem; font-weight: 600; color: #a371f7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem;">Platinum</div>
+                    <div style="font-size: 1.75rem; font-weight: 700; color: #e6edf3; margin-bottom: 0.25rem;">₹5,000<span style="font-size: 0.9rem; color: #8b949e; font-weight: 400;">/mo</span></div>
+                    <ul style="list-style: none; padding: 0; margin: 1rem 0 0; font-size: 0.85rem; color: #8b949e;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>3 Meals + Snacks</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Gourmet Menu</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Table Service</li>
+                        <li><i class="fa-solid fa-check" style="color: #3fb950; margin-right: 0.5rem; width: 12px;"></i>Weekend Buffets</li>
+                    </ul>
+                    <div class="plan-status" style="position: absolute; top: 1rem; right: 1rem; display: none;"><i class="fa-solid fa-circle-check" style="color: #a371f7;"></i></div>
+                </div>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="bill-card" style="max-width: 100%;">
+                <h2 style="text-align: left; margin: 0 0 1.25rem; font-size: 1rem; font-weight: 600;">Confirm Subscription</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <div class="bill-row">
+                            <span>Selected Plan</span>
+                            <strong id="display-mess-plan">Gold</strong>
+                        </div>
+                        <div class="bill-row">
+                            <span>Dietary Preference</span>
+                            <div style="display: flex; gap: 1rem;">
+                                <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem; color: #e6edf3;"><input type="radio" name="preference" value="Veg" checked style="accent-color: #58a6ff;"> Veg</label>
+                                <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem; color: #e6edf3;"><input type="radio" name="preference" value="Non-Veg" style="accent-color: #58a6ff;"> Non-Veg</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bill-row">
+                            <span>Billing Month</span>
+                            <select id="mess-month" class="form-input"></select>
+                        </div>
+                        <div class="bill-row">
+                            <span>Student Subsidy</span>
+                            <strong style="color: #3fb950;">- ₹250</strong>
+                        </div>
                     </div>
                 </div>
-
-                <div class="bill-row">
-                    <span>Fiscal Cycle</span>
-                    <select id="mess-month" class="form-input">
-                        <!-- JS populated -->
-                    </select>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 0.5rem;">
+                    <span style="font-size: 0.9rem; color: #8b949e; font-weight: 500;">Total Due</span>
+                    <span class="bill-total" id="mess-amount" style="font-size: 1.4rem;">₹3,500</span>
                 </div>
-
-                <div class="bill-row"
-                    style="margin-top: 2rem; border-top: 2px dashed rgba(255,255,255,0.2); padding-top: 2rem; border-bottom: none;">
-                    <span style="font-size: 1.2rem; font-weight: 800; color: white !important;">TOTAL VALUATION</span>
-                    <span class="bill-total" id="mess-amount">₹3,500</span>
-                </div>
-
                 <div class="payment-methods">
                     <div class="method-card selected" onclick="selectMethod(this, 'upi')">
-                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.5rem; color: #673ab7;"></i>
-                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">UPI</div>
+                        <i class="fa-solid fa-mobile-screen-button" style="font-size: 1.2rem; color: #58a6ff;"></i>
+                        <div>UPI</div>
                     </div>
                     <div class="method-card" onclick="selectMethod(this, 'card')">
-                        <i class="fa-regular fa-credit-card" style="font-size: 1.5rem; color: #0ea5e9;"></i>
-                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">Card</div>
+                        <i class="fa-regular fa-credit-card" style="font-size: 1.2rem; color: #8b949e;"></i>
+                        <div>Card</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod(this, 'netbanking')">
+                        <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; color: #8b949e;"></i>
+                        <div>Net Banking</div>
                     </div>
                 </div>
-
-                <button onclick="processPayment('Mess')" class="btn btn-primary" style="width: 100%;">
-                    Pay Mess Fee
+                <button onclick="processPayment('Mess')" style="width: 100%; padding: 0.8rem; background: #238636; border: 1px solid rgba(240,246,252,0.1); color: #fff; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit;">
+                    Subscribe
                 </button>
             </div>
         </div>
@@ -606,11 +581,32 @@
             selectedPaymentMethod = method;
         }
 
-        function updateMessFee() {
-            const plan = document.getElementById('mess-plan').value;
-            let amount = 2500;
-            if (plan === 'Gold') amount = 3500;
-            if (plan === 'Platinum') amount = 5000;
+        let currentMessPlan = 'Gold';
+        let currentMessAmount = 3500;
+
+        function selectMessPlan(plan, amount, el) {
+            const tierColors = { Silver: '#8b949e', Gold: '#58a6ff', Platinum: '#a371f7' };
+
+            // Reset all cards
+            document.querySelectorAll('.sub-card').forEach(c => {
+                c.style.borderColor = 'rgba(255,255,255,0.08)';
+                c.style.background = '#161b22';
+                c.classList.remove('active');
+                const ps = c.querySelector('.plan-status');
+                if (ps) ps.style.display = 'none';
+            });
+
+            // Highlight selected
+            el.classList.add('active');
+            el.style.borderColor = tierColors[plan];
+            el.style.background = '#1c2128';
+            const ps = el.querySelector('.plan-status');
+            if (ps) ps.style.display = 'block';
+
+            // Update state & summary
+            currentMessPlan = plan;
+            currentMessAmount = amount;
+            document.getElementById('display-mess-plan').textContent = plan;
             document.getElementById('mess-amount').textContent = '₹' + amount.toLocaleString();
         }
 
@@ -635,11 +631,11 @@
             } else {
                 amountStr = document.getElementById('mess-amount').textContent;
                 month = document.getElementById('mess-month').value;
-                const plan = document.getElementById('mess-plan').value;
+                const plan = currentMessPlan;
                 details = {
                     month: month,
                     plan: plan,
-                    type: 'Mess Fee'
+                    type: 'Mess Fee Subscription'
                 };
             }
 

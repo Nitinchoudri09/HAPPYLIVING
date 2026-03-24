@@ -3,281 +3,822 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Living | Premium PG & Mess Management</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="Happy Living PG - Eat Healthy, Stay Healthy. A comfortable, secure, and digitally-managed paying guest accommodation with smart mess facilities.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#9333ea">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #d6e8f0;
+            color: #1a1a1a;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── Navbar ─────────────────────────── */
+        .navbar {
+            background: linear-gradient(90deg, #1a3800 0%, #2e6b00 60%, #3d8c00 100%);
+            padding: 0.75rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: #6dbf2e;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: #b8f074; }
+
+        .nav-btn {
+            background: #111;
+            color: white !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover { background: #333; color: white !important; }
+
+        /* ── Hero ───────────────────────────── */
+        .hero {
+            background: linear-gradient(135deg, #c9e84a 0%, #a8d830 40%, #8fcc1a 100%);
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            padding: 3rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Paint brush blob behind collage */
+        .hero::before {
+            content: '';
+            position: absolute;
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45%;
+            height: 78%;
+            background: #3d7a00;
+            border-radius: 40% 60% 55% 45% / 40% 50% 60% 50%;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+
+        /* Orange brush accent */
+        .hero::after {
+            content: '';
+            position: absolute;
+            left: 8%;
+            bottom: 8%;
+            width: 22%;
+            height: 35%;
+            background: #f97316;
+            border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Food image collage */
+        .food-collage {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0.75rem;
+            border-radius: 16px;
+            overflow: visible;
+            position: relative;
+        }
+
+        .food-collage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+            aspect-ratio: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .food-collage img:hover { transform: scale(1.04); }
+
+        .food-collage img:first-child {
+            grid-column: 1;
+            grid-row: 1 / 3;
+            aspect-ratio: auto;
+        }
+
+        /* Hero text */
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            color: #1a1a1a;
+            margin-bottom: 1.25rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-text p {
+            font-size: 1.05rem;
+            color: #2d4a00;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-green {
+            background: #2e6b00;
+            color: white;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 4px 14px rgba(46,107,0,0.4);
+        }
+
+        .btn-green:hover {
+            background: #1a3800;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-dark {
+            background: transparent;
+            color: #1a3800;
+            border: 2px solid #1a3800;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-outline-dark:hover {
+            background: #1a3800;
+            color: white;
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-pill {
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(46,107,0,0.2);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #1a3800;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ── Features ───────────────────────── */
+        .features-section {
+            padding: 5rem 5%;
+            background: #e8f4d4;
+        }
+
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #6dbf2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a3800;
+            margin-bottom: 2.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 14px;
+            padding: 1.75rem;
+            border: 1px solid rgba(109,191,46,0.15);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a3800;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: #4a6a30;
+            line-height: 1.6;
+        }
+
+        /* ── Login Section ──────────────────── */
+        .login-section {
+            padding: 5rem 5%;
+            background: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('assets/pg_dining_hall.png') center/cover no-repeat;
+            opacity: 0.04;
+        }
+
+        .login-section > * { position: relative; z-index: 1; }
+
+        .login-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            max-width: 680px;
+            margin: 2.5rem auto 0;
+        }
+
+        .role-card {
+            background: white;
+            border: 2px solid #e0efd0;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .student-card:hover {
+            border-color: #6dbf2e;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(109,191,46,0.2);
+        }
+
+        .admin-card:hover {
+            border-color: #f97316;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(249,115,22,0.2);
+        }
+
+        .role-icon-container {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .student-card .role-icon-container { background: #e8f7d4; color: #3d8c00; }
+        .admin-card .role-icon-container   { background: #fff0e6; color: #f97316; }
+
+        .role-card h3 { font-size: 1.1rem; font-weight: 700; color: #1a3800; margin-bottom: 0.4rem; }
+        .role-card p  { font-size: 0.875rem; color: #5a7a40; margin-bottom: 1.5rem; flex-grow: 1; line-height: 1.5; }
+
+        .role-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .student-card .role-btn { background: #e8f7d4; color: #2e6b00; border: 1px solid #b8e890; }
+        .student-card:hover .role-btn { background: #2e6b00; color: white; border-color: #2e6b00; }
+        .admin-card .role-btn   { background: #fff0e6; color: #c2510d; border: 1px solid #fcd3b0; }
+        .admin-card:hover .role-btn { background: #f97316; color: white; border-color: #f97316; }
+
+        /* ── Gallery ────────────────────────── */
+        .gallery-section {
+            padding: 4rem 5%;
+            background: linear-gradient(180deg, #d0e8b8 0%, #c4e0a8 100%);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.875rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .gallery-item:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 2; }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s;
+        }
+
+        .gallery-item:hover img { transform: scale(1.07); }
+
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.625rem 0.875rem;
+            background: linear-gradient(transparent, rgba(26,56,0,0.75));
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 600;
+            transform: translateY(100%);
+            transition: transform 0.25s;
+        }
+
+        .gallery-item:hover .caption { transform: translateY(0); }
+
+        /* ── About ──────────────────────────── */
+        .about-section {
+            padding: 5rem 5%;
+            background: #f5fce8;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            border: 4px solid #b8e890;
+        }
+
+        .about-image img { width: 100%; display: block; }
+
+        .about-text p {
+            font-size: 0.95rem;
+            color: #4a6a30;
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-box {
+            background: white;
+            border: 1px solid #d0ebb0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-box h4 { font-size: 1.75rem; font-weight: 800; color: #2e6b00; }
+        .stat-box span { font-size: 0.8rem; color: #5a7a40; font-weight: 500; }
+
+        /* ── Contact ────────────────────────── */
+        .contact-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #1a3800 0%, #2e6b00 50%, #3d8c00 100%);
+            color: white;
+        }
+
+        .contact-section .section-label { color: #b8f074; }
+        .contact-section .section-title { color: white; }
+
+        .contact-card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            max-width: 480px;
+        }
+
+        .contact-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.875rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+
+        .contact-row:last-child { border-bottom: none; }
+
+        .contact-row .icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(184,240,116,0.15);
+            border: 1px solid rgba(184,240,116,0.25);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b8f074;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .contact-row .label { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-bottom: 1px; }
+        .contact-row strong { display: block; color: white; }
+        .contact-row a { color: #b8f074; text-decoration: none; display: block; }
+        .contact-row a:hover { text-decoration: underline; }
+
+        /* ── Footer ─────────────────────────── */
+        footer {
+            background: #0e2000;
+            color: rgba(255,255,255,0.55);
+            text-align: center;
+            padding: 1.5rem 5%;
+            font-size: 0.82rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        footer strong { color: rgba(255,255,255,0.8); }
+
+        /* ── Reveal animation ───────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ── Responsive ─────────────────────── */
+        @media (max-width: 900px) {
+            .hero-inner, .about-grid { grid-template-columns: 1fr; }
+            .hero-inner { text-align: center; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .food-collage { max-width: 400px; margin: 0 auto; }
+            .hero-btns { justify-content: center; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .hero-text h1 { font-size: 2rem; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* PWA */
+        #pwa-install-prompt {
+            position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 420px; padding: 1rem 1.25rem;
+            background: white; border: 1px solid #d0ebb0; border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15); z-index: 9999; display: none;
+        }
+        #pwa-install-prompt.show { display: block; }
+    </style>
 </head>
 
 <body>
-
-    <div id="custom-cursor"></div>
-    <div id="custom-cursor-follower"></div>
-    <div class="mesh-bg"></div>
-    <div class="cyber-scanner"></div>
-
-    <!-- 3D Floating Shapes & Design Elements -->
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-        <div class="orbital-ring" style="width: 500px; height: 500px; top: 10%; left: 5%;"></div>
-        <div class="orbital-ring" style="width: 700px; height: 700px; bottom: 5%; right: 2%;"></div>
-    </div>
-
-    <nav class="navbar animate-fade-in">
-        <div class="logo shining-text">
-            <img src="assets/logo.jpg" alt="Happy Living Logo" style="height: 40px; width: auto; object-fit: contain;">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-leaf"></i></div>
             Happy Living
-        </div>
+        </a>
         <div class="nav-links">
-            <a href="#about">About Us</a>
+            <a href="#">Home</a>
             <a href="#features">Features</a>
-            <a href="#login">Login</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <div id="hamburger-menu" onclick="toggleMobileNav()">
-            <i class="fa-solid fa-bars"></i>
+            <a href="#contact">Contact Us</a>
+            <a href="#about">About Us</a>
+            <a href="#login" class="nav-btn">Login &rarr;</a>
         </div>
     </nav>
 
-    <div id="mobile-nav" class="mobile-nav">
-        <a href="#about" onclick="toggleMobileNav()">About Us</a>
-        <a href="#features" onclick="toggleMobileNav()">Features</a>
-        <a href="#login" onclick="toggleMobileNav()">Login</a>
-        <a href="#contact" onclick="toggleMobileNav()">Contact</a>
-    </div>
-
+    <!-- Hero -->
     <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text animate-slide-up">
-                <h1 class="shining-text">Experience the Future of Student Living</h1>
-                <p>More than just a PG. We provide a comfortable, secure, and hyper-modern environment with digital
-                    dining facilities.</p>
-                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                    <a href="#login" class="btn btn-primary luminous-btn">
-                        Get Started <i class="fa-solid fa-rocket"></i>
-                    </a>
-                    <a href="#features" class="btn btn-outline">
-                        Explore Features
-                    </a>
-                </div>
-                <div class="hero-stats animate-slide-up delay-300">
-                    <div class="stat-pill"><strong>30+</strong> Premium PGs</div>
-                    <div class="stat-pill"><strong>500+</strong> Happy Students</div>
-                </div>
+        <div class="hero-inner">
+            <!-- Food collage (left) -->
+            <div class="food-collage reveal">
+                <img src="assets/mess_hero.png" alt="Mess Food" style="grid-column:1; grid-row:1/3; aspect-ratio: 1/1.9;">
+                <img src="assets/pg_dining_hall.png" alt="Dining Hall">
+                <img src="assets/pg_common_area.png" alt="Common Area">
             </div>
-            <div class="hero-image animate-slide-up delay-200" style="position: relative;">
 
-                <div class="image-portal">
-                    <img src="assets/mess_hero.png" alt="Delicious Mess Meals" style="position: relative; z-index: 1;">
+            <!-- Hero text (right) -->
+            <div class="hero-text reveal" style="transition-delay: 0.15s;">
+                <div style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(46,107,0,0.12); border:1px solid rgba(46,107,0,0.25); padding:0.3rem 0.875rem; border-radius:20px; font-size:0.8rem; font-weight:600; color:#1a3800; margin-bottom:1.25rem;">
+                    <i class="fa-solid fa-circle" style="font-size:0.45rem; color:#6dbf2e;"></i> Now with Smart Mess and PG Subscriptions
+                </div>
+                <h1>Eat Healthy,<br>Stay Healthy</h1>
+                <p>More than just a PG. Happy Living provides comfortable, secure, and digitally-managed accommodation with premium mess facilities — three nutritious meals daily.</p>
+                <div class="hero-btns">
+                    <a href="#login" class="btn-green">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#features" class="btn-outline-dark">Explore Features</a>
+                </div>
+                <div class="hero-pills">
+                    <div class="hero-pill"><strong>30+</strong> Premium PGs</div>
+                    <div class="hero-pill"><strong>500+</strong> Happy Students</div>
+                    <div class="hero-pill"><strong>4.8★</strong> Rating</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="features" class="features">
-        <div class="feature-card glass-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fa-solid fa-utensils"></i>
+    <!-- Features -->
+    <section id="features" class="features-section">
+        <div style="max-width:1200px; margin:0 auto;">
+            <p class="section-label">What We Offer</p>
+            <h2 class="section-title">Everything You Need</h2>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon" style="background:#e8f7d4; color:#3d8c00;"><i class="fa-solid fa-utensils"></i></div>
+                    <h3>Hygienic Mess</h3>
+                    <p>Nutritious daily meals with Silver, Gold & Platinum plans. Weekly rotating menu with fresh ingredients.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.1s;">
+                    <div class="feature-icon" style="background:#e8f0ff; color:#4f7ae8;"><i class="fa-solid fa-wifi"></i></div>
+                    <h3>High-Speed WiFi</h3>
+                    <p>24/7 unlimited high-speed internet for your studies and entertainment throughout the property.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.2s;">
+                    <div class="feature-icon" style="background:#fff0f0; color:#e84f4f;"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Top-Notch Security</h3>
+                    <p>CCTV surveillance and secure access control ensuring the safety of all residents around the clock.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.05s;">
+                    <div class="feature-icon" style="background:#fff3e6; color:#f97316;"><i class="fa-solid fa-jug-detergent"></i></div>
+                    <h3>Laundry Service</h3>
+                    <p>Premium laundry facilities available on demand — all bookable online from your dashboard.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.15s;">
+                    <div class="feature-icon" style="background:#f0f8e8; color:#6dbf2e;"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    <h3>Easy Payments</h3>
+                    <p>Pay rent and mess fees online via UPI, card, or net banking. Full transaction history anytime.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.25s;">
+                    <div class="feature-icon" style="background:#f3e8ff; color:#8b46f0;"><i class="fa-solid fa-headset"></i></div>
+                    <h3>Complaint Portal</h3>
+                    <p>Raise maintenance requests directly from your portal and track resolution status in real time.</p>
+                </div>
             </div>
-            <h3>Hygienic Mess</h3>
-            <p>Nutritious and delicious meals planned weekly. Manage your meal preferences digitally.</p>
-        </div>
-        <div class="feature-card glass-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fa-solid fa-wifi"></i>
-            </div>
-            <h3>High-Speed WiFi</h3>
-            <p>24/7 unlimited high-speed internet connectivity for your studies and entertainment.</p>
-        </div>
-        <div class="feature-card glass-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <h3>Top Notch Security</h3>
-            <p>CCTV surveillance and secure biometric access to ensure safety for all residents.</p>
-        </div>
-        <div class="feature-card glass-card animate-on-scroll">
-            <div class="feature-icon">
-                <i class="fa-solid fa-jug-detergent"></i>
-            </div>
-            <h3>Laundry Service</h3>
-            <p>Premium laundry facilities available to keep you looking sharp with zero hassle.</p>
         </div>
     </section>
 
+    <!-- Login -->
     <section id="login" class="login-section">
-        <h2 class="animate-on-scroll">Login to Your Dashboard</h2>
-        <p class="animate-on-scroll" style="color: var(--text-muted); font-size: 1.1rem;">Choose your role to continue
-        </p>
-
-        <div class="login-options bento-grid">
-            <a href="student/login.html" class="role-card student-card bento-wide animate-on-scroll delay-100">
-                <div class="role-icon-container">
-                    <i class="fa-solid fa-user-graduate"></i>
-                </div>
-                <h3>Student Login</h3>
-                <p>Access your room, mess menu, payments, laundry & complaints with our futuristic student portal.</p>
-                <div class="role-btn">
-                    Login as Student <i class="fa-solid fa-arrow-right"></i>
-                </div>
+        <p class="section-label" style="color:#6dbf2e;">Access Your Portal</p>
+        <h2 class="section-title" style="color:#1a3800;">Login to Your Dashboard</h2>
+        <p style="color:#5a7a40; font-size:0.95rem;">Choose your role to continue</p>
+        <div class="login-options">
+            <a href="student/login.html" class="role-card student-card">
+                <div class="role-icon-container"><i class="fa-solid fa-user-graduate"></i></div>
+                <h3>Student</h3>
+                <p>Access your room, mess menu, payments, laundry & complaints from your personal portal.</p>
+                <div class="role-btn">Login as Student <i class="fa-solid fa-arrow-right"></i></div>
             </a>
-
-            <a href="admin/login.html" class="role-card admin-card bento-wide animate-on-scroll delay-200">
-                <div class="role-icon-container">
-                    <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <h3>Admin Login</h3>
-                <p>Take full control of management, student data, and real-time revenue analytics.</p>
-                <div class="role-btn">
-                    Login as Admin <i class="fa-solid fa-arrow-right"></i>
-                </div>
+            <a href="admin/login.html" class="role-card admin-card">
+                <div class="role-icon-container"><i class="fa-solid fa-user-shield"></i></div>
+                <h3>Admin</h3>
+                <p>Manage residents, billing, subscriptions, and view real-time analytics from the admin panel.</p>
+                <div class="role-btn">Login as Admin <i class="fa-solid fa-arrow-right"></i></div>
             </a>
         </div>
     </section>
 
+    <!-- Gallery -->
+    <section class="gallery-section">
+        <div style="max-width:1200px; margin:0 auto;">
+            <p class="section-label">Our Facilities</p>
+            <h2 class="section-title">Life at Happy Living</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item reveal">
+                    <img src="assets/pg_luxury_room.png" alt="Luxury Room">
+                    <div class="caption">Luxury Rooms</div>
+                </div>
+                <div class="gallery-item reveal" style="transition-delay:0.1s;">
+                    <img src="assets/pg_common_area.png" alt="Common Area">
+                    <div class="caption">Common Area</div>
+                </div>
+                <div class="gallery-item reveal" style="transition-delay:0.2s;">
+                    <img src="assets/pg_gym_facility.png" alt="Gym">
+                    <div class="caption">Gym Facility</div>
+                </div>
+                <div class="gallery-item reveal" style="transition-delay:0.3s;">
+                    <img src="assets/pg_terrace.png" alt="Terrace">
+                    <div class="caption">Terrace &amp; Views</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
     <section id="about" class="about-section">
         <div class="about-grid">
-            <div class="about-text animate-on-scroll">
-                <h2 class="shining-text">Pioneering the Next Generation of Student Housing</h2>
-                <p>At Happy Living, we believe your PG should be more than just a place to sleep. It should be a
-                    tech-driven
-                    ecosystem that empowers your academic and personal growth. Founded in 2020, we've revolutionized the
-                    traditional PG model with smart management, transparent billing, and a focus on community and
-                    security.
-                </p>
-
-                <div class="about-stats">
-                    <div class="about-stat-item">
-                        <h4>4.8/5</h4>
-                        <span>Average Resident Rating</span>
-                    </div>
-                    <div class="about-stat-item">
-                        <h4>24/7</h4>
-                        <span>Active Support & Security</span>
-                    </div>
-                    <div class="about-stat-item">
-                        <h4>95%</h4>
-                        <span>Resident Satisfaction</span>
-                    </div>
-                    <div class="about-stat-item">
-                        <h4>100%</h4>
-                        <span>Digital Experience</span>
-                    </div>
-                </div>
-
-                <div class="mission-vision-grid animate-on-scroll delay-200"
-                    style="margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    <div class="glass-card" style="padding: 1.5rem;">
-                        <h5 style="color: var(--cyber-cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-eye"></i> Our
-                            Vision</h5>
-                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">To become the global
-                            standard for smart student housing, blending luxury with absolute convenience.</p>
-                    </div>
-                    <div class="glass-card" style="padding: 1.5rem;">
-                        <h5 style="color: var(--secondary); margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye"></i>
-                            Our
-                            Mission</h5>
-                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Empowering students
-                            with a
-                            safe, healthy, and digitally-integrated living environment that feels like home.</p>
-                    </div>
-                </div>
+            <div class="about-image reveal">
+                <img src="assets/about_hero.png" alt="Happy Living" onerror="this.src='assets/pg_boutique_interior.png'">
             </div>
-            <div class="about-image animate-on-scroll" style="position: relative;">
-
-                <img src="assets/about_hero.png" alt="Happy Living Premium Lounge"
-                    style="position: relative; z-index: 1; border-radius: var(--radius-xl); box-shadow: 0 0 30px rgba(0, 242, 254, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <div class="about-text reveal" style="transition-delay:0.15s;">
+                <p class="section-label">About Us</p>
+                <h2 class="section-title">Pioneering Smart Student Living</h2>
+                <p>At Happy Living, we believe your PG should be more than just a place to sleep — it's a tech-driven ecosystem that empowers your academic and personal growth. Founded in 2020, we've revolutionized the traditional PG model with smart management, transparent billing, and a focus on community.</p>
+                <div class="about-stats">
+                    <div class="stat-box"><h4>4.8/5</h4><span>Resident Rating</span></div>
+                    <div class="stat-box"><h4>24/7</h4><span>Support & Security</span></div>
+                    <div class="stat-box"><h4>95%</h4><span>Satisfaction Rate</span></div>
+                    <div class="stat-box"><h4>100%</h4><span>Digital Experience</span></div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
+        <div style="max-width:1200px; margin:0 auto;">
+            <p class="section-label">Get In Touch</p>
+            <h2 class="section-title" style="margin-bottom:2rem;">Contact Us</h2>
+            <div class="contact-card">
+                <div class="contact-row">
+                    <div class="icon"><i class="fa-solid fa-user"></i></div>
+                    <div><div class="label">Owner / Manager</div><strong>Nitin Choudri</strong></div>
+                </div>
+                <div class="contact-row">
+                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div><div class="label">Email</div><a href="mailto:nitinchoudri6@gmail.com">nitinchoudri6@gmail.com</a></div>
+                </div>
+                <div class="contact-row">
+                    <div class="icon"><i class="fa-solid fa-phone"></i></div>
+                    <div><div class="label">Phone</div><a href="tel:+919880359114">+91 98803 59114</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <p style="color: var(--text-muted);">&copy; 2024 Happy Living PG. All rights reserved.</p>
+        <p>&copy; 2024 <strong>Happy Living PG</strong> &mdash; Managed by Nitin Choudri. All rights reserved.</p>
     </footer>
 
-    <!-- Missing PWA UI Elements -->
-    <div id="pwa-install-prompt" class="glass-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+    <!-- PWA Install Prompt -->
+    <div id="pwa-install-prompt">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem;">
             <div>
-                <strong style="display: block;">Install Happy Living</strong>
-                <span style="font-size: 0.8rem; opacity: 0.8;">Add to home screen for better experience</span>
+                <strong style="display:block; color:#1a3800; font-size:0.9rem;">Install Happy Living</strong>
+                <span style="font-size:0.8rem; color:#5a7a40;">Add to home screen for better experience</span>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
-                <button onclick="installPWA()" class="btn btn-primary"
-                    style="padding: 0.4rem 1rem; font-size: 0.8rem;">Install</button>
-                <button onclick="document.getElementById('pwa-install-prompt').classList.remove('show')" class="btn"
-                    style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Later</button>
+            <div style="display:flex; gap:0.5rem;">
+                <button onclick="installPWA()" class="btn-green" style="padding:0.4rem 0.9rem; font-size:0.8rem; border:none; cursor:pointer; border-radius:6px; background:#2e6b00; color:white; font-weight:600;">Install</button>
+                <button onclick="document.getElementById('pwa-install-prompt').classList.remove('show')" style="padding:0.4rem 0.8rem; font-size:0.8rem; border:1px solid #d0ebb0; border-radius:6px; background:white; color:#4a6a30; cursor:pointer; font-weight:500;">Later</button>
             </div>
         </div>
     </div>
 
-    <div id="offline-indicator"
-        style="position: fixed; top: 0; left: 0; width: 100%; background: #ef4444; color: white; text-align: center; padding: 0.5rem; z-index: 10001; display: none;">
-        <i class="fa-solid fa-wifi-slash"></i> You are currently offline. Some features may be limited.
+    <div id="offline-indicator" style="position:fixed; top:0; left:0; width:100%; background:#b91c1c; color:white; text-align:center; padding:0.5rem; z-index:10001; display:none; font-size:0.875rem;">
+        <i class="fa-solid fa-wifi-slash"></i> You are currently offline.
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <script src="js/main.js"></script>
-
     <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("service-worker.js")
-                .then(function () {
-                    console.log("Service Worker Registered");
-                });
-        }
+        if ("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js");
 
-        // Initialize Vanilla Tilt
-        VanillaTilt.init(document.querySelectorAll(".glass-card, .feature-card, .role-card, .image-portal"), {
-            max: 15,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.3,
-            perspective: 1000,
-            scale: 1.05
-        });
+        // Scroll reveal
+        const ro = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-        // PWA Install Prompt
+        // PWA
         let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const installPrompt = document.getElementById('pwa-install-prompt');
-            if (installPrompt) installPrompt.classList.add('show');
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault(); deferredPrompt = e;
+            document.getElementById('pwa-install-prompt').classList.add('show');
         });
-
         function installPWA() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    }
-                    deferredPrompt = null;
-                    const installPrompt = document.getElementById('pwa-install-prompt');
-                    if (installPrompt) installPrompt.classList.remove('show');
-                });
-            }
+            if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(() => { deferredPrompt = null; document.getElementById('pwa-install-prompt').classList.remove('show'); }); }
         }
-
-        // Offline Detection
-        window.addEventListener('online', () => {
-            const indicator = document.getElementById('offline-indicator');
-            if (indicator) indicator.classList.remove('show');
-        });
-
-        window.addEventListener('offline', () => {
-            const indicator = document.getElementById('offline-indicator');
-            if (indicator) indicator.classList.add('show');
-        });
+        window.addEventListener('online',  () => document.getElementById('offline-indicator').style.display = 'none');
+        window.addEventListener('offline', () => document.getElementById('offline-indicator').style.display = 'block');
     </script>
 </body>
-
 </html>

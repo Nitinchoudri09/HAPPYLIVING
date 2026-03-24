@@ -479,6 +479,10 @@
                     <i class="fa-solid fa-clipboard-check"></i>
                     Attendance
                 </div>
+                <div class="nav-item" onclick="showSection('mess-subscription-section', this); renderSubscriptionManagement();">
+                    <i class="fa-solid fa-crown"></i>
+                    Mess Subscriptions
+                </div>
                 <div class="nav-item" onclick="showSection('complaints-section', this)">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     Complaints
@@ -612,6 +616,75 @@
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Mess Subscription Section -->
+            <div id="mess-subscription-section" class="animate-slide-up" style="display: none; margin-top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2><i class="fa-solid fa-crown" style="color: #fbbf24;"></i> Mess Subscription Management</h2>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" onclick="exportSubs()"><i class="fa-solid fa-download"></i> Export Data</button>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card" style="border-color: rgba(148, 163, 184, 0.4);">
+                        <div class="stat-icon" style="background: rgba(148, 163, 184, 0.1); color: #94a3b8;">
+                            <i class="fa-solid fa-medal"></i>
+                        </div>
+                        <div>
+                            <h3 id="sub-silver-count">12</h3>
+                            <p style="color: var(--text-muted);">Silver Tier</p>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="border-color: rgba(251, 191, 36, 0.4);">
+                        <div class="stat-icon" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <div>
+                            <h3 id="sub-gold-count">45</h3>
+                            <p style="color: var(--text-muted);">Gold Tier</p>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="border-color: rgba(139, 92, 246, 0.4);">
+                        <div class="stat-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <div>
+                            <h3 id="sub-platinum-count">8</h3>
+                            <p style="color: var(--text-muted);">Platinum Tier</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container" style="margin-top: 2rem;">
+                    <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; font-size: 1.2rem;">Resident Subscription Matrix</h3>
+                        <div style="display: flex; gap: 1rem;">
+                            <select id="sub-tier-filter" onchange="renderSubscriptionManagement()" class="form-input" style="width: 150px; padding: 0.5rem;">
+                                <option value="all">All Tiers</option>
+                                <option value="Silver">Silver</option>
+                                <option value="Gold">Gold</option>
+                                <option value="Platinum">Platinum</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Resident Name</th>
+                                <th>PG Property</th>
+                                <th>Tier</th>
+                                <th>Monthly Fee</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscription-body">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -1936,6 +2009,89 @@ Share this QR code with students for attendance marking.
             }
 
             alert(details);
+        }
+
+        // --- Mess Subscription Management ---
+        function renderSubscriptionManagement() {
+            if (typeof BookingSystem === 'undefined') return;
+            
+            const subscriptions = BookingSystem.getSubscriptions() || [];
+            const tierFilter = document.getElementById('sub-tier-filter').value;
+            const tbody = document.getElementById('subscription-body');
+            
+            // Filter by tier
+            const filtered = subscriptions.filter(s => {
+                if (tierFilter === 'all') return true;
+                return s.tier === tierFilter;
+            });
+
+            // Update Stats
+            const silver = subscriptions.filter(s => s.tier === 'Silver').length;
+            const gold = subscriptions.filter(s => s.tier === 'Gold').length;
+            const platinum = subscriptions.filter(s => s.tier === 'Platinum').length;
+            
+            document.getElementById('sub-silver-count').textContent = silver;
+            document.getElementById('sub-gold-count').textContent = gold;
+            document.getElementById('sub-platinum-count').textContent = platinum;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">No subscription records found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(s => {
+                const tierColor = s.tier === 'Silver' ? '#94a3b8' : (s.tier === 'Gold' ? '#fbbf24' : '#8b5cf6');
+                return `
+                    <tr>
+                        <td><strong>${s.studentName}</strong></td>
+                        <td>${s.pgName}</td>
+                        <td>
+                            <span style="display: flex; align-items: center; gap: 0.5rem; color: ${tierColor}; font-weight: 700;">
+                                <i class="fa-solid ${s.tier === 'Platinum' ? 'fa-gem' : (s.tier === 'Gold' ? 'fa-crown' : 'fa-medal')}"></i>
+                                ${s.tier}
+                            </span>
+                        </td>
+                        <td>₹${(s.finalPrice || 0).toLocaleString()}</td>
+                        <td><span class="status-badge status-paid">${s.status}</span></td>
+                        <td>
+                            <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="updateSubTier('${s.email}', '${s.tier}')">
+                                <i class="fa-solid fa-pen-to-square"></i> Modify
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateSubTier(email, currentTier) {
+            const nextTier = currentTier === 'Silver' ? 'Gold' : (currentTier === 'Gold' ? 'Platinum' : 'Silver');
+            if (confirm(`Update ${email}'s subscription to ${nextTier}?`)) {
+                const subs = BookingSystem.getSubscriptions();
+                const sub = subs.find(s => s.email === email);
+                if (sub) {
+                    sub.tier = nextTier;
+                    sub.finalPrice = nextTier === 'Silver' ? 2500 : (nextTier === 'Gold' ? 3500 : 5000);
+                    localStorage.setItem('happyLiving_Subscriptions', JSON.stringify(subs));
+                    renderSubscriptionManagement();
+                    renderBilling();
+                    showToast('Subscription Updated', `Resident plan changed to ${nextTier}`, 'success');
+                }
+            }
+        }
+
+        function exportSubs() {
+            const subs = BookingSystem.getSubscriptions();
+            const csv = 'Name,Email,PG,Tier,Price,Status\n' + 
+                subs.map(s => `${s.studentName},${s.email},${s.pgName},${s.tier},${s.finalPrice},${s.status}`).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'mess_subscriptions.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         // --- Recent Activity Logic ---

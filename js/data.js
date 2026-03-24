@@ -1444,6 +1444,18 @@ window.SubscriptionTiers = SubscriptionTiers;
 // window.ComplaintService = ComplaintService;
 window.ProfileService = ProfileService;
 
+// Initial Mock Subscriptions to showcase the feature
+if (!localStorage.getItem('messSubscriptions')) {
+    const mockSubs = [
+        { id: 101, studentName: 'Aditya Kumar', email: 'aditya@example.com', pgName: 'Happy Living Boys H1', tier: 'Gold', basePrice: 2500, finalPrice: 3500, status: 'Active', startDate: '2024-03-01T10:00:00Z' },
+        { id: 102, studentName: 'Rahul Singh', email: 'rahul@example.com', pgName: 'Happy Living Boys H1', tier: 'Silver', basePrice: 2000, finalPrice: 2500, status: 'Active', startDate: '2024-03-05T09:30:00Z' },
+        { id: 103, studentName: 'Sneha Rao', email: 'sneha@example.com', pgName: 'Happy Living Girls G1', tier: 'Platinum', basePrice: 3500, finalPrice: 5000, status: 'Active', startDate: '2024-03-10T14:15:00Z' },
+        { id: 104, studentName: 'Vikram Joshi', email: 'vikram@example.com', pgName: 'Happy Living Boys H2', tier: 'Gold', basePrice: 2500, finalPrice: 3500, status: 'Active', startDate: '2024-03-12T08:45:00Z' },
+        { id: 105, studentName: 'Priya Verma', email: 'priya@example.com', pgName: 'Happy Living Girls G2', tier: 'Gold', basePrice: 2500, finalPrice: 3500, status: 'Active', startDate: '2024-03-15T11:20:00Z' }
+    ];
+    localStorage.setItem('messSubscriptions', JSON.stringify(mockSubs));
+}
+
 // Initialize DB on load (was already called above, but ensuring it runs)
 if (typeof DB !== 'undefined') DB.init();
 
