@@ -1,0 +1,760 @@
+/* ================================================
+   Happy Living — Exciting & Engaging Design
+   ================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap');
+
+/* ── Exciting Design Tokens ─────────────────────── */
+:root {
+    /* Vibrant Brand Colors */
+    --primary-vibrant:    #FF6B6B;
+    --primary-bright:     #4ECDC4;
+    --secondary-vibrant:  #45B7D1;
+    --accent-vibrant:     #96CEB4;
+    --highlight-vibrant:  #FFEAA7;
+    --dark-vibrant:       #2D3436;
+    
+    /* Neon Colors */
+    --neon-pink:          #FF006E;
+    --neon-blue:          #00F5FF;
+    --neon-green:         #00FF88;
+    --neon-purple:         #BF00FF;
+    --neon-orange:         #FF6600;
+    
+    /* Gradient Palettes */
+    --gradient-sunset:     linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 50%, #45B7D1 100%);
+    --gradient-ocean:     linear-gradient(135deg, #00F5FF 0%, #4ECDC4 50%, #96CEB4 100%);
+    --gradient-flame:     linear-gradient(135deg, #FF6600 0%, #FF6B6B 50%, #FFEAA7 100%);
+    --gradient-neon:      linear-gradient(135deg, #BF00FF 0%, #00F5FF 50%, #00FF88 100%);
+    --gradient-night:     linear-gradient(135deg, #2D3436 0%, #636E72 50%, #B2BEC3 100%);
+    --gradient-aurora:    linear-gradient(135deg, #00F5FF 0%, #BF00FF 25%, #FF006E 50%, #FFEAA7 75%, #00FF88 100%);
+    
+    /* Background Colors */
+    --bg-dark:            #1a1a2e;
+    --bg-darker:          #0f0f1e;
+    --bg-light:           #f8f9fa;
+    --bg-pattern:         rgba(255, 255, 255, 0.05);
+    --bg-glass:           rgba(255, 255, 255, 0.1);
+    --bg-glass-light:     rgba(255, 255, 255, 0.15);
+    
+    /* Text Colors */
+    --text-primary:       #ffffff;
+    --text-secondary:     #e0e0e0;
+    --text-accent:        #FF6B6B;
+    --text-muted:         #a0a0a0;
+    
+    /* Exciting Effects */
+    --glow-primary:       0 0 30px rgba(255, 107, 107, 0.8);
+    --glow-secondary:     0 0 30px rgba(78, 205, 196, 0.8);
+    --glow-accent:        0 0 30px rgba(255, 230, 167, 0.8);
+    --glow-neon:          0 0 40px rgba(0, 245, 255, 0.8);
+    
+    /* Shadows */
+    --shadow-dramatic:    0 20px 60px rgba(0, 0, 0, 0.3);
+    --shadow-neon:        0 0 60px rgba(255, 107, 107, 0.6);
+    --shadow-glow:        0 0 40px rgba(78, 205, 196, 0.4);
+    
+    /* Spacing */
+    --space-xs:          0.25rem;
+    --space-sm:          0.5rem;
+    --space-md:          1rem;
+    --space-lg:          1.5rem;
+    --space-xl:          2rem;
+    --space-2xl:         3rem;
+    --space-3xl:         4rem;
+    
+    /* Typography */
+    --font-display:      'Space Grotesk', sans-serif;
+    --font-body:         'Inter', sans-serif;
+    
+    /* Animations */
+    --transition-fast:   0.2s ease;
+    --transition-smooth:  0.3s ease;
+    --transition-slow:    0.5s ease;
+    --transition-bounce:  0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ── Reset & Base ─────────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(69, 183, 209, 0.2) 0%, transparent 50%);
+    z-index: -1;
+    animation: backgroundPulse 10s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* ── Exciting Typography ───────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: var(--space-md);
+}
+
+h1 { 
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+}
+
+h2 { 
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--primary-vibrant);
+}
+
+h3 { 
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--primary-bright);
+}
+
+p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+/* ── Exciting Buttons ───────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    border: none;
+    border-radius: 50px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-bounce);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: var(--gradient-sunset);
+    color: var(--text-primary);
+    box-shadow: var(--glow-primary);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 40px rgba(255, 107, 107, 0.8);
+}
+
+.btn-secondary {
+    background: var(--gradient-ocean);
+    color: var(--text-primary);
+    box-shadow: var(--glow-secondary);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 40px rgba(78, 205, 196, 0.8);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary-vibrant);
+    border: 3px solid var(--primary-vibrant);
+    position: relative;
+}
+
+.btn-outline::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-sunset);
+    border-radius: 50px;
+    transform: scale(0);
+    transition: transform var(--transition-smooth);
+    z-index: -1;
+}
+
+.btn-outline:hover::after {
+    transform: scale(1);
+}
+
+.btn-outline:hover {
+    color: var(--text-primary);
+    transform: translateY(-3px) scale(1.05);
+}
+
+.btn-lg {
+    padding: var(--space-lg) var(--space-2xl);
+    font-size: 1.3rem;
+}
+
+/* ── Exciting Cards ─────────────────────────────── */
+.card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: var(--space-xl);
+    transition: all var(--transition-bounce);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--gradient-aurora);
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+    animation: cardRotate 10s linear infinite;
+}
+
+@keyframes cardRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.card:hover::before {
+    opacity: 0.1;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-dramatic);
+    border-color: var(--primary-vibrant);
+}
+
+.feature-card {
+    text-align: center;
+    position: relative;
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-lg);
+    background: var(--gradient-sunset);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--text-primary);
+    box-shadow: var(--glow-primary);
+    transition: all var(--transition-bounce);
+    position: relative;
+}
+
+.feature-icon::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: var(--gradient-sunset);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    filter: blur(15px);
+    transition: opacity var(--transition-smooth);
+}
+
+.feature-card:hover .feature-icon::after {
+    opacity: 0.6;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 50px rgba(255, 107, 107, 0.8);
+}
+
+/* ── Exciting Navigation ─────────────────────────── */
+.navbar {
+    background: var(--bg-glass);
+    backdrop-filter: blur(30px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--space-md) 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all var(--transition-smooth);
+}
+
+.navbar.scrolled {
+    background: rgba(26, 26, 46, 0.95);
+    box-shadow: var(--shadow-dramatic);
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    font-weight: 600;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 25px;
+    transition: all var(--transition-smooth);
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: var(--gradient-sunset);
+    transition: all var(--transition-smooth);
+    transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+    width: 80%;
+}
+
+.nav-links a:hover {
+    color: var(--primary-vibrant);
+    transform: translateY(-2px);
+}
+
+/* ── Exciting Hero Section ─────────────────────── */
+.hero {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-aurora);
+    opacity: 0.1;
+    animation: heroGradient 15s ease-in-out infinite;
+}
+
+@keyframes heroGradient {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(180deg); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    margin-bottom: var(--space-xl);
+    animation: textGlow 3s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    margin-top: var(--space-2xl);
+}
+
+/* ── Exciting Animations ───────────────────────── */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-20px); }
+    60% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-slide-in {
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.animate-bounce {
+    animation: bounce 2s infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ── Exciting Sections ─────────────────────────── */
+.section {
+    padding: var(--space-3xl) 0;
+    position: relative;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+}
+
+.section-title h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--space-md);
+}
+
+.section-title p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-2xl) 0;
+}
+
+/* ── Exciting Stats ───────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin: var(--space-2xl) 0;
+}
+
+.stat-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: var(--space-xl);
+    text-align: center;
+    transition: all var(--transition-bounce);
+}
+
+.stat-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: var(--shadow-neon);
+}
+
+.stat-value {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-sm);
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ── Exciting Gallery ─────────────────────────── */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-2xl) 0;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 300px;
+    cursor: pointer;
+    transition: all var(--transition-bounce);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all var(--transition-smooth);
+}
+
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-sunset);
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+}
+
+.gallery-item:hover::before {
+    opacity: 0.3;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-dramatic);
+}
+
+/* ── Exciting Testimonials ─────────────────────── */
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-2xl) 0;
+}
+
+.testimonial-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: var(--space-xl);
+    transition: all var(--transition-bounce);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: var(--shadow-dramatic);
+}
+
+.rating {
+    display: flex;
+    gap: var(--space-xs);
+    margin: var(--space-md) 0;
+}
+
+.rating i {
+    color: var(--highlight-vibrant);
+    font-size: 1.2rem;
+}
+
+/* ── Exciting Footer ─────────────────────────── */
+footer {
+    background: var(--bg-darker);
+    padding: var(--space-3xl) 0 var(--space-xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+}
+
+.footer-section h4 {
+    color: var(--primary-vibrant);
+    margin-bottom: var(--space-lg);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: var(--space-sm);
+}
+
+.footer-section ul li a {
+    color: var(--text-secondary);
+    transition: color var(--transition-smooth);
+}
+
+.footer-section ul li a:hover {
+    color: var(--primary-vibrant);
+}
+
+/* ── Responsive Design ─────────────────────────── */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .feature-grid,
+    .stats-grid,
+    .gallery-grid,
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+/* ── Exciting Utility Classes ─────────────────── */
+.text-gradient {
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.glow-primary {
+    box-shadow: var(--glow-primary);
+}
+
+.glow-secondary {
+    box-shadow: var(--glow-secondary);
+}
+
+.glass-effect {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-10px);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-rotate:hover {
+    transform: rotate(5deg);
+}
+
+/* ── Scrollbar Styling ─────────────────────────── */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-sunset);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-vibrant);
+}

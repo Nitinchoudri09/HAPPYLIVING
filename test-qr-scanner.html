@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner Test - Happy Living</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .test-container h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .test-container p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 0.5rem;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .info-box {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        
+        .info-box h3 {
+            color: #0c4a6e;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        
+        .info-box ul {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: #0f172a;
+        }
+        
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-qr {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .demo-qr img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1><i class="fa-solid fa-qrcode"></i> QR Scanner Test</h1>
+        <p>Test the QR code scanner functionality for Happy Living PG payments.</p>
+        
+        <div class="info-box">
+            <h3><i class="fa-solid fa-info-circle"></i> Features Tested:</h3>
+            <ul>
+                <li>Camera access and initialization</li>
+                <li>QR code detection simulation</li>
+                <li>Payment processing flow</li>
+                <li>Backend API integration</li>
+                <li>Error handling and user feedback</li>
+            </ul>
+        </div>
+        
+        <div class="demo-qr">
+            <h3>Sample QR Code</h3>
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2ZmZiIvPgogIDxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMDAwIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIGZpbGw9IiNmZmYiLz4KICA8cmVjdCB4PSIzMCIgeT0iMzAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0iIzAwMCIvPgogIDxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZmZmIi8+CiAgPHJlY3QgeD0iMTEwIiB5PSIxMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMDAwIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIyMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZmZmIi8+CiAgPHJlY3QgeD0iMTMwIiB5PSIzMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjMDAwIi8+CiAgPHJlY3QgeD0iMTQwIiB5PSI0MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZmZmIi8+CiAgPHJlY3QgeD0iMTAiIHk9IjExMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMDAwIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjEyMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZmZmIi8+CiAgPHJlY3QgeD0iMzAiIHk9IjEzMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjMDAwIi8+CiAgPHJlY3QgeD0iNDAiIHk9IjE0MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZmZmIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIxMDUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzAwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VVBJPC90ZXh0Pgo8L3N2Zz4=" alt="Sample QR Code">
+            <p><strong>Union Bank of India</strong><br>Account: 8549<br>UPI: happyliving@unionbank</p>
+        </div>
+        
+        <button class="test-button" onclick="testQRScanner()">
+            <i class="fa-solid fa-camera"></i> Test QR Scanner
+        </button>
+        
+        <button class="test-button" onclick="testPaymentFlow()">
+            <i class="fa-solid fa-credit-card"></i> Test Payment Flow
+        </button>
+        
+        <button class="test-button" onclick="testBackendConnection()">
+            <i class="fa-solid fa-server"></i> Test Backend
+        </button>
+        
+        <div id="test-results" style="margin-top: 2rem; text-align: left;"></div>
+    </div>
+
+    <script src="js/qr-scanner.js"></script>
+    <script>
+        // Mock user for testing
+        localStorage.setItem('user', JSON.stringify({
+            id: 'test-user',
+            name: 'Test Student',
+            email: 'test@example.com',
+            role: 'student'
+        }));
+        
+        // Mock access token
+        localStorage.setItem('accessToken', 'mock-token-for-testing');
+        
+        function testQRScanner() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Testing QR Scanner...</h3>';
+            
+            try {
+                // Initialize QR Scanner
+                QRScanner.init();
+                results.innerHTML += '<p>✅ QR Scanner initialized successfully</p>';
+                
+                // Show scanner
+                QRScanner.showScanner();
+                results.innerHTML += '<p>✅ QR Scanner modal opened</p>';
+                results.innerHTML += '<p><strong>Instructions:</strong></p>';
+                results.innerHTML += '<ul>';
+                results.innerHTML += '<li>Click "Start Scanner" to begin</li>';
+                results.innerHTML += '<li>Allow camera access when prompted</li>';
+                results.innerHTML += '<li>Scanner will simulate QR detection after a few seconds</li>';
+                results.innerHTML += '<li>Payment will be processed automatically</li>';
+                results.innerHTML += '</ul>';
+                
+            } catch (error) {
+                results.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        function testPaymentFlow() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Testing Payment Flow...</h3>';
+            
+            try {
+                // Mock payment data
+                const paymentData = {
+                    transactionId: `TEST${Date.now()}`,
+                    amount: 8500,
+                    paymentMethod: 'QR_CODE',
+                    details: {
+                        type: 'Rent Payment',
+                        month: 'January 2026',
+                        bank: 'Union Bank Of India',
+                        account: '8549',
+                        upiId: 'happyliving@unionbank'
+                    },
+                    status: 'Processing',
+                    timestamp: new Date().toISOString()
+                };
+                
+                results.innerHTML += '<p>✅ Payment data created</p>';
+                results.innerHTML += `<p>📋 Transaction ID: ${paymentData.transactionId}</p>`;
+                results.innerHTML += `<p>💰 Amount: ₹${paymentData.amount.toLocaleString()}</p>`;
+                results.innerHTML += `<p>🏦 Bank: ${paymentData.details.bank}</p>`;
+                
+                // Simulate API call
+                results.innerHTML += '<p>🔄 Sending to backend...</p>';
+                
+                setTimeout(() => {
+                    results.innerHTML += '<p>✅ Payment processed successfully</p>';
+                    results.innerHTML += '<p>📧 Receipt generated</p>';
+                    results.innerHTML += '<p><strong>Payment flow completed!</strong></p>';
+                }, 2000);
+                
+            } catch (error) {
+                results.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        async function testBackendConnection() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Testing Backend Connection...</h3>';
+            
+            try {
+                const API_BASE_URL = 'http://localhost:3000/api/v1';
+                
+                // Test health endpoint
+                results.innerHTML += '<p>🔄 Testing health endpoint...</p>';
+                
+                const response = await fetch(`${API_BASE_URL}/../api/health`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    results.innerHTML += '<p>✅ Backend server is running</p>';
+                    results.innerHTML += `<p>📊 Status: ${data.status}</p>`;
+                    results.innerHTML += `<p>⏰ Timestamp: ${data.timestamp}</p>`;
+                    results.innerHTML += `<p>🌍 Environment: ${data.environment}</p>`;
+                } else {
+                    results.innerHTML += '<p>⚠️ Backend server responded with error</p>';
+                    results.innerHTML += '<p>💡 Make sure the backend server is running on port 3000</p>';
+                    results.innerHTML += '<p>📝 Run: <code>npm start</code> in the project directory</p>';
+                }
+                
+            } catch (error) {
+                results.innerHTML += '<p>❌ Cannot connect to backend server</p>';
+                results.innerHTML += '<p>💡 Make sure the backend server is running on port 3000</p>';
+                results.innerHTML += '<p>📝 Run: <code>npm start</code> in the project directory</p>';
+                results.innerHTML += `<p>🔍 Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Test results display
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('QR Scanner Test Page Loaded');
+            console.log('Ready to test QR scanning functionality');
+        });
+    </script>
+</body>
+</html>

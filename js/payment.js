@@ -84,7 +84,7 @@ const PaymentService = {
                 };
 
                 try {
-                    const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+                    const API_BASE_URL = window.API_BASE_URL || 'http://localhost:3000/api/v1';
                     const response = await fetch(`${API_BASE_URL}/payments/process`, {
                         method: 'POST',
                         headers: {
@@ -95,7 +95,8 @@ const PaymentService = {
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        payment.transactionId = data.transactionId || payment.transactionId;
+                        payment.transactionId = data.payment?.transactionId || payment.transactionId;
+                        payment.id = data.payment?.id || payment.id;
                     } else {
                         console.warn('API /payments/process failed, falling back to local storage');
                     }
@@ -178,7 +179,7 @@ const PaymentService = {
     // Get all payments
     getAllPayments: async function () {
         try {
-            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const API_BASE_URL = window.API_BASE_URL || 'http://localhost:3000/api/v1';
             const response = await fetch(`${API_BASE_URL}/payments`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
             });

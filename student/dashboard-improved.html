@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Happy Living</title>
+    <link rel="stylesheet" href="../css/style-improved.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="text-center" style="margin-bottom: var(--space-xl);">
+                <img src="../assets/logo.jpg" alt="Happy Living" style="height: 40px; border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+                <h3 style="margin: 0; color: var(--text-primary);">Happy Living</h3>
+            </div>
+            
+            <nav>
+                <ul class="sidebar-nav">
+                    <li>
+                        <a href="dashboard.html" class="active">
+                            <i class="fas fa-home"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="payments.html">
+                            <i class="fas fa-credit-card"></i>
+                            Payments
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mess.html">
+                            <i class="fas fa-utensils"></i>
+                            Mess Subscription
+                        </a>
+                    </li>
+                    <li>
+                        <a href="complaints.html">
+                            <i class="fas fa-comment-dots"></i>
+                            Complaints
+                        </a>
+                    </li>
+                    <li>
+                        <a href="maintenance.html">
+                            <i class="fas fa-tools"></i>
+                            Maintenance
+                        </a>
+                    </li>
+                    <li>
+                        <a href="notifications.html">
+                            <i class="fas fa-bell"></i>
+                            Notifications
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div style="margin-top: auto; padding-top: var(--space-xl); border-top: 1px solid var(--border-light);">
+                <a href="../index.html" class="btn btn-ghost btn-sm" style="width: 100%;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header style="background: var(--bg-primary); padding: var(--space-lg); border-bottom: 1px solid var(--border-light); margin-bottom: var(--space-xl);">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 style="margin: 0; color: var(--text-primary);">Welcome back, <span id="user-name">Student</span>!</h1>
+                        <p style="margin: var(--space-xs) 0 0 0; color: var(--text-muted);">Here's what's happening with your accommodation</p>
+                    </div>
+                    <div class="flex items-center gap-md">
+                        <button class="btn btn-ghost">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge badge-error" style="margin-left: var(--space-xs);">3</span>
+                        </button>
+                        <div style="text-align: right;">
+                            <div style="font-size: var(--font-sm); color: var(--text-muted);">Last login</div>
+                            <div style="font-weight: 600; color: var(--text-primary);" id="last-login">Today, 10:30 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Overview -->
+            <section style="margin-bottom: var(--space-2xl);">
+                <h2 style="margin-bottom: var(--space-lg);">Quick Overview</h2>
+                <div class="stats-grid">
+                    <div class="card stat-card">
+                        <div class="flex items-center justify-between" style="margin-bottom: var(--space-sm);">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-muted); font-size: var(--font-sm); font-weight: 500;">Room</h3>
+                                <p style="margin: 0; font-size: var(--font-2xl); font-weight: 800; color: var(--primary);" id="room-number">A-101</p>
+                            </div>
+                            <div style="background: var(--primary); color: var(--text-light); width: 40px; height: 40px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="flex items-center justify-between" style="margin-bottom: var(--space-sm);">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-muted); font-size: var(--font-sm); font-weight: 500;">Mess Status</h3>
+                                <p style="margin: 0; font-size: var(--font-2xl); font-weight: 800; color: var(--success);" id="mess-status">Active</p>
+                            </div>
+                            <div style="background: var(--success); color: var(--text-light); width: 40px; height: 40px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="flex items-center justify-between" style="margin-bottom: var(--space-sm);">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-muted); font-size: var(--font-sm); font-weight: 500;">Pending Payments</h3>
+                                <p style="margin: 0; font-size: var(--font-2xl); font-weight: 800; color: var(--warning);" id="pending-payments">2</p>
+                            </div>
+                            <div style="background: var(--warning); color: var(--text-light); width: 40px; height: 40px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="flex items-center justify-between" style="margin-bottom: var(--space-sm);">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-muted); font-size: var(--font-sm); font-weight: 500;">Complaints</h3>
+                                <p style="margin: 0; font-size: var(--font-2xl); font-weight: 800; color: var(--info);" id="complaints-count">0</p>
+                            </div>
+                            <div style="background: var(--info); color: var(--text-light); width: 40px; height: 40px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activities -->
+            <div class="grid grid-cols-3 gap-xl">
+                <!-- Recent Payments -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Payments</h3>
+                        <a href="payments.html" class="btn btn-ghost btn-sm">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="space-y-md">
+                            <div class="flex justify-between items-center padding-sm" style="background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div>
+                                    <p style="margin: 0; font-weight: 600; color: var(--text-primary);">Rent - January</p>
+                                    <p style="margin: 0; font-size: var(--font-sm); color: var(--text-muted);">Paid on Jan 5</p>
+                                </div>
+                                <span class="badge badge-success">Paid</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center padding-sm" style="background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div>
+                                    <p style="margin: 0; font-weight: 600; color: var(--text-primary);">Mess Subscription</p>
+                                    <p style="margin: 0; font-size: var(--font-sm); color: var(--text-muted);">Paid on Jan 1</p>
+                                </div>
+                                <span class="badge badge-success">Paid</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center padding-sm" style="background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div>
+                                    <p style="margin: 0; font-weight: 600; color: var(--text-primary);">Rent - February</p>
+                                    <p style="margin: 0; font-size: var(--font-sm); color: var(--text-muted);">Due on Feb 5</p>
+                                </div>
+                                <span class="badge badge-warning">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mess Schedule -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Mess Schedule</h3>
+                        <a href="mess.html" class="btn btn-ghost btn-sm">View Menu</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="space-y-md">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-sm">
+                                    <div style="background: var(--primary); color: var(--text-light); width: 8px; height: 8px; border-radius: 50%;"></div>
+                                    <span style="font-weight: 600;">Breakfast</span>
+                                </div>
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">7:00 - 9:00 AM</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-sm">
+                                    <div style="background: var(--accent-orange); color: var(--text-light); width: 8px; height: 8px; border-radius: 50%;"></div>
+                                    <span style="font-weight: 600;">Lunch</span>
+                                </div>
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">12:30 - 2:30 PM</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-sm">
+                                    <div style="background: var(--accent-purple); color: var(--text-light); width: 8px; height: 8px; border-radius: 50%;"></div>
+                                    <span style="font-weight: 600;">Dinner</span>
+                                </div>
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">7:30 - 9:30 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Notifications</h3>
+                        <a href="notifications.html" class="btn btn-ghost btn-sm">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="space-y-md">
+                            <div class="flex gap-sm padding-sm" style="background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div style="background: var(--info); color: var(--text-light); width: 32px; height: 32px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-broom"></i>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-weight: 600; color: var(--text-primary);">Room Cleaning Scheduled</p>
+                                    <p style="margin: 0; font-size: var(--font-sm); color: var(--text-muted);">Tomorrow at 10:00 AM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-sm padding-sm" style="background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div style="background: var(--success); color: var(--text-light); width: 32px; height: 32px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-weight: 600; color: var(--text-primary);">Special Dinner Tonight</p>
+                                    <p style="margin: 0; font-size: var(--font-sm); color: var(--text-muted);">8:00 PM - North Indian Cuisine</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-sm padding-sm" style="background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <div style="background: var(--warning); color: var(--text-light); width: 32px; height: 32px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-weight: 600; color: var(--text-primary);">Rent Payment Due</p>
+                                    <p style="margin: 0; font-size: var(--font-sm); color: var(--text-muted);">In 3 days</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <section style="margin-top: var(--space-2xl);">
+                <h2 style="margin-bottom: var(--space-lg);">Quick Actions</h2>
+                <div class="grid grid-cols-4 gap-lg">
+                    <a href="payments.html" class="card" style="text-decoration: none; color: inherit;">
+                        <div class="card-body text-center">
+                            <div style="background: var(--primary); color: var(--text-light); width: 60px; height: 60px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+                                <i class="fas fa-credit-card" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <h4>Make Payment</h4>
+                            <p style="font-size: var(--font-sm);">Pay rent or mess fees</p>
+                        </div>
+                    </a>
+                    
+                    <a href="complaints.html" class="card" style="text-decoration: none; color: inherit;">
+                        <div class="card-body text-center">
+                            <div style="background: var(--accent-red); color: var(--text-light); width: 60px; height: 60px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+                                <i class="fas fa-comment-dots" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <h4>File Complaint</h4>
+                            <p style="font-size: var(--font-sm);">Report any issues</p>
+                        </div>
+                    </a>
+                    
+                    <a href="maintenance.html" class="card" style="text-decoration: none; color: inherit;">
+                        <div class="card-body text-center">
+                            <div style="background: var(--accent-blue); color: var(--text-light); width: 60px; height: 60px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+                                <i class="fas fa-tools" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <h4>Request Service</h4>
+                            <p style="font-size: var(--font-sm);">Book maintenance</p>
+                        </div>
+                    </a>
+                    
+                    <a href="profile.html" class="card" style="text-decoration: none; color: inherit;">
+                        <div class="card-body text-center">
+                            <div style="background: var(--accent-purple); color: var(--text-light); width: 60px; height: 60px; border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+                                <i class="fas fa-user" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <h4>Update Profile</h4>
+                            <p style="font-size: var(--font-sm);">Manage your details</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/data.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/auth-service.js"></script>
+    <script>
+        // Load user data
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'student') {
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Update user information
+            document.getElementById('user-name').textContent = user.name || 'Student';
+            
+            // Update last login
+            const lastLogin = localStorage.getItem('lastLogin') || new Date().toLocaleString();
+            document.getElementById('last-login').textContent = new Date(lastLogin).toLocaleString();
+            
+            // Load dashboard data
+            loadDashboardData();
+        });
+
+        function loadDashboardData() {
+            // Simulate loading dashboard data
+            setTimeout(() => {
+                // Room information
+                const allocation = JSON.parse(localStorage.getItem('userAllocation') || '{}');
+                document.getElementById('room-number').textContent = allocation.room || 'A-101';
+                
+                // Mess status
+                const messSubscription = JSON.parse(localStorage.getItem('messSubscription') || '{}');
+                document.getElementById('mess-status').textContent = messSubscription.status || 'Active';
+                
+                // Pending payments
+                const payments = JSON.parse(localStorage.getItem('payments') || '[]');
+                const pendingPayments = payments.filter(p => p.status === 'pending').length;
+                document.getElementById('pending-payments').textContent = pendingPayments;
+                
+                // Complaints count
+                const complaints = JSON.parse(localStorage.getItem('complaints') || '[]');
+                const openComplaints = complaints.filter(c => c.status === 'open').length;
+                document.getElementById('complaints-count').textContent = openComplaints;
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Happy Living</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Student Login | Happy Living</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -13,16 +13,16 @@
     <div class="split-screen">
         <div class="split-left bg-pg-room animate-fade-in">
             <div class="split-content">
-                <h1 style="font-size: 3rem; margin-bottom: 1rem;">Admin Portal</h1>
-                <p style="font-size: 1.2rem; opacity: 0.9;">Efficient Management & Seamless Control</p>
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">Student Portal</h1>
+                <p style="font-size: 1.2rem; opacity: 0.9;">Manage Your Living & Meals Seamlessly</p>
                 <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
                     <span
                         style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
-                        <i class="fa-solid fa-chart-line"></i> Real-time Stats
+                        <i class="fa-solid fa-utensils"></i> Fresh Meals
                     </span>
                     <span
                         style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
-                        <i class="fa-solid fa-file-invoice-dollar"></i> Easy Billing
+                        <i class="fa-solid fa-bolt"></i> Quick Pay
                     </span>
                 </div>
             </div>
@@ -31,21 +31,19 @@
             <div class="auth-card animate-slide-up">
                 <div class="auth-header">
                     <div class="auth-logo">
-                        <img src="../assets/logo.jpg" alt="Logo" style="height: 40px;">
+                        <img src="assets/logo.jpg" alt="Logo" style="height: 40px;">
                         Happy Living
                     </div>
-                    <h2 style="margin-bottom: 0.5rem;">Admin Login</h2>
-                    <p style="color: var(--text-muted);">Access dashboard to manage PGs</p>
+                    <h2 style="margin-bottom: 0.5rem;">Student Login</h2>
+                    <p style="color: var(--text-muted);">Access dashboard to manage your stay</p>
                 </div>
-
-                <!-- Role Toggle Removed -->
 
                 <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="form-group">
-                        <label class="form-label">Username</label>
+                        <label class="form-label">Email or Username</label>
                         <div class="input-group">
-                            <i class="fa-solid fa-user-shield input-icon"></i>
-                            <input type="text" class="auth-input" id="username" placeholder="admin" required>
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input type="text" class="auth-input" id="username" placeholder="student@example.com" required>
                         </div>
                     </div>
 
@@ -63,7 +61,6 @@
                         <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                             <input type="checkbox" style="accent-color: var(--primary);"> Remember me
                         </label>
-                        <!-- Admin usually doesn't have public forgot password flow, but UI symmetry is fine -->
                         <a href="forgot-password.html" style="color: var(--primary); font-weight: 600;">Forgot
                             Password?</a>
                     </div>
@@ -73,8 +70,12 @@
                     </button>
                 </form>
 
+                <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    New resident? <a href="signup.html" style="color: var(--primary); font-weight: 600;">Create Account</a>
+                </div>
+
                 <div style="text-align: center; margin-top: 1.5rem;">
-                    <a href="../index.html" style="font-size: 0.85rem; color: var(--text-muted);"><i
+                    <a href="index.html" style="font-size: 0.85rem; color: var(--text-muted);"><i
                             class="fa-solid fa-arrow-left"></i> Back to Home</a>
                 </div>
             </div>
@@ -82,8 +83,9 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/auth-service.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/auth-service.js"></script>
     <script>
         // Init Tilt
         VanillaTilt.init(document.querySelector(".auth-card"), {
@@ -120,26 +122,16 @@
                 // Simulate network delay
                 await new Promise(resolve => setTimeout(resolve, 800));
 
-                let success = false;
-
-                if (window.AuthService) {
-                    const email = username.includes('@') ? username : 'admin@happylivingpg.com';
-                    const result = await AuthService.login(email, password, 'admin');
-                    localStorage.setItem('user', JSON.stringify(result.user));
-                    success = true;
-                } else {
-                    // Fallback logic if Service not loaded
-                    if (username === 'admin' && password === 'admin123') {
-                        success = true;
-                        localStorage.setItem('user', JSON.stringify({ name: 'System Admin', role: 'admin', id: 'admin-001' }));
-                    }
+                if (!window.AuthService) {
+                    throw new Error('Auth system not initialized. Please refresh.');
                 }
 
-                if (success) {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    throw new Error('Invalid credentials');
-                }
+                // Call centralized login
+                const result = await AuthService.login(username, password, 'student');
+                
+                // Success - result.user is already stored by AuthService
+                window.location.href = 'student/dashboard.html';
+                
             } catch (err) {
                 alert('Login Failed: ' + err.message);
                 btn.innerHTML = originalText;

@@ -125,6 +125,51 @@ const AuthService = {
         return { valid: true, message: 'OTP verified' };
     },
 
+    // Centralized Register method
+    register: async (userData, role = 'student') => {
+        const API_BASE_URL = window.API_BASE_URL || 'http://localhost:3000/api/v1';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...userData, role })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            }
+        } catch (error) {
+            console.warn('API registration failed or unavailable, falling back to local database...', error);
+        }
+
+        // Fallback to local storage
+        const storageKey = role === 'admin' ? 'registered_admins' : 'registered_students';
+        const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        
+        // Check if user already exists
+        const exists = users.find(u => u.email === userData.email);
+        if (exists) {
+            throw new Error('User with this email already exists.');
+        }
+
+        // Hash the password before storing
+        const newUser = {
+            ...userData,
+            id: Date.now(),
+            role: role,
+            password: AuthService.hashPassword(userData.password),
+            createdAt: new Date().toISOString()
+        };
+
+        users.push(newUser);
+        localStorage.setItem(storageKey, JSON.stringify(users));
+        
+        console.log(`✅ ${role} registered successfully (Local Storage):`, newUser.email);
+        return { success: true, user: newUser };
+    },
+
     // Enhanced login with API support
     login: async function (identifier, password, role = 'student') {
         const email = identifier;
@@ -132,7 +177,7 @@ const AuthService = {
         // Try API login first (Real Data Connection)
         try {
             // Replace with your actual API endpoint base URL
-            const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+            const API_BASE_URL = window.API_BASE_URL || 'http://localhost:3000/api/v1';
 
             const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
@@ -257,7 +302,7 @@ const AuthService = {
 
     // Register new user
     register: async function (userData, role = 'student') {
-        const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+        const API_BASE_URL = window.API_BASE_URL || 'http://localhost:3000/api/v1';
 
         try {
             const response = await fetch(`${API_BASE_URL}/auth/register`, {
@@ -354,7 +399,7 @@ const AuthService = {
 
     // Forgot password
     forgotPassword: async function (email) {
-        const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+        const API_BASE_URL = window.API_BASE_URL || 'http://localhost:3000/api/v1';
 
         try {
             const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
@@ -393,7 +438,7 @@ const AuthService = {
 
     // Reset password
     resetPassword: async function (email, otp, newPassword) {
-        const API_BASE_URL = window.API_BASE_URL || 'https://api.yourdomain.com/v1';
+        const API_BASE_URL = window.API_BASE_URL || 'http://localhost:3000/api/v1';
 
         try {
             const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
@@ -518,7 +563,13 @@ const AuthService = {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('user');
-        window.location.href = '../index.html';
+        
+        // Path-aware redirection
+        const isNested = window.location.pathname.includes('/student/') || 
+                         window.location.pathname.includes('/admin/') ||
+                         window.location.pathname.includes('/auth/');
+        const prefix = isNested ? '../' : '';
+        window.location.href = prefix + 'index.html';
     },
 
     // Check authentication

@@ -310,6 +310,12 @@
                             style="font-size: 0.75rem; font-weight: 700; margin-top: 0.75rem; text-transform: uppercase;">
                             Portal Bank</div>
                     </div>
+                    <div class="method-card" onclick="selectMethod(this, 'qr')">
+                        <i class="fa-solid fa-qrcode" style="font-size: 1.8rem; color: #8b5cf6;"></i>
+                        <div
+                            style="font-size: 0.75rem; font-weight: 700; margin-top: 0.75rem; text-transform: uppercase;">
+                            QR Scan</div>
+                    </div>
                 </div>
 
                 <button onclick="processPayment('Rent')" style="width: 100%; padding: 0.8rem; background: #238636; border: 1px solid rgba(240,246,252,0.1); color: #fff; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit;">
@@ -410,6 +416,10 @@
                     <div class="method-card" onclick="selectMethod(this, 'netbanking')">
                         <i class="fa-solid fa-building-columns" style="font-size: 1.2rem; color: #8b949e;"></i>
                         <div>Net Banking</div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod(this, 'qr')">
+                        <i class="fa-solid fa-qrcode" style="font-size: 1.2rem; color: #8b5cf6;"></i>
+                        <div>QR Scan</div>
                     </div>
                 </div>
                 <button onclick="processPayment('Mess')" style="width: 100%; padding: 0.8rem; background: #238636; border: 1px solid rgba(240,246,252,0.1); color: #fff; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit;">
@@ -520,6 +530,7 @@
     <script src="../js/main.js"></script>
     <script src="../js/auth-service.js"></script>
     <script src="../js/payment.js"></script>
+    <script src="../js/qr-scanner.js"></script>
     <script>
         // --- Initialization ---
         const user = JSON.parse(localStorage.getItem('user'));
@@ -611,6 +622,13 @@
         }
 
         async function processPayment(type) {
+            // If QR method is selected, open QR scanner
+            if (selectedPaymentMethod === 'qr') {
+                QRScanner.init();
+                QRScanner.showScanner();
+                return;
+            }
+
             const btn = event.target;
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';

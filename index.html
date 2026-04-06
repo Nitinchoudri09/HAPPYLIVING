@@ -837,7 +837,7 @@
             <a href="#features">Features</a>
             <a href="#contact">Contact Us</a>
             <a href="#about">About Us</a>
-            <a href="#login" class="nav-btn">Login &rarr;</a>
+            <a href="login.html" class="nav-btn">Login &rarr;</a>
         </div>
         <!-- Hamburger (mobile only) -->
         <button class="hamburger" id="hamburger" aria-label="Open Menu" onclick="toggleMobileMenu()">
@@ -851,7 +851,7 @@
         <a href="#features" onclick="closeMobileMenu()">✨ Features</a>
         <a href="#about" onclick="closeMobileMenu()">ℹ️ About Us</a>
         <a href="#contact" onclick="closeMobileMenu()">📞 Contact Us</a>
-        <a href="#login" class="mob-login" onclick="closeMobileMenu()">Login &rarr;</a>
+        <a href="login.html" class="mob-login" onclick="closeMobileMenu()">Login &rarr;</a>
     </div>
 
     <!-- Hero -->
@@ -876,7 +876,7 @@
                 <p>More than just a PG. Happy Living provides comfortable, secure, and digitally-managed accommodation
                     with premium mess facilities — three nutritious meals daily.</p>
                 <div class="hero-btns">
-                    <a href="#login" class="btn-green">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="login.html" class="btn-green">Get Started <i class="fa-solid fa-arrow-right"></i></a>
                     <a href="#features" class="btn-outline-dark">Explore Features</a>
                 </div>
                 <div class="hero-pills">
@@ -1078,8 +1078,34 @@
         <i class="fa-solid fa-wifi-slash"></i> You are currently offline.
     </div>
 
+    <script src="js/data.js"></script>
+    <script src="js/auth-service.js"></script>
     <script src="js/main.js"></script>
     <script>
+        // Auto-redirect if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.AuthService) {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user && user.role) {
+                    const dashboardPath = user.role === 'admin' ? 'admin/dashboard.html' : 'student/dashboard.html';
+                    // We don't force redirect immediately to let people see the landing page, 
+                    // but we could add a "Go to Dashboard" button in the hero.
+                    const heroBtns = document.querySelector('.hero-btns');
+                    if (heroBtns) {
+                        const dashboardBtn = document.createElement('a');
+                        dashboardBtn.href = dashboardPath;
+                        dashboardBtn.className = 'btn-green';
+                        dashboardBtn.innerHTML = `Go to Dashboard <i class="fa-solid fa-gauge"></i>`;
+                        dashboardBtn.style.background = 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)';
+                        heroBtns.insertBefore(dashboardBtn, heroBtns.firstChild);
+                        
+                        // Hide original "Get Started"
+                        const getStarted = heroBtns.querySelector('.btn-green:not([style*="background"])');
+                        if (getStarted && getStarted !== dashboardBtn) getStarted.style.display = 'none';
+                    }
+                }
+            }
+        });
         if ("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js");
 
         // Mobile menu

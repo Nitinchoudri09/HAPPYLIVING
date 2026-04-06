@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments | Happy Living</title>
+    <link rel="stylesheet" href="../css/style-improved.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .payments-container {
+            background: var(--bg-secondary);
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: var(--bg-primary);
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: var(--font-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            margin: var(--space-xs) 0 0 0 0;
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xs);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab {
+            flex: 1;
+            padding: var(--space-md);
+            text-align: center;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .tab:hover {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: var(--text-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: var(--radius-sm);
+        }
+
+        .payment-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .payment-section.active {
+            display: block;
+        }
+
+        .bill-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            margin-bottom: var(--space-xl);
+        }
+
+        .bill-header {
+            background: var(--bg-gradient);
+            padding: var(--space-xl);
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .bill-header h2 {
+            font-size: var(--font-xl);
+            font-weight: 800;
+            margin: 0 0 var(--space-md) 0 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-lg) var(--space-xl);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .bill-row:last-child {
+            border-bottom: none;
+        }
+
+        .bill-row.highlight {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        .bill-row.total {
+            background: var(--bg-gradient);
+            color: var(--text-light);
+            font-size: var(--font-lg);
+            font-weight: 800;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-xl) 0;
+        }
+
+        .method-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .method-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary);
+            transform: translateY(100%);
+            transition: transform var(--transition-base);
+            opacity: 0.1;
+        }
+
+        .method-card:hover::before {
+            transform: translateY(0);
+        }
+
+        .method-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .method-card.selected {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .method-card.selected::before {
+            transform: translateY(0);
+            opacity: 0.2;
+        }
+
+        .method-card i {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+            display: block;
+            color: var(--text-muted);
+            transition: color var(--transition-fast);
+            position: relative;
+            z-index: 1;
+        }
+
+        .method-card.selected i {
+            color: var(--primary);
+        }
+
+        .method-card div {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
+            position: relative;
+            z-index: 1;
+        }
+
+        .history-table {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .table-header {
+            background: var(--bg-secondary);
+            padding: var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .table-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .filter-select {
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .history-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            background: var(--bg-secondary);
+            padding: var(--space-md);
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-light);
+            font-size: var(--font-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .history-table td {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
+        }
+
+        .history-table tbody tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-xl);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-paid {
+            background: var(--success);
+            color: var(--text-light);
+        }
+
+        .status-pending {
+            background: var(--warning);
+            color: var(--text-light);
+        }
+
+        .status-failed {
+            background: var(--error);
+            color: var(--text-light);
+        }
+
+        .action-btn {
+            padding: var(--space-xs) var(--space-sm);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: var(--font-xs);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .action-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .qr-scanner-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-overlay);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-scanner-modal.active {
+            display: flex;
+        }
+
+        .qr-scanner-content {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .qr-video-container {
+            width: 100%;
+            height: 300px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-medium);
+        }
+
+        .qr-scanner-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .bill-row {
+                padding: var(--space-md);
+            }
+            
+            .page-header .container {
+                flex-direction: column;
+                gap: var(--space-md);
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="payments-container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <div>
+                    <h1 class="page-title">Payments</h1>
+                    <p class="page-subtitle">Manage your rent and mess subscription payments</p>
+                </div>
+                <a href="dashboard-improved.html" class="btn btn-ghost">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('rent')">Rent Payment</button>
+                <button class="tab" onclick="switchTab('mess')">Mess Subscription</button>
+                <button class="tab" onclick="switchTab('history')">Payment History</button>
+            </div>
+
+            <!-- Rent Payment Section -->
+            <section id="rent-section" class="payment-section active">
+                <div class="bill-card">
+                    <div class="bill-header">
+                        <h2>Monthly Rent</h2>
+                        <p style="margin: 0; opacity: 0.9;">Secure and convenient payment options</p>
+                    </div>
+
+                    <div class="bill-row">
+                        <span>Resident Name</span>
+                        <strong id="rent-name">Loading...</strong>
+                    </div>
+                    <div class="bill-row">
+                        <span>Property</span>
+                        <strong id="rent-property">Loading...</strong>
+                    </div>
+                    <div class="bill-row">
+                        <span>Room Number</span>
+                        <strong id="rent-room">Loading...</strong>
+                    </div>
+                    <div class="bill-row">
+                        <span>Occupancy Type</span>
+                        <strong id="rent-type">Loading...</strong>
+                    </div>
+                    <div class="bill-row">
+                        <span>Due Date</span>
+                        <strong style="color: var(--warning);" id="rent-due">5th of every month</strong>
+                    </div>
+                    <div class="bill-row highlight">
+                        <span>Amount Due</span>
+                        <strong style="color: var(--primary);" id="rent-amount">₹8,500</strong>
+                    </div>
+                    <div class="bill-row total">
+                        <span>Total Amount</span>
+                        <span id="rent-total">₹8,500</span>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div style="padding: var(--space-xl);">
+                        <h3 style="margin-bottom: var(--space-lg); text-align: center;">Select Payment Method</h3>
+                        <div class="payment-methods">
+                            <div class="method-card selected" onclick="selectMethod(this, 'upi')">
+                                <i class="fas fa-mobile-alt"></i>
+                                <div>UPI</div>
+                            </div>
+                            <div class="method-card" onclick="selectMethod(this, 'card')">
+                                <i class="fas fa-credit-card"></i>
+                                <div>Card</div>
+                            </div>
+                            <div class="method-card" onclick="selectMethod(this, 'netbanking')">
+                                <i class="fas fa-university"></i>
+                                <div>Net Banking</div>
+                            </div>
+                            <div class="method-card" onclick="selectMethod(this, 'qr')">
+                                <i class="fas fa-qrcode"></i>
+                                <div>QR Scan</div>
+                            </div>
+                        </div>
+
+                        <button onclick="processPayment('Rent')" class="btn btn-primary btn-lg" style="width: 100%; margin-top: var(--space-xl);">
+                            <i class="fas fa-lock"></i>
+                            Pay Rent Now
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mess Subscription Section -->
+            <section id="mess-section" class="payment-section">
+                <div class="bill-card">
+                    <div class="bill-header">
+                        <h2>Mess Subscription</h2>
+                        <p style="margin: 0; opacity: 0.9;">Choose your meal plan and subscribe</p>
+                    </div>
+
+                    <!-- Plan Selection -->
+                    <div style="padding: var(--space-xl);">
+                        <h3 style="margin-bottom: var(--space-lg); text-align: center;">Choose Your Plan</h3>
+                        <div class="grid grid-cols-3 gap-lg">
+                            <div class="card" style="text-align: center; cursor: pointer;" onclick="selectMessPlan('Silver', 2500, this)">
+                                <div class="card-body">
+                                    <h4 style="color: var(--gray-600);">Silver</h4>
+                                    <div style="font-size: var(--font-2xl); font-weight: 800; color: var(--text-primary); margin: var(--space-sm) 0;">₹2,500</div>
+                                    <p style="font-size: var(--font-sm); color: var(--text-muted);">2 Meals/Day</p>
+                                    <ul style="text-align: left; margin: var(--space-md) 0; padding: 0; list-style: none;">
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Basic Menu</li>
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Standard Area</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="card" style="text-align: center; cursor: pointer; border: 2px solid var(--primary);" onclick="selectMessPlan('Gold', 3500, this)">
+                                <div class="card-body">
+                                    <div style="background: var(--primary); color: var(--text-light); font-size: var(--font-xs); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); display: inline-block; margin-bottom: var(--space-sm);">POPULAR</div>
+                                    <h4 style="color: var(--primary);">Gold</h4>
+                                    <div style="font-size: var(--font-2xl); font-weight: 800; color: var(--primary); margin: var(--space-sm) 0;">₹3,500</div>
+                                    <p style="font-size: var(--font-sm); color: var(--text-muted);">3 Meals/Day</p>
+                                    <ul style="text-align: left; margin: var(--space-md) 0; padding: 0; list-style: none;">
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Premium Menu</li>
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Priority Dining</li>
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Evening Snacks</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="card" style="text-align: center; cursor: pointer;" onclick="selectMessPlan('Platinum', 5000, this)">
+                                <div class="card-body">
+                                    <h4 style="color: var(--accent-purple);">Platinum</h4>
+                                    <div style="font-size: var(--font-2xl); font-weight: 800; color: var(--accent-purple); margin: var(--space-sm) 0;">₹5,000</div>
+                                    <p style="font-size: var(--font-sm); color: var(--text-muted);">3 Meals + Snacks</p>
+                                    <ul style="text-align: left; margin: var(--space-md) 0; padding: 0; list-style: none;">
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Gourmet Menu</li>
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Table Service</li>
+                                        <li style="margin-bottom: var(--space-xs); color: var(--text-muted);"><i class="fas fa-check" style="color: var(--success); margin-right: var(--space-xs);"></i> Weekend Buffets</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="processPayment('Mess')" class="btn btn-primary btn-lg" style="width: 100%; margin-top: var(--space-xl);">
+                            <i class="fas fa-utensils"></i>
+                            Subscribe Now
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payment History Section -->
+            <section id="history-section" class="payment-section">
+                <div class="history-table">
+                    <div class="table-header">
+                        <h3>Payment History</h3>
+                        <select class="filter-select" onchange="filterHistory(this.value)">
+                            <option value="all">All Transactions</option>
+                            <option value="rent">Rent Only</option>
+                            <option value="mess">Mess Only</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- QR Scanner Modal -->
+    <div id="qrModal" class="qr-scanner-modal">
+        <div class="qr-scanner-content">
+            <h3 style="margin-bottom: var(--space-lg);">Scan QR Code</h3>
+            <div class="qr-video-container">
+                <i class="fas fa-qrcode" style="font-size: 4rem; color: var(--text-muted);"></i>
+                <p style="margin-top: var(--space-md); color: var(--text-muted);">Camera preview will appear here</p>
+            </div>
+            <div class="qr-scanner-buttons">
+                <button onclick="QRScanner.showScanner()" class="btn btn-primary">
+                    <i class="fas fa-camera"></i>
+                    Start Scanner
+                </button>
+                <button onclick="QRScanner.closeScanner()" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/data.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/auth-service.js"></script>
+    <script src="../js/payment.js"></script>
+    <script src="../js/qr-scanner-fixed.js"></script>
+    <script>
+        let selectedPaymentMethod = 'upi';
+        let selectedMessPlan = { name: 'Gold', amount: 3500 };
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update sections
+            document.querySelectorAll('.payment-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(tabName + '-section').classList.add('active');
+            
+            // Load data for history tab
+            if (tabName === 'history') {
+                loadPaymentHistory();
+            }
+        }
+
+        // Payment method selection
+        function selectMethod(element, method) {
+            document.querySelectorAll('.method-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPaymentMethod = method;
+        }
+
+        // Mess plan selection
+        function selectMessPlan(name, amount, element) {
+            // Update visual selection
+            document.querySelectorAll('#mess-section .card').forEach(card => {
+                card.style.border = '1px solid var(--border-light)';
+            });
+            element.style.border = '2px solid var(--primary)';
+            
+            selectedMessPlan = { name, amount };
+        }
+
+        // Process payment
+        async function processPayment(type) {
+            if (selectedPaymentMethod === 'qr') {
+                // Show QR scanner modal
+                QRScanner.showScanner();
+                return;
+            }
+
+            try {
+                if (type === 'Rent') {
+                    await PaymentService.initiatePayment('Rent', 8500, selectedPaymentMethod);
+                } else if (type === 'Mess') {
+                    await PaymentService.initiatePayment('Mess', selectedMessPlan.amount, selectedPaymentMethod);
+                }
+                
+                // Show success and redirect to history
+                showSuccess('Payment initiated successfully!');
+                setTimeout(() => {
+                    switchTab('history');
+                }, 2000);
+            } catch (error) {
+                showError('Payment failed: ' + error.message);
+            }
+        }
+
+        // Load payment history
+        async function loadPaymentHistory() {
+            try {
+                const payments = await PaymentService.getAllPayments();
+                renderHistory(payments);
+            } catch (error) {
+                console.error('Error loading payment history:', error);
+                document.getElementById('history-body').innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: var(--space-xl); color: var(--text-muted);">
+                            <i class="fas fa-exclamation-triangle"></i> Failed to load payment history
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render payment history
+        function renderHistory(payments) {
+            const tbody = document.getElementById('history-body');
+            
+            if (!payments || payments.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: var(--space-xl); color: var(--text-muted);">
+                            <i class="fas fa-inbox"></i> No payment history found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = payments.map(payment => `
+                <tr>
+                    <td>${new Date(payment.date).toLocaleDateString()}</td>
+                    <td>${payment.type}</td>
+                    <td>${payment.description || '-'}</td>
+                    <td style="font-weight: 600;">₹${payment.amount.toLocaleString()}</td>
+                    <td>
+                        <span class="status-badge status-${payment.status}">
+                            ${payment.status}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn" onclick="viewReceipt('${payment.id}')">
+                            <i class="fas fa-receipt"></i>
+                            Receipt
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter history
+        function filterHistory(filter) {
+            // This would filter the displayed payments
+            loadPaymentHistory();
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load user data
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'student') {
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Update rent details
+            document.getElementById('rent-name').textContent = user.name || 'Student';
+            document.getElementById('rent-property').textContent = 'Happy Living PG';
+            document.getElementById('rent-room').textContent = 'A-101';
+            document.getElementById('rent-type').textContent = '2 Sharing';
+            
+            // Load payment history if history tab is active
+            if (document.getElementById('history-section').classList.contains('active')) {
+                loadPaymentHistory();
+            }
+        });
+    </script>
+</body>
+
+</html>

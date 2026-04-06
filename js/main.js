@@ -128,7 +128,8 @@ const Auth = {
             AuthService.logout();
         } else {
             localStorage.removeItem('user');
-            window.location.href = '../index.html';
+            const prefix = window.location.pathname.includes('/student/') || window.location.pathname.includes('/admin/') ? '../' : '';
+            window.location.href = prefix + 'index.html';
         }
     },
 
@@ -136,7 +137,8 @@ const Auth = {
         if (window.AuthService) {
             const payload = AuthService.checkAuth(requiredRole);
             if (!payload) {
-                window.location.href = '../index.html';
+                const prefix = window.location.pathname.includes('/student/') || window.location.pathname.includes('/admin/') ? '../' : '';
+                window.location.href = prefix + 'index.html';
                 return null;
             }
             return payload;
@@ -145,9 +147,18 @@ const Auth = {
         // Fallback
         const user = JSON.parse(localStorage.getItem('user') || 'null');
         if (!user || user.role !== requiredRole) {
-            window.location.href = '../index.html';
+            const prefix = window.location.pathname.includes('/student/') || window.location.pathname.includes('/admin/') ? '../' : '';
+            window.location.href = prefix + 'index.html';
         }
         return user;
+    },
+
+    getUser: () => {
+        if (window.AuthService) {
+            // AuthService saves user to localStorage as 'user'
+            return JSON.parse(localStorage.getItem('user') || 'null');
+        }
+        return JSON.parse(localStorage.getItem('user') || 'null');
     },
 
     updateUserName: () => {
